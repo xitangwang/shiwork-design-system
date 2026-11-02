@@ -1,11 +1,17 @@
 /* ==========================================================================
-   ShiWork Design Tokens v1.0
+   ShiWork Design Tokens v1.1 —— 由 src/tokens.src.css 生成，请勿直接修改
    唯一取值来源。组件和页面只能引用这里的变量，禁止在业务代码里写死色值、圆角、字号。
    品牌色与 Logo 沿用 ShiWork 现有设计：墨黑 #141414、朱橙 #EF4B32、线色 #E9E9E5、底色 #FAFAF8。
-   ========================================================================== */
-:root {
-  color-scheme: light;
 
+   主题切换：
+     <html>                    跟随系统（默认）
+     <html data-theme="light"> 强制浅色
+     <html data-theme="dark">  强制深色
+   任意容器加 data-theme 也可局部切换（例如在浅色页面里放一块深色预览）。
+   ========================================================================== */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
   /* ---------- 品牌色：朱橙 ---------- */
   --brand: #EF4B32;          /* 主按钮底色、Logo 圆点、选中指示条、进度条、标题句点 */
   --brand-hover: #DC3F27;    /* 主按钮悬停 */
@@ -33,6 +39,7 @@
   --success: #1A7A44;  --success-soft: #E8F5EC;  --success-line: #BFE3CC;
   --warning: #9A6200;  --warning-soft: #FBF1DE;  --warning-line: #EED7A6;
   --danger:  #B42318;  --danger-soft:  #FDECEA;  --danger-line:  #F5C2BC;
+  --danger-solid: #B42318;   /* 危险按钮底色（两种主题都配白字） */
 
   /* ---------- AI 标识：用墨色 + ✦ 图形，不引入新色相 ---------- */
   --ai: #141414;             /* AI 头像底、AI 标签文字 */
@@ -107,4 +114,179 @@
   --z-drawer: 300;
   --z-modal: 400;
   --z-toast: 500;
+
+  /* ---------- 代码块、Logo 切换 ---------- */
+  --code-bg: #141414;
+  --code-ink: #E9E9E5;
+  --only-light: block;       /* 只在浅色主题显示的元素：display: var(--only-light) */
+  --only-dark: none;         /* 只在深色主题显示的元素：display: var(--only-dark) */
+
+  /* ---------- 图表 · 分类色（固定顺序，经色盲校验；不循环，超过 7 类归入“其他”） ---------- */
+  --chart-1: #EF4B32;        /* 朱橙 · 主系列：本期、实际值、我方（不分配给渠道） */
+  --chart-2: #2A78D6;        /* 蓝 · 渠道：Google */
+  --chart-3: #1BAF7A;        /* 青 · 渠道：Meta */
+  --chart-4: #6250D6;        /* 紫 · 渠道：LinkedIn */
+  --chart-5: #EDA100;        /* 琥珀 · 渠道：阿里巴巴 */
+  --chart-6: #E87BA4;        /* 品红 · 渠道：官网 / 自然流量 */
+  --chart-7: #008300;        /* 绿 · 渠道：展会 */
+  --chart-other: #B5B4AE;    /* 其他 / 未知归因 */
+  --chart-prev: #D3D2CC;     /* 对比期（上期、计划线等弱化系列） */
+  --chart-grid: #EDEDE9;     /* 网格线：1px 实线 */
+  --chart-axis: #D6D6D0;     /* 基线、坐标轴 */
+  --chart-on-fill: #FFFFFF;  /* 色块内文字（黄色块用 --chart-on-fill-dark） */
+  --chart-on-fill-dark: #141414;
+  --chart-on-5: #141414;     /* 黄色块（chart-5）内的文字 */
+
+  /* ---------- 图表 · 顺序色（数量大小，单一蓝色，浅→深） ---------- */
+  --seq-1: #CDE2FB; --seq-2: #9EC5F4; --seq-3: #6DA7EC; --seq-4: #3987E5;
+  --seq-5: #256ABF; --seq-6: #184F95; --seq-7: #0D366B;
+
+  /* ---------- 图表 · 发散色（低于 / 高于基准：蓝 ↔ 朱橙，中点为灰） ---------- */
+  --div-neg: #256ABF; --div-neg-weak: #9EC5F4; --div-mid: #EEEEEA; --div-pos-weak: #F9B3A0; --div-pos: #EF4B32;
+
+  /* ---------- 图表 · 状态色（固定含义，必须配图标 + 文字） ---------- */
+  --chart-good: #0CA30C; --chart-warning: #FAB219; --chart-serious: #EC835A; --chart-critical: #D03B3B;
+}
+
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  color-scheme: dark;
+  /* ---------- 品牌色 ---------- */
+  --brand: #EF4B32;
+  --brand-hover: #F2604A;
+  --brand-active: #D9401F;
+  --brand-strong: #FF8A5C;   /* 深色底上的橙色文字 7.5:1 */
+  --brand-soft: #3A1E17;
+  --brand-softer: #261612;
+  --brand-line: #5E2C20;
+  --on-brand: #FFFFFF;
+
+  /* ---------- 中性色：暖调深灰，与浅色主题的米白同一色偏 ---------- */
+  --bg: #0F0F0E;
+  --surface: #1A1A19;
+  --surface-2: #232321;
+  --surface-3: #2D2D2A;
+  --line: #2C2C29;
+  --line-strong: #45443F;
+  --ink: #F2F1EE;            /* 15.4:1 */
+  --text-2: #C3C2BB;         /* 9.8:1 */
+  --text-3: #9C9B94;         /* 6.3:1 */
+  --text-4: #6E6D68;
+  --on-ink: #141414;         /* “墨色”元素在深色主题反转为米白，上面的字为墨黑 */
+
+  /* ---------- 语义色 ---------- */
+  --success: #4FC686;  --success-soft: #142A1E;  --success-line: #1F4A33;
+  --warning: #E5A93B;  --warning-soft: #2F2412;  --warning-line: #5A4316;
+  --danger:  #F87171;  --danger-soft:  #3B1715;  --danger-line:  #6A2620;
+  --danger-solid: #B42318;
+
+  /* ---------- AI 标识：米白方块 + 墨色 ✦ + 朱橙圆点 ---------- */
+  --ai: #F2F1EE;
+  --ai-soft: #232321;
+  --ai-line: #3A3A36;
+  --ai-accent: #EF4B32;
+
+  --focus: #EF4B32;
+  --focus-ring: 0 0 0 3px rgba(239, 75, 50, .38);
+  --overlay: rgba(0, 0, 0, .62);
+
+  /* ---------- 阴影：深色下阴影不明显，加一圈细高光描边 ---------- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .45);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, .45);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .07);
+  --shadow-brand: 0 6px 18px rgba(239, 75, 50, .35);
+
+  --code-bg: #0B0B0A;
+  --code-ink: #E9E9E5;
+  --only-light: none;
+  --only-dark: block;
+
+  /* ---------- 图表：同一色相，按深色底重新取阶（不是自动反转） ---------- */
+  --chart-1: #EF4B32; --chart-2: #3987E5; --chart-3: #199E70; --chart-4: #9085E9;
+  --chart-5: #C98500; --chart-6: #D55181; --chart-7: #008300;
+  --chart-other: #6E6D68;
+  --chart-prev: #4A4945;
+  --chart-grid: #2C2C29;
+  --chart-axis: #45443F;
+  --chart-on-fill: #FFFFFF;
+  --chart-on-fill-dark: #141414;
+  --chart-on-5: #FFFFFF;
+  /* 顺序色在深色下反转锚点：小值贴近底色（深），大值更亮 */
+  --seq-1: #0D366B; --seq-2: #184F95; --seq-3: #256ABF; --seq-4: #2A78D6;
+  --seq-5: #5598E7; --seq-6: #86B6EF; --seq-7: #CDE2FB;
+  --div-neg: #5598E7; --div-neg-weak: #184F95; --div-mid: #383835; --div-pos-weak: #7A2A1B; --div-pos: #EF4B32;
+  --chart-good: #0CA30C; --chart-warning: #FAB219; --chart-serious: #EC835A; --chart-critical: #D03B3B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    /* ---------- 品牌色 ---------- */
+    --brand: #EF4B32;
+    --brand-hover: #F2604A;
+    --brand-active: #D9401F;
+    --brand-strong: #FF8A5C;   /* 深色底上的橙色文字 7.5:1 */
+    --brand-soft: #3A1E17;
+    --brand-softer: #261612;
+    --brand-line: #5E2C20;
+    --on-brand: #FFFFFF;
+
+    /* ---------- 中性色：暖调深灰，与浅色主题的米白同一色偏 ---------- */
+    --bg: #0F0F0E;
+    --surface: #1A1A19;
+    --surface-2: #232321;
+    --surface-3: #2D2D2A;
+    --line: #2C2C29;
+    --line-strong: #45443F;
+    --ink: #F2F1EE;            /* 15.4:1 */
+    --text-2: #C3C2BB;         /* 9.8:1 */
+    --text-3: #9C9B94;         /* 6.3:1 */
+    --text-4: #6E6D68;
+    --on-ink: #141414;         /* “墨色”元素在深色主题反转为米白，上面的字为墨黑 */
+
+    /* ---------- 语义色 ---------- */
+    --success: #4FC686;  --success-soft: #142A1E;  --success-line: #1F4A33;
+    --warning: #E5A93B;  --warning-soft: #2F2412;  --warning-line: #5A4316;
+    --danger:  #F87171;  --danger-soft:  #3B1715;  --danger-line:  #6A2620;
+    --danger-solid: #B42318;
+
+    /* ---------- AI 标识：米白方块 + 墨色 ✦ + 朱橙圆点 ---------- */
+    --ai: #F2F1EE;
+    --ai-soft: #232321;
+    --ai-line: #3A3A36;
+    --ai-accent: #EF4B32;
+
+    --focus: #EF4B32;
+    --focus-ring: 0 0 0 3px rgba(239, 75, 50, .38);
+    --overlay: rgba(0, 0, 0, .62);
+
+    /* ---------- 阴影：深色下阴影不明显，加一圈细高光描边 ---------- */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .45);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .45);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .07);
+    --shadow-brand: 0 6px 18px rgba(239, 75, 50, .35);
+
+    --code-bg: #0B0B0A;
+    --code-ink: #E9E9E5;
+    --only-light: none;
+    --only-dark: block;
+
+    /* ---------- 图表：同一色相，按深色底重新取阶（不是自动反转） ---------- */
+    --chart-1: #EF4B32; --chart-2: #3987E5; --chart-3: #199E70; --chart-4: #9085E9;
+    --chart-5: #C98500; --chart-6: #D55181; --chart-7: #008300;
+    --chart-other: #6E6D68;
+    --chart-prev: #4A4945;
+    --chart-grid: #2C2C29;
+    --chart-axis: #45443F;
+    --chart-on-fill: #FFFFFF;
+    --chart-on-fill-dark: #141414;
+    --chart-on-5: #FFFFFF;
+    /* 顺序色在深色下反转锚点：小值贴近底色（深），大值更亮 */
+    --seq-1: #0D366B; --seq-2: #184F95; --seq-3: #256ABF; --seq-4: #2A78D6;
+    --seq-5: #5598E7; --seq-6: #86B6EF; --seq-7: #CDE2FB;
+    --div-neg: #5598E7; --div-neg-weak: #184F95; --div-mid: #383835; --div-pos-weak: #7A2A1B; --div-pos: #EF4B32;
+    --chart-good: #0CA30C; --chart-warning: #FAB219; --chart-serious: #EC835A; --chart-critical: #D03B3B;
+  }
 }

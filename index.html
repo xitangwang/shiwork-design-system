@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ShiWork 设计规范</title>
 <link rel="icon" href="assets/shiwork-mark.png">
+<script>try{var t=localStorage.getItem("sw-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="components.css">
 <style>
@@ -14,7 +15,7 @@ body { margin: 0; }
 .doc { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100vh; }
 .doc-nav { position: sticky; top: 0; height: 100vh; overflow: auto; background: var(--surface); border-right: 1px solid var(--line); padding: var(--sp-6) var(--sp-4) var(--sp-10); }
 .doc-nav__logo { display: block; padding: 0 var(--sp-2) var(--sp-2); }
-.doc-nav__logo img { height: 28px; display: block; }
+.doc-nav__logo img { height: 28px; }
 .doc-nav__ver { font-size: var(--fs-12); color: var(--text-3); padding: 0 var(--sp-2) var(--sp-4); display: flex; gap: var(--sp-2); align-items: center; }
 .doc-nav__group { font-size: var(--fs-12); font-weight: var(--fw-semibold); color: var(--text-3); padding: var(--sp-4) var(--sp-2) var(--sp-1); letter-spacing: .04em; }
 .doc-nav a { display: flex; align-items: center; height: 32px; padding: 0 var(--sp-2); border-radius: var(--r-sm); font-size: var(--fs-13); color: var(--text-2); text-decoration: none; }
@@ -48,7 +49,7 @@ body { margin: 0; }
 .doc-demo__bar { display: flex; align-items: center; gap: var(--sp-2); padding: 6px var(--sp-3) 6px var(--sp-4); border-top: 1px solid var(--line); background: var(--surface-2); font-size: var(--fs-12); color: var(--text-3); }
 .doc-demo__bar .sw-btn { margin-left: auto; }
 .doc-demo__bar .sw-btn + .sw-btn { margin-left: 0; }
-.doc-demo__code { display: none; margin: 0; max-height: 420px; overflow: auto; padding: var(--sp-4) var(--sp-5); background: var(--ink); color: #E9E9E5; font: 12px/1.65 var(--font-mono); white-space: pre; tab-size: 2; }
+.doc-demo__code { display: none; margin: 0; max-height: 420px; overflow: auto; padding: var(--sp-4) var(--sp-5); background: var(--code-bg); color: var(--code-ink); font: 12px/1.65 var(--font-mono); white-space: pre; tab-size: 2; }
 .doc-demo.is-code .doc-demo__code { display: block; }
 .doc-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
 .doc-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4); }
@@ -57,7 +58,7 @@ body { margin: 0; }
 .doc-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: var(--sp-3); margin-top: var(--sp-3); }
 .doc-swatch { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
 .doc-swatch__chip { height: 64px; display: flex; align-items: flex-end; padding: var(--sp-2); }
-.doc-swatch__chip span { font-size: 11px; font-weight: var(--fw-semibold); padding: 2px 6px; border-radius: var(--r-xs); background: rgba(255,255,255,.85); color: var(--ink); }
+.doc-swatch__chip span { font-size: 11px; font-weight: var(--fw-semibold); padding: 2px 6px; border-radius: var(--r-xs); background: rgba(255,255,255,.88); color: #141414; }
 .doc-swatch__meta { padding: var(--sp-2) var(--sp-3) var(--sp-3); font-size: var(--fs-12); line-height: 1.5; }
 .doc-swatch__meta b { display: block; font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: 12px; }
 .doc-swatch__meta code { font-family: var(--font-mono); color: var(--text-3); }
@@ -78,8 +79,6 @@ body { margin: 0; }
 .doc-icon .sw-ic { width: 22px; height: 22px; color: var(--ink); }
 .doc-logo-tile { border-radius: var(--r-lg); border: 1px solid var(--line); display: grid; place-items: center; padding: var(--sp-8); min-height: 180px; }
 .doc-logo-tile img { max-width: 100%; height: 56px; }
-.doc-logo-tile--dark { background: var(--ink); }
-.doc-logo-tile--dark img { filter: invert(1); }
 .doc-logo-tile--soft { background: var(--brand-softer); }
 .doc-ref { margin-top: var(--sp-4); }
 .doc-ref code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-2); padding: 1px 6px; border-radius: var(--r-xs); color: var(--ink); white-space: nowrap; }
@@ -92,7 +91,23 @@ body { margin: 0; }
 .doc-checklist li { display: flex; gap: var(--sp-3); align-items: flex-start; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
 .doc-checklist li .sw-ic { color: var(--brand); margin-top: 3px; }
 .doc-mobile-nav { display: none; }
+.doc-theme { padding: 0 var(--sp-2) var(--sp-3); }
+.doc-theme .sw-segmented { width: 100%; }
+.doc-theme .sw-segmented button { flex: 1; padding: 0 6px; }
+.doc-grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-4); }
+.doc-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); margin-top: var(--sp-4); }
+.doc-island { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); min-width: 0; }
+.doc-island__label { font-size: var(--fs-12); color: var(--text-3); font-weight: var(--fw-semibold); letter-spacing: .04em; }
+.doc-strip { display: flex; gap: 2px; border-radius: var(--r-md); overflow: hidden; }
+.doc-strip > div { flex: 1; min-width: 0; height: 52px; padding: 6px 8px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 11px; line-height: 1.3; }
+.doc-strip > div b { font-weight: var(--fw-semibold); }
+.doc-strip--ramp > div { height: 36px; }
+.doc-tokcmp td { vertical-align: middle; }
+.doc-chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; }
+.doc-chip i { width: 22px; height: 22px; border-radius: 6px; display: block; box-shadow: inset 0 0 0 1px rgba(127,127,127,.25); }
+.doc-dash { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--sp-4); align-items: start; }
 @media (max-width: 960px) {
+  .doc-grid4, .doc-pair, .doc-dash { grid-template-columns: 1fr; }
   .doc { grid-template-columns: 1fr; }
   .doc-nav { display: none; }
   .doc-mobile-nav { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 0; z-index: var(--z-sticky); }
@@ -102,23 +117,28 @@ body { margin: 0; }
 </style>
 </head>
 <body class="sw-root">
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V11 M12 21V4 M19 21v-7"/></symbol><symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z M17 8.5a4.5 4.5 0 0 1 0 7 M7 14l1.5 5H11l-1-4.5"/></symbol><symbol id="i-pie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12A9 9 0 1 1 12 3v9z M15 3.5A9 9 0 0 1 20.5 9H15z"/></symbol><symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M21 21l-4.3-4.3"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0"/></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18 M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol><symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9v4 M12 17h.01"/></symbol><symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01"/></symbol><symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01"/></symbol><symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5 M5 12l7-7 7 7"/></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M12 5l7 7-7 7"/></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7 M7 7h10v10"/></symbol><symbol id="i-arrow-down-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10 M17 7v10H7"/></symbol><symbol id="i-paperclip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol><symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4 M21 3v6h-6"/></symbol><symbol id="i-thumb-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z M7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 9A2 2 0 0 1 18.1 21H7"/></symbol><symbol id="i-thumb-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1z M17 14l-4 8a3 3 0 0 1-3-3v-4H4.5a2 2 0 0 1-2-2.3l1.4-9A2 2 0 0 1 5.9 3H17"/></symbol><symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14 M15 5v14"/></symbol><symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0 M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z M3 7l9 6 9-6"/></symbol><symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></symbol><symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M3 10h18 M9 10v10"/></symbol><symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z M3 8l9 5 9-5 M12 13v8"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 7v5l3 2"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M16 3v4 M8 3v4 M3 11h18"/></symbol><symbol id="i-translate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8 M8 3v2 M5.5 5c.8 3 2.6 5.5 5.5 7 M10.5 5c-.8 3-2.6 5.5-5.5 7 M13 21l4-9 4 9 M14.5 18h5"/></symbol><symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18 M8 6V4h8v2 M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6 M10 11v6 M14 11v6"/></symbol><symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3"/></symbol><symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol><symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12 M7 10l5 5 5-5 M5 21h14"/></symbol><symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9 M7 14l5-5 5 5 M5 3h14"/></symbol><symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7 M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4"/></symbol><symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5h.5a8.5 8.5 0 0 1 8 8z"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol><symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16 M16 9h2a2 2 0 0 1 2 2v10 M2 21h20 M8 7h4 M8 11h4 M8 15h4"/></symbol><symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6 M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/></symbol><symbol id="i-undo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5 M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z"/></symbol><symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13 M22 2l-7 20-4-9-9-4z"/></symbol><symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol><symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12v12H3z M15 10l6-3v10l-6-3"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.1 6.4 6.4 2.1-6.4 2.1L12 19.5l-2.1-6.4L3.5 11l6.4-2.1z M19 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></symbol><symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M12 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M19 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol><symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 6h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol><symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 4.5v15a.8.8 0 0 0 1.2.7l12-7.5a.8.8 0 0 0 0-1.4l-12-7.5A.8.8 0 0 0 7 4.5z"/></symbol></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16 M4 12h16 M4 18h16"/></symbol><symbol id="i-sidebar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z M9 4v16"/></symbol><symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M3 9h18 M9 21V9"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z"/></symbol><symbol id="i-columns" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4v16H4z M10 4h4v10h-4z M16 4h4v13h-4z"/></symbol><symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13 M8 12h13 M8 18h13 M3.5 6h.01 M3.5 12h.01 M3.5 18h.01"/></symbol><symbol id="i-list-checks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l1.5 1.5L7 5 M3 12l1.5 1.5L7 11 M3 18l1.5 1.5L7 17 M11 6h10 M11 12h10 M11 18h10"/></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol><symbol id="i-chevrons-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5 M6 17l5-5-5-5"/></symbol><symbol id="i-chevrons-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5 M18 17l-5-5 5-5"/></symbol><symbol id="i-chevrons-up-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5 M7 9l5-5 5 5"/></symbol><symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5 M5 12l7-7 7 7"/></symbol><symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M19 12l-7 7-7-7"/></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5 M12 19l-7-7 7-7"/></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M12 5l7 7-7 7"/></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7 M7 7h10v10"/></symbol><symbol id="i-arrow-down-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10 M17 7v10H7"/></symbol><symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3"/></symbol><symbol id="i-maximize" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3 M21 8V5a2 2 0 0 0-2-2h-3 M3 16v3a2 2 0 0 0 2 2h3 M16 21h3a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-minimize" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3 M21 8h-3a2 2 0 0 1-2-2V3 M3 16h3a2 2 0 0 1 2 2v3 M16 21v-3a2 2 0 0 1 2-2h3"/></symbol><symbol id="i-log-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4 M10 17l5-5-5-5 M15 12H3"/></symbol><symbol id="i-log-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9"/></symbol><symbol id="i-command" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18 M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol><symbol id="i-plus-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8v8 M8 12h8"/></symbol><symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M21 21l-4.3-4.3"/></symbol><symbol id="i-zoom-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M21 21l-4.3-4.3 M11 8v6 M8 11h6"/></symbol><symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7 M4 10V3 M12 21v-9 M12 8V3 M20 21v-5 M20 12V3 M1 14h6 M9 8h6 M17 16h6"/></symbol><symbol id="i-sort-desc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13 M3 12h9 M3 18h5 M18 8v12 M15 17l3 3 3-3"/></symbol><symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol><symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol><symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6v4H9z"/></symbol><symbol id="i-clipboard-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2 M9 2h6v4H9z M9 14l2 2 4-4"/></symbol><symbol id="i-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z M17 21v-8H7v8 M7 3v5h8"/></symbol><symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18 M8 6V4h8v2 M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6 M10 11v6 M14 11v6"/></symbol><symbol id="i-archive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8 M1 3h22v5H1z M10 12h4"/></symbol><symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12 M7 10l5 5 5-5 M5 21h14"/></symbol><symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9 M7 14l5-5 5 5 M5 3h14"/></symbol><symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8 M16 6l-4-4-4 4 M12 2v13"/></symbol><symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6 M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2 M6 14h12v7H6z"/></symbol><symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7 M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol><symbol id="i-unlink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18.8 13.4l1.7-1.7a5 5 0 0 0-7-7l-1.7 1.7 M5.2 10.6l-1.7 1.7a5 5 0 0 0 7 7l1.7-1.7 M8 2v3 M2 8h3 M16 22v-3 M22 16h-3"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4 M21 3v6h-6"/></symbol><symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6 M3 12a9 9 0 0 1 15-6.7L21 8 M3 22v-6h6 M21 12a9 9 0 0 1-15 6.7L3 16"/></symbol><symbol id="i-undo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5 M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol><symbol id="i-redo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5 M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></symbol><symbol id="i-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8 M3 3v5h5 M12 7v5l4 2"/></symbol><symbol id="i-paperclip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5 M9 10.8V4h6v6.8l3 3.2v2H6v-2z"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol><symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol><symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4 M4 4h13l-2 4 2 4H4"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 4.2A9.6 9.6 0 0 1 12 4c6.5 0 10 8 10 8a17.6 17.6 0 0 1-2.2 3.2 M6.6 6.6A17 17 0 0 0 2 12s3.5 8 10 8a9.7 9.7 0 0 0 5.4-1.6 M2 2l20 20 M14.1 14.1a3 3 0 0 1-4.2-4.2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5z M8 11V7a4 4 0 0 1 7.7-1.5"/></symbol><symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 7.5l3 3 M21 2l-9.6 9.6 M7.5 22a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z M21 2l-2 2 3 3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="i-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 6h10a6 6 0 0 1 0 12H7A6 6 0 0 1 7 6z M17 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol><symbol id="i-power" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10 M18.4 6.6a9 9 0 1 1-12.8 0"/></symbol><symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14 M15 5v14"/></symbol><symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01"/></symbol><symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01"/></symbol><symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9v4 M12 17h.01"/></symbol><symbol id="i-alert-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 8v4 M12 16h.01"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M8.5 12.5l2.5 2.5 4.5-5"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M15 9l-6 6 M9 9l6 6"/></symbol><symbol id="i-circle-dashed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.1 2.2a10 10 0 0 1 3.8 0 M17.6 3.7a10 10 0 0 1 2.7 2.7 M21.8 10.1a10 10 0 0 1 0 3.8 M20.3 17.6a10 10 0 0 1-2.7 2.7 M13.9 21.8a10 10 0 0 1-3.8 0 M6.4 20.3a10 10 0 0 1-2.7-2.7 M2.2 13.9a10 10 0 0 1 0-3.8 M3.7 6.4a10 10 0 0 1 2.7-2.7"/></symbol><symbol id="i-ban" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M4.9 4.9l14.2 14.2"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4"/></symbol><symbol id="i-shield-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4 M12 16h.01"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0"/></symbol><symbol id="i-bell-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.7 21a2 2 0 0 1-3.4 0 M18.6 13A17 17 0 0 1 18 8 M6.3 6.3A6 6 0 0 0 6 8c0 7-3 9-3 9h14 M18 8a6 6 0 0 0-9.3-5 M2 2l20 20"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 7v5l3 2"/></symbol><symbol id="i-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4 M12 14l3-3 M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14 M5 2h14 M17 22v-4.2a2 2 0 0 0-.6-1.4L12 12l-4.4 4.4a2 2 0 0 0-.6 1.4V22 M7 2v4.2a2 2 0 0 0 .6 1.4L12 12l4.4-4.4a2 2 0 0 0 .6-1.4V2"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M16 3v4 M8 3v4 M3 11h18"/></symbol><symbol id="i-calendar-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M16 3v4 M8 3v4 M3 11h18 M9 16l2 2 4-4"/></symbol><symbol id="i-loader" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4 M12 18v4 M4.9 4.9l2.8 2.8 M16.2 16.2l2.9 2.9 M2 12h4 M18 12h4 M4.9 19.1l2.8-2.8 M16.2 7.8l2.9-2.9"/></symbol><symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M6.3 17.7l-1.4 1.4 M19.1 4.9l-1.4 1.4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol><symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6"/></symbol><symbol id="i-file-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M12 12v6 M9 15h6"/></symbol><symbol id="i-file-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 15l2 2 4-4"/></symbol><symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21"/></symbol><symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z M12 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol><symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12v12H3z M15 10l6-3v10l-6-3"/></symbol><symbol id="i-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol><symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l10 5-10 5L2 7z M2 17l10 5 10-5 M2 12l10 5 10-5"/></symbol><symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z M7 7h.01"/></symbol><symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5H3v7h4c0 3-1 5-4 5z M14 21c3 0 7-1 7-8V5h-7v7h4c0 3-1 5-4 5z"/></symbol><symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6"/></symbol><symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M3 10h18 M9 10v10"/></symbol><symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol><symbol id="i-translate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8 M8 3v2 M5.5 5c.8 3 2.6 5.5 5.5 7 M10.5 5c-.8 3-2.6 5.5-5.5 7 M13 21l4-9 4 9 M14.5 18h5"/></symbol><symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20v14H2z M8 21h8 M12 17v4"/></symbol><symbol id="i-smartphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z M12 18h.01"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z M3 7l9 6 9-6"/></symbol><symbol id="i-mail-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 8.4c.5.4.8 1 .8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10c0-.6.3-1.2.8-1.6l8-6a2 2 0 0 1 2.4 0z M22 10l-9 5.7a2 2 0 0 1-2 0L2 10"/></symbol><symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13 M22 2l-7 20-4-9-9-4z"/></symbol><symbol id="i-reply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17l-5-5 5-5 M20 18v-2a4 4 0 0 0-4-4H4"/></symbol><symbol id="i-forward" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17l5-5-5-5 M4 18v-2a4 4 0 0 1 4-4h12"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5h.5a8.5 8.5 0 0 1 8 8z"/></symbol><symbol id="i-message-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="i-messages" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></symbol><symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol><symbol id="i-at-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.9 7.9"/></symbol><symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z M19 10v2a7 7 0 0 1-14 0v-2 M12 19v3"/></symbol><symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z M17 8.5a4.5 4.5 0 0 1 0 7 M7 14l1.5 5H11l-1-4.5"/></symbol><symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0 M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-user-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M19 8v6 M22 11h-6"/></symbol><symbol id="i-user-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M16 11l2 2 4-4"/></symbol><symbol id="i-user-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M17 8l5 5 M22 8l-5 5"/></symbol><symbol id="i-id-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z M7 15a2 2 0 0 1 4 0 M9 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M14 9h4 M14 13h4"/></symbol><symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16 M16 9h2a2 2 0 0 1 2 2v10 M2 21h20 M8 7h4 M8 11h4 M8 15h4"/></symbol><symbol id="i-factory" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20V9l6 4V9l6 4V4h6v16z M2 20h20 M17 16h1 M12 16h1 M7 16h1"/></symbol><symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9 M3 9v11h18V9 M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0 M9 20v-6h6v6"/></symbol><symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol><symbol id="i-handshake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l2 2a1 1 0 1 0 3-3 M14 14l2.5 2.5a1 1 0 1 0 3-3l-3.9-3.9a3 3 0 0 0-4.2 0l-.9.9a1 1 0 1 1-3-3l2.8-2.8a5.8 5.8 0 0 1 7 .9L21 7.5 M21 3l1 11h-2 M3 3L2 14l6.5 6.5a1 1 0 1 0 3-3 M3 4h8"/></symbol><symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M8.2 13.9L7 22l5-3 5 3-1.2-8.1"/></symbol><symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></symbol><symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3L3 6v15l6-3 6 3 6-3V3l-6 3z M9 3v15 M15 6v15"/></symbol><symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol><symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z M3 8l9 5 9-5 M12 13v8"/></symbol><symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z M14 9h4l3 3v4h-7 M7.5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M17.5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="i-ship" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0 M4 17l-1-4 9-3 9 3-1 4 M12 10V4 M9 6h6"/></symbol><symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol><symbol id="i-anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M12 22V8 M5 12H2a10 10 0 0 0 20 0h-3"/></symbol><symbol id="i-warehouse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 8.4V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.4a2 2 0 0 1 1.2-1.8l8-3.2a2 2 0 0 1 1.5 0l8 3.2A2 2 0 0 1 22 8.4z M6 18h12 M6 14h12 M6 22V10h12v12"/></symbol><symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M18 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M9 16h6.5a3.5 3.5 0 0 0 0-7h-.5 M15 8H8.5a3.5 3.5 0 0 1 0-7"/></symbol><symbol id="i-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14 M19 18H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h4l-1-6a4 4 0 1 1 8 0l-1 6h4a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2z"/></symbol><symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16l3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1z M2 16l3-8 3 8c-.9.7-1.9 1-3 1s-2.1-.3-3-1z M7 21h10 M12 3v18 M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol><symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z M14.5 12.5l2-2 M11.5 9.5l2-2 M8.5 6.5l2-2 M17.5 15.5l2-2"/></symbol><symbol id="i-waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol><symbol id="i-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/></symbol><symbol id="i-thermometer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></symbol><symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></symbol><symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6 M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/></symbol><symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h12v12H6z M9 9h6v6H9z M9 2v4 M15 2v4 M9 18v4 M15 18v4 M2 9h4 M2 15h4 M18 9h4 M18 15h4"/></symbol><symbol id="i-dollar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20 M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol><symbol id="i-credit-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h20v14H2z M2 10h20 M6 15h4"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1 M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z M16 8H8 M16 12H8 M13 16H8"/></symbol><symbol id="i-coins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M18.1 10.4A6 6 0 1 1 10.3 18 M7 6h1v4 M16.7 13.9l.7.7-2.8 2.8"/></symbol><symbol id="i-percent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19 M6.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol><symbol id="i-exchange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3L4 7l4 4 M4 7h16 M16 21l4-4-4-4 M20 17H4"/></symbol><symbol id="i-calculator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z M8 6h8 M8 10h.01 M12 10h.01 M16 10h.01 M8 14h.01 M12 14h.01 M16 14v4 M8 18h.01 M12 18h.01"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V11 M12 21V4 M19 21v-7"/></symbol><symbol id="i-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18 M8 17v-4 M13 17V8 M18 17v-6"/></symbol><symbol id="i-line-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18 M7 14l4-4 4 4 5-5"/></symbol><symbol id="i-pie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12A9 9 0 1 1 12 3v9z M15 3.5A9 9 0 0 1 20.5 9H15z"/></symbol><symbol id="i-trending-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7l-8.5 8.5-5-5L2 17 M16 7h6v6"/></symbol><symbol id="i-trending-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17l-8.5-8.5-5 5L2 7 M16 17h6v-6"/></symbol><symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol><symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14l4-4 M3.3 19a10 10 0 1 1 17.4 0"/></symbol><symbol id="i-mouse-click" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9l5 12 1.8-5.2L21 14z M7.2 2.2L8 5.1 M5.1 8L2.2 7.2 M14 4.1L12 6 M6 12l-1.9 2"/></symbol><symbol id="i-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16 M4 15h16 M10 3L8 21 M16 3l-2 18"/></symbol><symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol><symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20v8H2z M2 13h20v8H2z M6 7h.01 M6 17h.01"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"/></symbol><symbol id="i-cloud-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8 M8 17l4-4 4 4 M20.4 18.4A5 5 0 0 0 18 9h-1.3A8 8 0 1 0 4 16.3"/></symbol><symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5 M9 8V2 M15 8V2 M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></symbol><symbol id="i-workflow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M18 15a3 3 0 1 0 0 6 3 3 0 0 0 0-6z M6 9v3a3 3 0 0 0 3 3h6"/></symbol><symbol id="i-wand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2 M15 16v-2 M8 9h2 M20 9h2 M17.8 11.8l1.4 1.4 M15 9h.01 M17.8 6.2l1.4-1.4 M3 21l9-9 M12.2 6.2l-1.4-1.4"/></symbol><symbol id="i-scan-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2 M17 3h2a2 2 0 0 1 2 2v2 M21 17v2a2 2 0 0 1-2 2h-2 M7 21H5a2 2 0 0 1-2-2v-2 M7 8h8 M7 12h10 M7 16h6"/></symbol><symbol id="i-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M13 6h3a2 2 0 0 1 2 2v7 M11 18H8a2 2 0 0 1-2-2V9"/></symbol><symbol id="i-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6 M10 22h4 M15.1 14c.2-1 .7-1.7 1.4-2.5A4.6 4.6 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.2 1.5 1.4 2.5"/></symbol><symbol id="i-thumb-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z M7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 9A2 2 0 0 1 18.1 21H7"/></symbol><symbol id="i-thumb-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1z M17 14l-4 8a3 3 0 0 1-3-3v-4H4.5a2 2 0 0 1-2-2.3l1.4-9A2 2 0 0 1 5.9 3H17"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.1 6.4 6.4 2.1-6.4 2.1L12 19.5l-2.1-6.4L3.5 11l6.4-2.1z M19 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M10 3l1.7 5.3L17 10l-5.3 1.7L10 17l-1.7-5.3L3 10l5.3-1.7z M18.5 2l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z M18 15l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></symbol><symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M12 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M19 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol><symbol id="i-more-vertical" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M12 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M12 20.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol><symbol id="i-grip" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M15 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M9 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M15 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M9 19.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M15 19.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol><symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 6h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol><symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 4.5v15a.8.8 0 0 0 1.2.7l12-7.5a.8.8 0 0 0 0-1.4l-12-7.5A.8.8 0 0 0 7 4.5z"/></symbol><symbol id="i-dot" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></symbol></svg>
 
-<div class="doc-mobile-nav"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><span class="sw-muted">设计规范 v1.0</span></div>
+<div class="doc-mobile-nav"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><span class="sw-muted">设计规范 v1.0</span></div>
 <div class="doc">
 <nav class="doc-nav" aria-label="规范目录">
-  <a class="doc-nav__logo" href="#overview" style="height:auto;padding:0 8px 8px"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"></a>
-  <div class="doc-nav__ver">外贸工作台 · 设计规范 <span class="sw-tag sw-tag--brand sw-tag--sm">v1.0</span></div>
+  <a class="doc-nav__logo" href="#overview" style="height:auto;padding:0 8px 8px"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"></a>
+  <div class="doc-nav__ver">外贸工作台 · 设计规范 <span class="sw-tag sw-tag--brand sw-tag--sm">v1.1</span></div>
+  <div class="doc-theme"><div class="sw-segmented" role="group" aria-label="主题" id="theme-switch"><button aria-pressed="true" data-theme-set="auto">跟随系统</button><button aria-pressed="false" data-theme-set="light">浅色</button><button aria-pressed="false" data-theme-set="dark">深色</button></div></div>
   <a href="#overview">概览</a>
   <a href="#usage">接入与文件</a>
   <div class="doc-nav__group">基础</div>
-  <a href="#logo">Logo</a><a href="#color">色彩</a><a href="#type">字体</a><a href="#radius">圆角与间距</a><a href="#elevation">阴影与层级</a><a href="#icons">图标</a><a href="#motion">动效</a>
+  <a href="#logo">Logo</a><a href="#color">色彩</a><a href="#dark">深色主题<span class="sw-tag sw-tag--neutral sw-tag--sm">新</span></a><a href="#type">字体</a><a href="#radius">圆角与间距</a><a href="#elevation">阴影与层级</a><a href="#icons">图标</a><a href="#motion">动效</a>
   <div class="doc-nav__group">通用组件</div>
   <a href="#button">按钮</a><a href="#input">输入框</a><a href="#select">选择控件</a><a href="#tag">标签与状态</a><a href="#avatar">头像与徽标</a><a href="#tabs">标签页</a><a href="#nav">导航</a><a href="#pagehead">页面标题</a><a href="#stat">数据指标</a><a href="#progress">进度与流程</a><a href="#table">表格</a><a href="#list">列表</a><a href="#kanban">看板</a><a href="#timeline">时间线</a><a href="#alert">提示条</a><a href="#empty">空状态与加载</a><a href="#overlay">气泡与菜单</a><a href="#dialog">对话框</a><a href="#drawer">抽屉</a><a href="#toast">通知</a>
   <div class="doc-nav__group">AI 组件</div>
   <a href="#ai-id">AI 标识</a><a href="#ai-chat">对话消息</a><a href="#ai-composer">AI 输入框</a><a href="#ai-state">生成状态</a><a href="#ai-suggest">建议卡</a><a href="#ai-evidence">证据卡</a><a href="#ai-extract">字段提取</a><a href="#ai-decision">人工决策</a><a href="#ai-run">任务运行</a><a href="#ai-copilot">浮动助手</a><a href="#ai-select">划词工具条</a>
+  <div class="doc-nav__group">业务 AI 组件</div>
+  <a href="#biz-ai">组件地图<span class="sw-tag sw-tag--neutral sw-tag--sm">新</span></a><a href="#biz-trust">可信与依据</a><a href="#biz-inquiry">询盘理解</a><a href="#biz-language">语言与客户</a><a href="#biz-quote">报价与文档</a><a href="#biz-acquire">获客触达</a><a href="#biz-growth">投流经营</a>
+  <div class="doc-nav__group">图表</div>
+  <a href="#chart-color">图表配色<span class="sw-tag sw-tag--neutral sw-tag--sm">新</span></a><a href="#chart-rules">图表规则</a><a href="#chart-kpi">指标卡与筛选</a><a href="#chart-line">折线图</a><a href="#chart-bar">柱形图与条形图</a><a href="#chart-part">构成与分布</a>
   <div class="doc-nav__group">页面示例</div>
-  <a href="#page-today">今日工作</a><a href="#page-inquiry">询盘接待</a>
+  <a href="#page-today">今日工作</a><a href="#page-inquiry">询盘接待</a><a href="#page-ads">投流看板</a><a href="#page-biz">生意看板</a><a href="pages/index.html" style="color:var(--brand-strong);font-weight:600">全部 14 个页面原型<i data-i="arrow-right" class="sw-ic--sm" style="margin-left:auto"></i></a>
   <div class="doc-nav__group">规则</div>
   <a href="#writing">文案</a><a href="#checklist">开发检查清单</a>
 </nav>
@@ -131,9 +151,9 @@ body { margin: 0; }
   <h1 class="sw-page-title">一套规范，让每个人做出同一个界面</h1>
   <p>ShiWork 外贸工作台的视觉与组件规范。沿用墨黑、朱橙和现有 Logo，在原稿基础上加大圆角、补齐组件，并新增一组 AI 组件。页面里每个示例都是真实代码，点“查看代码”即可复制。</p>
   <div class="doc-hero__meta">
-    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="grid"></i>40+ 组件</span>
-    <span class="sw-tag sw-tag--ai sw-tag--pill"><i data-i="sparkle"></i>11 个 AI 组件</span>
-    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="shield-check"></i>文字对比度 ≥ 4.5:1</span>
+    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="grid"></i>40+ 组件</span><span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="star"></i>189 个图标</span><a class="sw-tag sw-tag--brand sw-tag--pill" href="pages/index.html" style="text-decoration:none"><i data-i="layout"></i>14 个页面原型</a>
+    <span class="sw-tag sw-tag--ai sw-tag--pill"><i data-i="sparkle"></i>28 个 AI 组件</span>
+    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="eye"></i>浅色 / 深色主题</span><span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="chart"></i>图表配色 · 色盲校验通过</span><span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="shield-check"></i>文字对比度 ≥ 4.5:1</span>
     <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="calendar"></i>2026-11-01</span>
   </div>
   <div class="doc-rules" style="grid-template-columns:repeat(3,minmax(0,1fr))">
@@ -150,11 +170,12 @@ body { margin: 0; }
   <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
     <thead><tr><th>文件</th><th>内容</th><th>谁来用</th></tr></thead>
     <tbody>
-      <tr><td><code>tokens.css</code></td><td>全部设计令牌（CSS 变量）：颜色、字体、圆角、间距、阴影、动效、层级</td><td>所有人</td></tr>
+      <tr><td><code>tokens.css</code></td><td>全部设计令牌（CSS 变量），含浅色、深色两套值和图表色；由 <code>src/tokens.src.css</code> 生成</td><td>所有人</td></tr>
       <tr><td><code>tokens.json</code></td><td>同一份令牌的 JSON 版本，供 Tailwind / Ant Design 主题 / 小程序等工具读取</td><td>工程化</td></tr>
       <tr><td><code>components.css</code></td><td>组件样式，类名前缀 <code>sw-</code>，只引用令牌</td><td>前端</td></tr>
+      <tr><td><code>charts.js</code></td><td>零依赖图表：折线、柱形、条形、偏差、分段条、热力图、迷你走势；<code>SW.charts.theme()</code> 输出 ECharts / AntV 可用的主题色</td><td>前端</td></tr>
       <tr><td><code>components.js</code></td><td>交互行为：标签页、开关、下拉、对话框、通知 <code>SW.toast()</code></td><td>前端</td></tr>
-      <tr><td><code>assets/icons.svg</code></td><td>62 个图标的 SVG sprite，用 <code>&lt;use href="#i-名称"&gt;</code> 引用</td><td>前端、设计</td></tr>
+      <tr><td><code>assets/icons.svg</code></td><td>189 个图标的 SVG sprite（10 类），用 <code>&lt;use href="#i-名称"&gt;</code> 引用；分类清单见 <code>assets/icons.json</code></td><td>前端、设计</td></tr>
       <tr><td><code>README.md</code></td><td>写给 AI 和新成员的规则摘要：命名、状态、文案、禁止事项</td><td>AI、新成员</td></tr>
     </tbody>
   </table></div>
@@ -162,6 +183,7 @@ body { margin: 0; }
 <pre class="doc-demo__code" style="display:block;border-radius:var(--r-md)">&lt;link rel="stylesheet" href="tokens.css"&gt;
 &lt;link rel="stylesheet" href="components.css"&gt;
 &lt;script src="components.js" defer&gt;&lt;/script&gt;
+&lt;script src="charts.js" defer&gt;&lt;/script&gt;   &lt;!-- 用到图表时引入 --&gt;
 
 &lt;body class="sw-root"&gt;            &lt;!-- 根节点加 sw-root，启用字体、底色和等宽数字 --&gt;
   &lt;!-- 把 assets/icons.svg 的内容内联在 body 开头一次 --&gt;
@@ -175,16 +197,17 @@ body { margin: 0; }
   <p class="doc-kicker">基础</p>
   <h2 class="doc-h2">Logo</h2>
   <p class="doc-lead">沿用现有 ShiWork Logo：墨黑图形 + 字标 + 朱橙句点。朱橙句点是品牌签名，页面标题句末的圆点、AI 头像右下角的圆点都从这里来。</p>
-  <div class="doc-grid3" style="margin-top:var(--sp-4)">
-    <div class="doc-logo-tile"><img src="assets/shiwork-logo.png" alt="ShiWork 标准 Logo"></div>
-    <div class="doc-logo-tile doc-logo-tile--soft"><img src="assets/shiwork-logo.png" alt="ShiWork Logo 浅橙底"></div>
-    <div class="doc-logo-tile"><img src="assets/shiwork-mark.png" alt="ShiWork 图形标" style="height:64px"></div>
+  <div class="doc-grid4" style="margin-top:var(--sp-4)">
+    <div class="doc-logo-tile sw-root" data-theme="light" style="background:var(--surface)"><img src="assets/shiwork-logo-light.png" alt="ShiWork Logo 浅色版" style="height:40px"></div>
+    <div class="doc-logo-tile sw-root" data-theme="dark" style="background:var(--surface)"><img src="assets/shiwork-logo-dark.png" alt="ShiWork Logo 深色版" style="height:40px"></div>
+    <div class="doc-logo-tile sw-root" data-theme="light" style="background:var(--brand-softer)"><img src="assets/shiwork-mark-light.png" alt="ShiWork 图形标 浅色版" style="height:56px"></div>
+    <div class="doc-logo-tile sw-root" data-theme="dark" style="background:var(--bg)"><img src="assets/shiwork-mark-dark.png" alt="ShiWork 图形标 深色版" style="height:56px"></div>
   </div>
   <div class="doc-rules">
-    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul><li>侧边栏展开时用裁切版完整 Logo（shiwork-logo-trim.png），高 26px；收起时只用图形标，24px。</li><li>四周留白不小于句点直径的 2 倍。</li><li>只放在白色、<code>--bg</code> 或 <code>--brand-softer</code> 上。</li></ul></div>
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul><li>侧边栏展开时用完整 Logo，高 26px；收起时只用图形标，24px。</li><li>浅色、深色两版同时放进页面，用 <code>sw-only-light</code> / <code>sw-only-dark</code> 按主题显示。</li><li>四周留白不小于句点直径的 2 倍。</li><li>只放在白色、<code>--bg</code> 或 <code>--brand-softer</code> 上。</li></ul></div>
     <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>改变句点颜色，或把整个 Logo 染成朱橙。</li><li>放在照片或朱橙底上。</li><li>拉伸、加描边、加阴影。</li></ul></div>
   </div>
-  <p class="doc-note">深色底版本需要设计提供单独的反白文件，目前的 PNG 仅适用于浅色底。</p>
+  <p class="doc-note">深色版由 <code>tools/pngtool.py</code> 从原图转换（墨色改为米白 #F2F1EE，朱橙句点不变，透明底）。正式上线前建议设计补一份 SVG 矢量版。</p>
 </section>
 
 <section class="doc-sec" id="color">
@@ -203,6 +226,58 @@ body { margin: 0; }
     <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>用朱橙表示“待审核”“警告”这类状态。</li><li>用红色表示上涨或下跌以外的“重要”。</li><li>自行调亮调暗令牌颜色，或新增令牌外的色值。</li></ul></div>
   </div>
   <div class="sw-alert sw-alert--warning" style="margin-top:var(--sp-4)"><i data-i="alert"></i><div class="sw-alert__body"><b>关于主色对比度</b>朱橙 #EF4B32 上的白字对比度为 3.67:1，满足 18px 以上大字和 3:1 的控件标准，但低于正文 4.5:1。按钮文字统一用 14px 半粗体以上；如果后续要做无障碍认证，可将 <code>--brand</code> 调至 #D23D23（4.74:1），视觉差异很小。</div></div>
+</section>
+
+<section class="doc-sec" id="dark">
+  <h2 class="doc-h2">深色主题</h2>
+  <p class="doc-lead">同一套令牌有浅色、深色两组值，组件代码完全不变。默认跟随系统；在 <code>&lt;html&gt;</code> 上设置 <code>data-theme</code> 可强制切换，任意容器上设置则只影响该区域。左侧导航顶部可以切换整页主题。</p>
+  <div class="doc-pair">
+    <div class="doc-island sw-root" data-theme="light"><span class="doc-island__label">浅色 · data-theme="light"</span>
+      <div class="sw-page-head"><div class="sw-page-head__main"><h3 class="sw-page-title" style="font-size:var(--fs-22)">把投放，变成有效商机</h3></div></div>
+      <div class="doc-row" style="gap:8px"><button class="sw-btn sw-btn--primary sw-btn--sm">提交审核</button><button class="sw-btn sw-btn--secondary sw-btn--sm">预览</button><button class="sw-btn sw-btn--ai sw-btn--sm"><i data-i="sparkle" class="sw-ic--sm"></i>让 AI 起草</button><button class="sw-btn sw-btn--dark sw-btn--sm">处理首要任务</button></div>
+      <div class="doc-row" style="gap:6px"><span class="sw-tag sw-tag--success"><i data-i="check"></i>已核</span><span class="sw-tag sw-tag--warning">待审核</span><span class="sw-tag sw-tag--danger"><i data-i="alert"></i>冲突</span><span class="sw-tag sw-tag--outline">未发送</span><span class="sw-tag sw-tag--ai"><i data-i="sparkle"></i>AI 生成</span><span class="sw-tag sw-tag--brand">示例数据</span></div>
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-msg__text"><p style="margin:0">产品资料写明设备适用于金属零件清洗<button class="sw-cite" aria-label="来源 1">1</button>，但<span class="sw-claim">重油污效果</span>还没有已核数据。</p></div></div></div>
+      <div class="sw-msg sw-msg--user"><div class="sw-msg__bubble">帮我起草一个回复。</div></div>
+      <div class="sw-toast" role="status"><span class="sw-toast__icon sw-toast__icon--success"><i data-i="check"></i></span><div><b>回复草稿已保存</b><span>BrightParts Ltd · 10:24</span></div><span></span></div>
+      <div class="sw-card sw-card__body" style="padding:var(--sp-4)"><div class="sw-progress"><div class="sw-progress__bar" style="width:30.3%"></div></div><div class="sw-progress-meta"><span>预算使用 30.3%</span><span>剩余 $3,002</span></div></div>
+      <figure class="sw-chart sw-chart--flush" data-sw-chart='{"type": "segmented", "title": null, "subtitle": null, "valueLabel": "询盘", "parts": [{"name": "Google", "value": 4, "color": "chart-2"}, {"name": "阿里巴巴", "value": 5, "color": "chart-5"}], "table": false}'></figure></div>
+    <div class="doc-island sw-root" data-theme="dark"><span class="doc-island__label">深色 · data-theme="dark"</span>
+      <div class="sw-page-head"><div class="sw-page-head__main"><h3 class="sw-page-title" style="font-size:var(--fs-22)">把投放，变成有效商机</h3></div></div>
+      <div class="doc-row" style="gap:8px"><button class="sw-btn sw-btn--primary sw-btn--sm">提交审核</button><button class="sw-btn sw-btn--secondary sw-btn--sm">预览</button><button class="sw-btn sw-btn--ai sw-btn--sm"><i data-i="sparkle" class="sw-ic--sm"></i>让 AI 起草</button><button class="sw-btn sw-btn--dark sw-btn--sm">处理首要任务</button></div>
+      <div class="doc-row" style="gap:6px"><span class="sw-tag sw-tag--success"><i data-i="check"></i>已核</span><span class="sw-tag sw-tag--warning">待审核</span><span class="sw-tag sw-tag--danger"><i data-i="alert"></i>冲突</span><span class="sw-tag sw-tag--outline">未发送</span><span class="sw-tag sw-tag--ai"><i data-i="sparkle"></i>AI 生成</span><span class="sw-tag sw-tag--brand">示例数据</span></div>
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-msg__text"><p style="margin:0">产品资料写明设备适用于金属零件清洗<button class="sw-cite" aria-label="来源 1">1</button>，但<span class="sw-claim">重油污效果</span>还没有已核数据。</p></div></div></div>
+      <div class="sw-msg sw-msg--user"><div class="sw-msg__bubble">帮我起草一个回复。</div></div>
+      <div class="sw-toast" role="status"><span class="sw-toast__icon sw-toast__icon--success"><i data-i="check"></i></span><div><b>回复草稿已保存</b><span>BrightParts Ltd · 10:24</span></div><span></span></div>
+      <div class="sw-card sw-card__body" style="padding:var(--sp-4)"><div class="sw-progress"><div class="sw-progress__bar" style="width:30.3%"></div></div><div class="sw-progress-meta"><span>预算使用 30.3%</span><span>剩余 $3,002</span></div></div>
+      <figure class="sw-chart sw-chart--flush" data-sw-chart='{"type": "segmented", "title": null, "subtitle": null, "valueLabel": "询盘", "parts": [{"name": "Google", "value": 4, "color": "chart-2"}, {"name": "阿里巴巴", "value": 5, "color": "chart-5"}], "table": false}'></figure></div>
+  </div>
+  <div class="doc-rules">
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>深色主题怎么取色</h4><ul><li>不是反色：每个颜色按深色底单独取阶，并重新校验对比度。</li><li>底色用暖调深灰 #0F0F0E / #1A1A19，与浅色主题的米白同一色偏。</li><li>“墨色元素”（用户气泡、AI 头像、提示气泡、深色按钮）反转为米白。</li><li>阴影在深色下几乎看不见，浮层改为阴影 + 1px 高光描边。</li><li>朱橙主色不变；浅底上的橙色文字改用更亮的 <code>--brand-strong</code>。</li></ul></div>
+    <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>用纯黑 #000 做底色，或用 <code>filter: invert()</code> 整页反色。</li><li>在组件里判断主题再写颜色；只用令牌，主题由令牌负责。</li><li>图片、Logo 只放一个版本；需要两版时用 <code>sw-only-light</code> / <code>sw-only-dark</code>。</li><li>危险按钮直接用 <code>--danger</code> 做底色；改用 <code>--danger-solid</code>。</li></ul></div>
+  </div>
+  <h3 class="doc-h3">接入</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" data-nocode>
+<pre class="doc-demo__code" style="display:block;border-radius:var(--r-md)">&lt;html&gt;                      &lt;!-- 跟随系统（默认） --&gt;
+&lt;html data-theme="light"&gt;   &lt;!-- 强制浅色 --&gt;
+&lt;html data-theme="dark"&gt;    &lt;!-- 强制深色 --&gt;
+&lt;div data-theme="dark" class="sw-root"&gt;…&lt;/div&gt;   &lt;!-- 只让这一块变深色 --&gt;
+
+&lt;!-- 防止刷新时闪白：放在 &lt;head&gt; 最前面 --&gt;
+&lt;script&gt;
+  try { const t = localStorage.getItem('sw-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+&lt;/script&gt;
+
+&lt;!-- 用户切换：'auto' 删除属性回到跟随系统 --&gt;
+function setTheme(mode) {
+  if (mode === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', mode);
+  localStorage.setItem('sw-theme', mode);
+}</pre>
+  </div></div>
+  <h3 class="doc-h3">颜色令牌对照</h3>
+  <p class="doc-note">由 tokens.json 生成。深色一栏为空表示两种主题取值相同。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact doc-tokcmp" id="token-compare"><thead><tr><th>令牌</th><th>浅色</th><th>深色</th><th>用途</th></tr></thead><tbody></tbody></table></div>
 </section>
 
 <section class="doc-sec" id="type">
@@ -261,7 +336,7 @@ body { margin: 0; }
 
 <section class="doc-sec" id="icons">
   <h2 class="doc-h2">图标</h2>
-  <p class="doc-lead">24px 网格、1.75 线宽、圆角端点，颜色跟随文字（currentColor）。默认显示 16px，导航 20px。AI 统一使用 ✦（sparkle），不要用机器人、大脑等图形。点击图标复制引用代码。</p>
+  <p class="doc-lead">24px 网格、1.75 线宽、圆角端点，颜色跟随文字（currentColor）。默认显示 16px，导航 20px。AI 统一使用 ✦（sparkle / sparkles / wand），不要用机器人、大脑等图形。共 189 个，按用途分 10 类，点击图标复制引用代码。新增图标请在 <code>tools/icons.py</code> 里按同样规格添加。</p>
   <div class="doc-demo"><div class="doc-demo__stage" data-nocode><div class="doc-icons" id="icon-grid"></div></div></div>
 </section>
 
@@ -408,7 +483,7 @@ body { margin: 0; }
   <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block">
     <div style="display:grid;grid-template-columns:240px minmax(0,1fr);height:560px;background:var(--bg)">
       <aside class="sw-sidebar">
-        <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+        <div class="sw-sidebar__logo"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><small>外贸工作台</small></div>
         <a class="sw-nav-item" href="#nav"><i data-i="home"></i>今日工作</a>
         <a class="sw-nav-item" href="#nav"><i data-i="box"></i>产品资料</a>
         <a class="sw-nav-item" href="#nav"><i data-i="doc"></i>内容</a>
@@ -868,6 +943,384 @@ Best regards</div>
   </div></div>
 </section>
 
+<!-- ============ 业务 AI 组件 ============ -->
+<section class="doc-sec" id="biz-ai">
+  <p class="doc-kicker">业务 AI 组件</p>
+  <h2 class="doc-h2">组件地图</h2>
+  <p class="doc-lead">在通用 AI 组件之上，按外贸工作的六个环节补充 17 个业务组件。它们遵守同三条规则：结论能追到来源；“原文 / 推断 / 待补”分开写；AI 只提议，线上改动由人批准、由人执行。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th style="width:120px">环节</th><th>组件</th><th>用在哪</th><th>解决什么问题</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4"><b>可信与依据</b></td><td><code>sw-citepop</code> 引用悬停卡</td><td>所有带引用编号的 AI 内容</td><td>不跳页就能看到引用的原文和版本</td></tr>
+      <tr><td><code>sw-factguard</code> 事实护栏条</td><td>回复、内容、报价、开发信草稿上方</td><td>一眼看出引用了几条事实、拦了几条未核说法</td></tr>
+      <tr><td><code>sw-coverage</code> 数据覆盖</td><td>简报、洞察、经营分析</td><td>说明结论用了哪些数据、缺了哪些</td></tr>
+      <tr><td><code>sw-strength</code> 证据充分度</td><td>洞察、背调、归因</td><td>用样本量代替 0–100 的“置信分”</td></tr>
+      <tr><td rowspan="4"><b>询盘理解</b></td><td><code>sw-triage</code> 询盘解析卡</td><td>询盘接待</td><td>识别意图和风险，原文高亮与提取字段一一对应</td></tr>
+      <tr><td><code>sw-localtime</code> 客户当地时间</td><td>询盘、开发触达、客户详情</td><td>避免凌晨回复、避开当地节假日</td></tr>
+      <tr><td><code>sw-match</code> 产品匹配</td><td>询盘、方案报价</td><td>需求对型号逐项比对，信息不够时明确说“待补”</td></tr>
+      <tr><td><code>sw-askback</code> 追问生成</td><td>询盘、商机</td><td>缺哪些信息、为什么要问、问题怎么写</td></tr>
+      <tr><td rowspan="2"><b>语言与客户</b></td><td><code>sw-bilingual</code> 术语对照翻译</td><td>询盘、内容、报价</td><td>按术语表翻译，新术语提示加入术语表</td></tr>
+      <tr><td><code>sw-memory</code> 客户记忆</td><td>询盘、客户详情、助手</td><td>记住客户偏好，可看来源、可删除</td></tr>
+      <tr><td rowspan="2"><b>报价与文档</b></td><td><code>sw-calc</code> 报价计算</td><td>方案报价</td><td>EXW → FOB → CIF 每一步金额和来源，待确认的不编</td></tr>
+      <tr><td><code>sw-annot</code> 文档批注</td><td>报价、合同、内容审核</td><td>AI 和审核人的批注定位到具体行</td></tr>
+      <tr><td rowspan="3"><b>获客触达</b></td><td><code>sw-hook</code> 开发信切入点</td><td>开发触达</td><td>每封信有具体理由，过时信息不可选</td></tr>
+      <tr><td><code>sw-preflight</code> 发送前预检</td><td>开发信、回复、批量发送</td><td>阻止 / 建议 / 通过三档，问题能一键修</td></tr>
+      <tr><td><code>sw-batch</code> 批量任务</td><td>批量背调、批量起草</td><td>逐条状态、可停止，失败的能单独重试</td></tr>
+      <tr><td rowspan="3"><b>投流经营</b></td><td><code>sw-insight</code> 洞察卡</td><td>投流、经营</td><td>把“观察到的 / 推测的 / 建议的”分开写</td></tr>
+      <tr><td><code>sw-proposal</code> 改动提议</td><td>预算、否词、出价、单价</td><td>改动前后对比，审批后由人执行</td></tr>
+      <tr><td><code>sw-digest</code> AI 简报</td><td>今日工作、每周复盘</td><td>分组要点，每条都能点进原始记录</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="doc-sec" id="biz-trust">
+  <h2 class="doc-h2">可信与依据</h2>
+  <p class="doc-lead">让每个 AI 结论都能被检查：引用能看原文，草稿能看统计，分析能看用了哪些数据、样本够不够。</p>
+  <h3 class="doc-h3">引用悬停卡 · 事实护栏条</h3>
+  <p class="doc-note">把鼠标移到引用编号上，显示来源原文、版本和核实状态。护栏条放在任何 AI 草稿的上方。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+    <div class="sw-factguard">
+      <span class="sw-factguard__item sw-factguard__item--ok"><i data-i="check-circle" class="sw-ic--sm"></i>引用已核事实 <b>2</b></span>
+      <span class="sw-factguard__item sw-factguard__item--guess"><i data-i="lightbulb" class="sw-ic--sm"></i>推断 <b>1</b></span>
+      <span class="sw-factguard__item sw-factguard__item--block"><i data-i="ban" class="sw-ic--sm"></i>已拦截未核说法 <b>1</b></span>
+      <span class="sw-factguard__item sw-factguard__item--gap"><i data-i="circle-dashed" class="sw-ic--sm"></i>待补信息 <b>2</b></span>
+      <a class="sw-link" href="#biz-trust">查看明细</a>
+    </div>
+    <p style="margin:170px 0 0;font-size:var(--fs-14);line-height:1.8">Our SW-T30 is a 30 L benchtop unit with heating up to 80 °C<span class="sw-citeref is-open"><button class="sw-cite" aria-label="来源 1">1</button><span class="sw-citepop" role="tooltip"><span class="sw-citepop__head"><span class="sw-source__n">1</span><b>SW-T30 产品资料 · 规格书 V3</b><span class="sw-tag sw-tag--success sw-tag--sm"><i data-i="check"></i>已核</span></span><span class="sw-citepop__quote">… 槽体容积 <mark>30 L</mark>，超声频率 40 kHz，<mark>加热温度 室温 – 80 °C</mark>，槽体材质 SUS304 …</span><span class="sw-citepop__foot"><span>第 2–3 页 · 王五审核 · 10/02</span><a class="sw-link" href="#biz-trust">打开来源</a></span></span></span>, and it is commonly used for cutting oil and light grease<span class="sw-citeref"><button class="sw-cite" aria-label="来源 2">2</button><span class="sw-citepop" role="tooltip"><span class="sw-citepop__head"><span class="sw-source__n">2</span><b>FAQ V2 · 适用污染物</b><span class="sw-tag sw-tag--success sw-tag--sm"><i data-i="check"></i>已核</span></span><span class="sw-citepop__quote">Q：能清洗哪些污染物？ A：<mark>切削油、轻度油脂、金属屑</mark>；重油污建议先试洗。</span><span class="sw-citepop__foot"><span>第 4 条 · 李四 · 09/28</span><a class="sw-link" href="#biz-trust">打开来源</a></span></span></span>.</p>
+  </div></div>
+  <h3 class="doc-h3">数据覆盖 · 证据充分度</h3>
+  <p class="doc-note">分析类回答必须说明用了哪些数据。证据充分度只有三档，用样本量和时间跨度解释，不给百分比分数。</p>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-coverage">
+        <div class="sw-row sw-row--between"><b style="font-size:var(--fs-14)">本次分析用了 4 / 5 个数据源</b><span class="sw-tag sw-tag--warning sw-tag--sm">结论可能偏差</span></div>
+        <div class="sw-coverage__bar" aria-hidden="true"><i></i><i></i><i></i><i class="is-stale"></i><i class="is-missing"></i></div>
+        <ul class="sw-coverage__list">
+          <li><i data-i="check-circle" class="sw-ic--sm is-ok"></i>Google Ads 报表<span>截至今天 09:00</span></li>
+          <li><i data-i="check-circle" class="sw-ic--sm is-ok"></i>询盘记录<span>实时</span></li>
+          <li><i data-i="check-circle" class="sw-ic--sm is-ok"></i>ERP 订单<span>截至 10/14</span></li>
+          <li><i data-i="alert-circle" class="sw-ic--sm is-stale"></i>阿里巴巴报表<span>缺 10/14 之后</span></li>
+          <li><i data-i="circle-dashed" class="sw-ic--sm is-missing"></i>成本数据<span>未接入</span></li>
+        </ul>
+      </div>
+    </div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--col">
+      <span class="sw-strength" data-level="1"><span class="sw-strength__bars"><i></i><i></i><i></i></span><b>证据不足</b>9 条询盘 · 14 天，少于 30 条只作参考</span>
+      <span class="sw-strength" data-level="2"><span class="sw-strength__bars"><i></i><i></i><i></i></span><b>证据一般</b>3 条证据，其中 1 条冲突</span>
+      <span class="sw-strength" data-level="3"><span class="sw-strength__bars"><i></i><i></i><i></i></span><b>证据充分</b>官网、登记、贸易记录三方一致</span>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="biz-inquiry">
+  <h2 class="doc-h2">询盘理解</h2>
+  <p class="doc-lead">询盘进来后，AI 先读懂再起草：意图、风险、客户当地时间、合适的型号、还缺哪些信息。</p>
+  <h3 class="doc-h3">询盘解析卡</h3>
+  <p class="doc-note">原文中被识别的片段编号高亮，下方信号列表编号对应；每条信号标“原文”或“推断”。垃圾 / 诈骗风险写明判断理由。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-triage">
+      <div class="sw-triage__head"><i data-i="scan-text"></i>AI 询盘解析<span class="sw-tag sw-tag--neutral sw-tag--sm">技术咨询</span><span class="sw-tag sw-tag--neutral sw-tag--sm">尺寸询价</span><span class="sw-tag sw-tag--neutral sw-tag--sm">English · 英式</span><span class="sw-risk">诈骗风险低 · 公司域名邮箱、官网可访问</span></div>
+      <div class="sw-triage__msg">Hi, we <span class="sw-hl">distribute machined parts to small workshops<sup>1</sup></span>. Can this <span class="sw-hl">cleaner<sup>2</sup></span> handle <span class="sw-hl">oily metal parts<sup>3</sup></span>? <span class="sw-hl">What sizes do you have?<sup>4</sup></span></div>
+      <ul class="sw-signals">
+        <li><span class="sw-signal__n">1</span><span class="k">客户类型</span><span>经销商，下游为小型加工车间</span><span class="sw-tag sw-tag--warning sw-tag--sm">推断</span></li>
+        <li><span class="sw-signal__n">2</span><span class="k">产品</span><span>超声波清洗设备（非清洗剂）</span><span class="sw-tag sw-tag--success sw-tag--sm">原文</span></li>
+        <li><span class="sw-signal__n">3</span><span class="k">污染物</span><span>油污 · 金属零件</span><span class="sw-tag sw-tag--success sw-tag--sm">原文</span></li>
+        <li><span class="sw-signal__n">4</span><span class="k">关注点</span><span>规格 / 尺寸选择</span><span class="sw-tag sw-tag--success sw-tag--sm">原文</span></li>
+      </ul>
+      <div class="sw-triage__next"><i data-i="arrow-right" class="sw-ic--sm"></i><b>建议下一步：</b>追问工件尺寸和油污类型 · 负责人 张三 · 北京时间 16:00 后回复<button class="sw-btn sw-btn--ai sw-btn--sm" style="margin-left:auto"><i data-i="sparkle" class="sw-ic--sm"></i>起草回复</button></div>
+    </div>
+  </div></div>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--col">
+      <div class="sw-localtime">
+        <div class="sw-localtime__top"><span class="sw-localtime__clock">03:20</span><span class="sw-localtime__city">伦敦 · 周四 · UTC+1</span><span class="sw-tag sw-tag--neutral sw-tag--sm">非工作时间</span></div>
+        <div class="sw-dayline" role="img" aria-label="对方工作时间 9 点到 18 点，现在 3 点 20 分"><span class="sw-dayline__work" style="left:37.5%;width:37.5%"></span><span class="sw-dayline__now" style="left:13.9%"></span></div>
+        <div class="sw-dayline__ticks"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
+        <p class="sw-localtime__hint" style="margin:0"><i data-i="clock" class="sw-ic--sm"></i>建议北京时间 16:00 后发送（对方 09:00）</p>
+      </div>
+      <div class="sw-localtime">
+        <div class="sw-localtime__top"><span class="sw-localtime__clock">12:20</span><span class="sw-localtime__city">洛杉矶 · 周一 · UTC−7</span><span class="sw-tag sw-tag--warning sw-tag--sm">当地节假日</span></div>
+        <p class="sw-localtime__hint" style="margin:0"><i data-i="calendar" class="sw-ic--sm"></i>10/13 哥伦布日，部分企业休息；跟进邮件建议改到周二</p>
+      </div>
+    </div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <table class="sw-match">
+        <thead><tr><th>需求</th><th>SW-T20</th><th class="is-pick">SW-T30 · 建议</th><th>SW-T60</th></tr></thead>
+        <tbody>
+          <tr><td>油污 · 金属件<small>原文</small></td><td><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td><td class="is-pick"><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td><td><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td></tr>
+          <tr><td>需要加热<small>推断：油污通常需要</small></td><td><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td><td class="is-pick"><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td><td><i data-i="check" class="sw-ic--sm sw-match__yes"></i></td></tr>
+          <tr><td>工件尺寸<small>待补</small></td><td><span class="sw-match__unknown">≤ 400 mm</span></td><td class="is-pick"><span class="sw-match__unknown">≤ 500 mm</span></td><td><span class="sw-match__unknown">≤ 650 mm</span></td></tr>
+          <tr><td>日处理量<small>待补</small></td><td><i data-i="help" class="sw-ic--sm sw-match__unknown"></i></td><td class="is-pick"><i data-i="help" class="sw-ic--sm sw-match__unknown"></i></td><td><i data-i="help" class="sw-ic--sm sw-match__unknown"></i></td></tr>
+        </tbody>
+      </table>
+      <p class="doc-note" style="margin-top:var(--sp-3)">信息不足时先推荐中间规格并追问，不给“匹配度 92%”这类分数。</p>
+    </div></div>
+  </div>
+  <h3 class="doc-h3">追问生成</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:640px">
+    <div class="sw-card"><div class="sw-card__head"><i data-i="help" class="sw-ic--sm"></i><h3>还缺 3 项信息</h3><span class="sw-muted sw-card__extra" style="font-size:var(--fs-12)">一封邮件最多问 3 个问题</span></div>
+      <div class="sw-card__body" style="padding-top:var(--sp-1);padding-bottom:var(--sp-1)"><ul class="sw-askback">
+        <li><label class="sw-check"><input type="checkbox" checked aria-label="追问工件尺寸"></label><div><b>工件尺寸</b><span>决定选 20 / 30 / 60 L</span><div class="sw-askback__q">What is the largest part you need to clean (L × W × H)?</div></div></li>
+        <li><label class="sw-check"><input type="checkbox" checked aria-label="追问油污类型"></label><div><b>油污类型</b><span>重油污需要试洗，不能直接承诺效果</span><div class="sw-askback__q">Is it light cutting oil, or heavier grease?</div></div></li>
+        <li><label class="sw-check"><input type="checkbox" aria-label="追问日处理量"></label><div><b>日处理量</b><span>决定单槽还是多槽，可放到下一封</span><div class="sw-askback__q">Roughly how many parts per day?</div></div></li>
+      </ul></div>
+      <div class="sw-card__foot"><span class="sw-muted" style="font-size:var(--fs-12)">已选 2 个问题</span><span class="sw-grow"></span><button class="sw-btn sw-btn--secondary sw-btn--sm">编辑问题</button><button class="sw-btn sw-btn--ai sw-btn--sm"><i data-i="sparkle" class="sw-ic--sm"></i>写进回复</button></div></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="biz-language">
+  <h2 class="doc-h2">语言与客户</h2>
+  <p class="doc-lead">翻译按公司术语表，新词提示加入术语表；语气和英语变体按客户设置。AI 记住的客户偏好必须能看到来源、能删除。</p>
+  <h3 class="doc-h3">术语对照翻译 · 语气与地区</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+    <div class="sw-row"><div class="sw-segmented" role="group" aria-label="语气"><button aria-pressed="true">正式</button><button aria-pressed="false">简洁</button><button aria-pressed="false">友好</button></div><select class="sw-select sw-input--sm" style="width:auto" aria-label="英语变体"><option>英式英语（客户偏好）</option><option>美式英语</option></select><span class="sw-chip">署名：Zhang San · ShiWork</span></div>
+    <div class="sw-bilingual">
+      <div><div class="sw-bilingual__label"><i data-i="mail" class="sw-ic--sm"></i>原文 · English</div>Can this <span class="sw-term" title="术语表：cleaner → 清洗设备（产品）">cleaner</span> handle oily metal parts? We also need a <span class="sw-term sw-term--new" title="术语表未收录">parts washer</span> for larger items.</div>
+      <div><div class="sw-bilingual__label"><i data-i="translate" class="sw-ic--sm"></i>译文 · 中文</div>这款<span class="sw-term" title="术语表：cleaner → 清洗设备（产品）">清洗设备</span>能处理带油污的金属零件吗？较大的零件我们还需要一台<span class="sw-term sw-term--new" title="术语表未收录">零件清洗机</span>。</div>
+      <div class="sw-glossary-bar"><span><i data-i="book-open" class="sw-ic--sm"></i> 命中术语 1</span><span style="color:var(--warning)"><i data-i="alert" class="sw-ic--sm"></i> 未收录 1：parts washer</span><button class="sw-btn sw-btn--secondary sw-btn--sm" style="margin-left:auto"><i data-i="plus" class="sw-ic--sm"></i>加入术语表</button></div>
+    </div>
+  </div></div>
+  <h3 class="doc-h3">客户记忆</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:520px">
+    <div class="sw-card"><div class="sw-card__head"><i data-i="bookmark" class="sw-ic--sm"></i><h3>AI 记住的 BrightParts 偏好</h3><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm sw-card__extra" aria-label="添加"><i data-i="plus" class="sw-ic--sm"></i></button></div>
+      <div class="sw-card__body"><ul class="sw-memory">
+        <li><span>报价请用 GBP</span><span class="sw-memory__meta"><span class="sw-tag sw-tag--success sw-tag--sm">原文</span>10/15 邮件</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="删除这条记忆"><i data-i="trash" class="sw-ic--sm"></i></button></li>
+        <li><span>偏好英式英语、简短回复</span><span class="sw-memory__meta"><span class="sw-tag sw-tag--warning sw-tag--sm">推断</span>来自 3 封往来邮件的写法</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="删除这条记忆"><i data-i="trash" class="sw-ic--sm"></i></button></li>
+        <li><span>采购决策人：Tom Hughes（采购总监）</span><span class="sw-memory__meta"><span class="sw-tag sw-tag--success sw-tag--sm">原文</span>邮件签名</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="删除这条记忆"><i data-i="trash" class="sw-ic--sm"></i></button></li>
+      </ul><p class="doc-note" style="margin:var(--sp-3) 0 0">只在这位客户的对话中使用；不记录个人社交信息。</p></div></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="biz-quote">
+  <h2 class="doc-h2">报价与文档</h2>
+  <p class="doc-lead">报价的每一步都要说清金额从哪来；待确认的项目显示“待确认”，合计只到能算出的那一步。审核意见直接钉在文档的具体行上。</p>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-row sw-row--between" style="margin-bottom:var(--sp-2)"><b>SW-T30 · 报价计算</b><div class="sw-segmented" role="group" aria-label="贸易条款"><button aria-pressed="false">EXW</button><button aria-pressed="false">FOB</button><button aria-pressed="true">CIF</button></div></div>
+      <ol class="sw-calc">
+        <li><span class="sw-calc__op">=</span><div>出厂价 EXW<small>价格表 V2 · 10/01</small></div><span class="sw-calc__v">$8,000.00</span></li>
+        <li><span class="sw-calc__op">+</span><div>出口包装（木箱）<small>包装标准 V1</small></div><span class="sw-calc__v">$120.00</span></li>
+        <li><span class="sw-calc__op">+</span><div>内陆运输至宁波港<small>待物流报价</small></div><span class="sw-calc__v is-pending">待确认</span></li>
+        <li><span class="sw-calc__op">=</span><div><b>FOB 宁波</b></div><span class="sw-calc__v is-pending">待确认</span></li>
+        <li><span class="sw-calc__op">+</span><div>海运费 宁波 → 洛杉矶<small>货代询价中 · 预计 10/16</small></div><span class="sw-calc__v is-pending">待确认</span></li>
+        <li><span class="sw-calc__op">+</span><div>保险 0.3%<small>按 CIF × 110% 计</small></div><span class="sw-calc__v is-pending">待确认</span></li>
+        <li class="is-total"><span class="sw-calc__op">=</span><div>CIF 洛杉矶</div><span class="sw-calc__v is-pending">待确认</span></li>
+      </ol>
+      <p class="doc-note" style="margin-top:var(--sp-3)"><i data-i="exchange" class="sw-ic--sm"></i> 内部参考汇率 USD/CNY 7.12 · 中国银行 10/15 09:30 · 不写进报价单</p>
+    </div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-annot" style="grid-template-columns:1fr">
+        <div class="sw-annot__doc">
+          <div class="sw-annot__line"><span class="sw-annot__no">12</span><span>Payment: 30% deposit, 70% before shipment.</span><span></span></div>
+          <div class="sw-annot__line is-flagged"><span class="sw-annot__no">13</span><span>Lead time: <span class="sw-annot__mark">10 working days</span> after deposit.</span><span class="sw-annot__pin">1</span></div>
+          <div class="sw-annot__line"><span class="sw-annot__no">14</span><span>Warranty: 12 months for the main unit.</span><span></span></div>
+          <div class="sw-annot__line is-flagged"><span class="sw-annot__no">15</span><span>Basket (SS304): <span class="sw-annot__mark">USD 100.00</span> / pc.</span><span class="sw-annot__pin">2</span></div>
+        </div>
+        <div class="sw-annot__side">
+          <div class="sw-comment sw-comment--ai is-active"><div class="sw-comment__head"><span class="sw-comment__pin">1</span><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span><b>AI 预审</b><time>10:43</time></div><p>交期没有来源：产品资料中为“待技术确认”。</p><div class="sw-comment__actions"><button class="sw-btn sw-btn--secondary sw-btn--sm">@王五 确认</button><button class="sw-btn sw-btn--ghost sw-btn--sm">忽略</button></div></div>
+          <div class="sw-comment"><div class="sw-comment__head"><span class="sw-comment__pin">2</span><span class="sw-avatar sw-avatar--sm sw-avatar--brand">W</span><b>王五</b><time>10:51</time></div><p>按价格表 V2 改为 $120。</p><div class="sw-comment__actions"><button class="sw-btn sw-btn--soft sw-btn--sm">采纳修改</button><button class="sw-btn sw-btn--ghost sw-btn--sm">回复</button></div></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="biz-acquire">
+  <h2 class="doc-h2">获客触达</h2>
+  <p class="doc-lead">开发信要有具体理由；发出前做一次预检；批量任务逐条可见、可停止。</p>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-row sw-row--between" style="margin-bottom:var(--sp-3)"><b>开发信切入点 · Apex Components</b><span class="sw-muted" style="font-size:var(--fs-12)">找到 4 个 · 已选 1</span></div>
+      <div class="sw-hooks">
+        <label class="sw-hook"><span class="sw-check"><input type="checkbox" checked aria-label="使用这个切入点"></span><div><b>官网列出“零件清洗”配套服务</b><p>说明他们的下游客户有清洗需求，可以介绍台式设备。</p><div class="sw-hook__meta"><span class="sw-tag sw-tag--neutral sw-tag--sm">官网</span><span>观察于 10/14</span><span class="sw-tag sw-tag--success sw-tag--sm">已核</span></div></div></label>
+        <label class="sw-hook"><span class="sw-check"><input type="checkbox" aria-label="使用这个切入点"></span><div><b>将参加 2026 年 11 月芝加哥机械展</b><p>可以约展会见面，现场演示试洗。</p><div class="sw-hook__meta"><span class="sw-tag sw-tag--neutral sw-tag--sm">展会名录</span><span>观察于 10/12</span><span class="sw-tag sw-tag--warning sw-tag--sm">待核</span></div></div></label>
+        <label class="sw-hook"><span class="sw-check"><input type="checkbox" aria-label="使用这个切入点"></span><div><b>正在招聘“售后服务工程师”</b><p>售后团队扩张，设备维护是关注点。</p><div class="sw-hook__meta"><span class="sw-tag sw-tag--neutral sw-tag--sm">招聘页面</span><span>观察于 10/10</span></div></div></label>
+        <label class="sw-hook is-stale"><span class="sw-check"><input type="checkbox" disabled aria-label="信息已过时，不可选"></span><div><b>2024 年新开德州仓库</b><p>信息已超过 12 个月，不建议作为开场。</p><div class="sw-hook__meta"><span class="sw-tag sw-tag--neutral sw-tag--sm">新闻</span><span>2024-08 · 已过时</span></div></div></label>
+      </div>
+    </div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-preflight">
+        <div class="sw-preflight__head"><i data-i="shield-check" style="color:var(--text-2)"></i><div class="sw-grow"><b>发送前预检</b><br><span>1 项阻止发送 · 2 项建议修改 · 6 项通过</span></div></div>
+        <div class="sw-preflight__group sw-preflight__group--block"><h5><i data-i="ban" class="sw-ic--sm"></i>阻止发送</h5>
+          <div class="sw-preflight__item">收件邮箱未核实<small>a•••@apex•••</small><button class="sw-btn sw-btn--soft sw-btn--sm">核实 · 1 积分</button></div></div>
+        <div class="sw-preflight__group sw-preflight__group--warn"><h5><i data-i="alert" class="sw-ic--sm"></i>建议修改</h5>
+          <div class="sw-preflight__item">主题含促销词 “Best price”<small>容易进垃圾箱</small><button class="sw-btn sw-btn--ghost sw-btn--sm">改写</button></div>
+          <div class="sw-preflight__item">对方当地时间 00:20<small>洛杉矶</small><button class="sw-btn sw-btn--ghost sw-btn--sm">定时到 09:00</button></div></div>
+        <div class="sw-preflight__group sw-preflight__group--pass"><h5><i data-i="check-circle" class="sw-ic--sm"></i>已通过 6 项</h5>
+          <div class="sw-preflight__item" style="color:var(--text-2)">企业审核 · 事实依据 · 退订链接 · 链接数量 · 附件大小 · 发送频率</div></div>
+      </div>
+    </div></div>
+  </div>
+  <h3 class="doc-h3">批量任务</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:640px">
+    <div class="sw-batch">
+      <div class="sw-batch__head"><span class="sw-ai-avatar sw-ai-avatar--sm is-working"><i data-i="sparkle"></i></span><b>为 12 家企业生成背调摘要</b><button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="stop" class="sw-ic--sm"></i>停止</button></div>
+      <div class="sw-batch__bar" role="img" aria-label="完成 7，冲突 2，失败 1，等待 2"><i style="width:58.3%;background:var(--success)"></i><i style="width:16.7%;background:var(--warning)"></i><i style="width:8.3%;background:var(--danger)"></i></div>
+      <div class="sw-batch__legend"><span><i style="background:var(--success)"></i>完成 7</span><span><i style="background:var(--warning)"></i>有冲突 2</span><span><i style="background:var(--danger)"></i>失败 1</span><span><i style="background:var(--surface-3)"></i>等待 2</span><span style="margin-left:auto">已用 8 积分</span></div>
+      <div class="sw-batch__row"><i data-i="check-circle" class="sw-ic--sm is-ok"></i><div>CleanPro Distributors<small>3 条证据一致</small></div><a class="sw-link" href="#biz-acquire" style="font-size:var(--fs-13)">查看</a></div>
+      <div class="sw-batch__row"><i data-i="alert-circle" class="sw-ic--sm is-warn"></i><div>Apex Components<small>贸易记录主体与官网不一致</small></div><a class="sw-link" href="#biz-acquire" style="font-size:var(--fs-13)">去核实</a></div>
+      <div class="sw-batch__row"><i data-i="x-circle" class="sw-ic--sm is-fail"></i><div>Metro Cleaning Supply<small>官网无法访问（超时）</small></div><button class="sw-btn sw-btn--ghost sw-btn--sm"><i data-i="refresh" class="sw-ic--sm"></i>重试</button></div>
+      <div class="sw-batch__row is-running"><span class="sw-spinner" style="color:var(--brand)"></span><div>Pioneer Janitorial<small>正在读取企业登记信息…</small></div><span></span></div>
+      <div class="sw-batch__row"><i data-i="circle-dashed" class="sw-ic--sm is-wait"></i><div>BlueRiver Industrial<small>等待中</small></div><span></span></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="biz-growth">
+  <h2 class="doc-h2">投流经营</h2>
+  <p class="doc-lead">AI 的分析把“看到的数据”“猜测的原因”“建议的动作”分开写；要改线上设置时只给提议，批准后由人在平台上执行。</p>
+  <h3 class="doc-h3">洞察卡</h3>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:720px">
+    <div class="sw-insight">
+      <div class="sw-insight__head"><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span><h4>东南亚计划：点击多、询盘少</h4><span class="sw-strength" data-level="1"><span class="sw-strength__bars"><i></i><i></i><i></i></span><b>证据不足</b></span></div>
+      <div class="sw-insight__row"><span class="sw-kind sw-kind--fact">观察</span><div><p>近 14 天点击 160 次，询盘 2 条；同期北美计划点击 96 次，询盘 2 条。</p><small>Google Ads 报表 · 截至 10/15 09:00</small></div></div>
+      <div class="sw-insight__row"><span class="sw-kind sw-kind--guess">推测</span><div><p>可能是落地页表单在手机上加载慢：移动端跳出率 82%。</p><small>Google Analytics · 96 次访问 · 样本较小</small></div></div>
+      <div class="sw-insight__row"><span class="sw-kind sw-kind--advice">建议</span><div><p>先检查表单的移动端加载，再决定是否调整预算；同时把“household jewelry cleaner”加为否定关键词。</p></div></div>
+      <div class="sw-insight__foot"><span>不会自动修改投放</span><button class="sw-btn sw-btn--secondary sw-btn--sm">创建检查任务</button><button class="sw-btn sw-btn--soft sw-btn--sm">生成否词提议</button></div>
+    </div>
+  </div></div>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-proposal">
+        <div class="sw-proposal__head"><i data-i="sparkle"></i>AI 改动提议<span class="sw-tag sw-tag--warning sw-tag--sm">待负责人批准</span></div>
+        <div class="sw-proposal__title">东南亚计划添加否定关键词</div>
+        <div class="sw-proposal__diff">
+          <div class="sw-proposal__side"><small>现在</small><b>“household jewelry cleaner”</b><small>近 14 天花费 $38.20 · 询盘 0</small></div>
+          <i data-i="arrow-right"></i>
+          <div class="sw-proposal__side is-after"><small>改为</small><b>否定 · 精确匹配</b><small>预计每周少花约 $19（按近 14 天推算）</small></div>
+        </div>
+        <div class="sw-proposal__body"><dl class="sw-kv"><dt>理由</dt><dd>搜索词为家用首饰清洗，与工业设备需求不符</dd><dt>风险</dt><dd>低，未影响含“industrial”的搜索词</dd><dt>执行方式</dt><dd>批准后由张三在 Google Ads 手动添加，执行后登记</dd></dl></div>
+        <div class="sw-proposal__foot"><span class="sw-muted"><i data-i="lock" class="sw-ic--sm"></i>系统不会直接修改广告平台</span><button class="sw-btn sw-btn--secondary sw-btn--sm">退回</button><button class="sw-btn sw-btn--primary sw-btn--sm">批准</button></div>
+      </div>
+    </div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-digest">
+        <div class="sw-digest__head"><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span><h4>今日简报</h4><span>10/15 09:00 生成 · 用了 4 / 5 个数据源</span></div>
+        <div class="sw-digest__sec"><h5>询盘</h5>
+          <a class="sw-digest__item" href="#biz-growth"><i data-i="mail" class="sw-ic--sm"></i><span>新询盘 2 条：BrightParts（技术咨询）、GlobalTech（找代理）<br><small>回复草稿已准备，未发送</small></span><i data-i="chevron-right" class="sw-ic--sm"></i></a></div>
+        <div class="sw-digest__sec"><h5>需要你决定</h5>
+          <a class="sw-digest__item" href="#biz-growth"><i data-i="wallet" class="sw-ic--sm"></i><span>北美计划日预算 $40 → $50</span><i data-i="chevron-right" class="sw-ic--sm"></i></a>
+          <a class="sw-digest__item" href="#biz-growth"><i data-i="receipt" class="sw-ic--sm"></i><span>报价 Q-20261015-01 技术审核</span><i data-i="chevron-right" class="sw-ic--sm"></i></a></div>
+        <div class="sw-digest__sec"><h5>数据提醒</h5>
+          <a class="sw-digest__item" href="#biz-growth"><i data-i="alert-circle" class="sw-ic--sm" style="color:var(--warning)"></i><span>阿里巴巴报表 10/14 之后未导入，投流复盘已暂停</span><i data-i="chevron-right" class="sw-ic--sm"></i></a></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="chart-color">
+  <p class="doc-kicker">图表</p>
+  <h2 class="doc-h2">图表配色</h2>
+  <p class="doc-lead">图表颜色按用途分四类：分类色区分“是谁”，顺序色表示“有多少”，发散色表示“高于还是低于基准”，状态色表示“好坏”。分类色以品牌朱橙打头，顺序经过色盲模拟校验，不能调换、不能循环。</p>
+  <h3 class="doc-h3">分类色 · 7 色固定顺序</h3>
+  <div class="doc-pair"><div class="doc-island sw-root" data-theme="light" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">浅色</span><div class="doc-strip"><div style="background:var(--chart-1);color:var(--chart-on-fill)"><b>1 主系列</b><span>--chart-1</span></div><div style="background:var(--chart-2);color:var(--chart-on-fill)"><b>2 Google</b><span>--chart-2</span></div><div style="background:var(--chart-3);color:var(--chart-on-fill)"><b>3 Meta</b><span>--chart-3</span></div><div style="background:var(--chart-4);color:var(--chart-on-fill)"><b>4 LinkedIn</b><span>--chart-4</span></div><div style="background:var(--chart-5);color:var(--chart-on-5)"><b>5 阿里巴巴</b><span>--chart-5</span></div><div style="background:var(--chart-6);color:var(--chart-on-fill)"><b>6 官网/自然</b><span>--chart-6</span></div><div style="background:var(--chart-7);color:var(--chart-on-fill)"><b>7 展会</b><span>--chart-7</span></div></div></div><div class="doc-island sw-root" data-theme="dark" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">深色</span><div class="doc-strip"><div style="background:var(--chart-1);color:var(--chart-on-fill)"><b>1 主系列</b><span>--chart-1</span></div><div style="background:var(--chart-2);color:var(--chart-on-fill)"><b>2 Google</b><span>--chart-2</span></div><div style="background:var(--chart-3);color:var(--chart-on-fill)"><b>3 Meta</b><span>--chart-3</span></div><div style="background:var(--chart-4);color:var(--chart-on-fill)"><b>4 LinkedIn</b><span>--chart-4</span></div><div style="background:var(--chart-5);color:var(--chart-on-5)"><b>5 阿里巴巴</b><span>--chart-5</span></div><div style="background:var(--chart-6);color:var(--chart-on-fill)"><b>6 官网/自然</b><span>--chart-6</span></div><div style="background:var(--chart-7);color:var(--chart-on-fill)"><b>7 展会</b><span>--chart-7</span></div></div></div></div>
+  <div class="doc-pair" style="margin-top:var(--sp-2)"><div class="doc-island sw-root" data-theme="light" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">浅色</span><div class="doc-strip"><div style="background:var(--chart-other);color:var(--ink)"><b>其他 / 未知归因</b><span>--chart-other</span></div><div style="background:var(--chart-prev);color:var(--ink)"><b>对比期 / 上期</b><span>--chart-prev</span></div></div></div><div class="doc-island sw-root" data-theme="dark" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">深色</span><div class="doc-strip"><div style="background:var(--chart-other);color:var(--ink)"><b>其他 / 未知归因</b><span>--chart-other</span></div><div style="background:var(--chart-prev);color:var(--ink)"><b>对比期 / 上期</b><span>--chart-prev</span></div></div></div></div>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th>校验项（dataviz 校验脚本实测）</th><th class="is-num">浅色</th><th class="is-num">深色</th><th>标准</th></tr></thead>
+    <tbody>
+      <tr><td>相邻两色在红绿色盲模拟下的差异 ΔE</td><td class="is-num">16.3</td><td class="is-num">13.0</td><td>目标 ≥ 8</td></tr>
+      <tr><td>相邻两色在正常视觉下的差异 ΔE</td><td class="is-num">19.6</td><td class="is-num">19.3</td><td>≥ 15（硬性）</td></tr>
+      <tr><td>前 3 色两两之间（散点、地图可用）</td><td class="is-num">8.8</td><td class="is-num">10.0</td><td>≥ 8</td></tr>
+      <tr><td>明度、饱和度区间</td><td class="is-num">通过</td><td class="is-num">通过</td><td>L 0.43–0.77 / 0.48–0.67，C ≥ 0.10</td></tr>
+      <tr><td>与图表底色对比度</td><td class="is-num">3 色 &lt; 3:1</td><td class="is-num">全部 ≥ 3:1</td><td>浅色下青、琥珀、品红必须配数值标签或数据表</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="doc-h3">渠道固定配色</h3>
+  <p class="doc-note">颜色跟着渠道走，不跟排名走：筛掉某个渠道后，其余渠道颜色不变。朱橙 chart-1 留给“本期 / 实际值 / 我方”这类主系列，不分配给任何渠道。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th>渠道</th><th>令牌</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-2)"></i>Google</span></td><td><code>--chart-2</code></td><td>搜索广告、Google Ads</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-3)"></i>Meta</span></td><td><code>--chart-3</code></td><td>Facebook、Instagram</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-4)"></i>LinkedIn</span></td><td><code>--chart-4</code></td><td>图文、InMail</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-5)"></i>阿里巴巴</span></td><td><code>--chart-5</code></td><td>国际站 P4P、橱窗</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-6)"></i>官网 / 自然流量</span></td><td><code>--chart-6</code></td><td>SEO、直接访问</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-7)"></i>展会</span></td><td><code>--chart-7</code></td><td>线下展会登记</td></tr>
+      <tr><td><span class="doc-chip"><i style="background:var(--chart-other)"></i>未知归因 / 其他</span></td><td><code>--chart-other</code></td><td>第 8 个及以后的渠道一律归入“其他”</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="doc-h3">顺序色 · 数量大小</h3>
+  <p class="doc-note">单一蓝色 7 阶。深色主题下反转锚点：数值小的一端贴近深色底。用于热力图、地图。</p>
+  <div class="doc-pair"><div class="doc-island sw-root" data-theme="light" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">浅色</span><div class="doc-strip doc-strip--ramp"><div style="background:var(--seq-1)"></div><div style="background:var(--seq-2)"></div><div style="background:var(--seq-3)"></div><div style="background:var(--seq-4)"></div><div style="background:var(--seq-5)"></div><div style="background:var(--seq-6)"></div><div style="background:var(--seq-7)"></div></div></div><div class="doc-island sw-root" data-theme="dark" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">深色</span><div class="doc-strip doc-strip--ramp"><div style="background:var(--seq-1)"></div><div style="background:var(--seq-2)"></div><div style="background:var(--seq-3)"></div><div style="background:var(--seq-4)"></div><div style="background:var(--seq-5)"></div><div style="background:var(--seq-6)"></div><div style="background:var(--seq-7)"></div></div></div></div>
+  <h3 class="doc-h3">发散色 · 高于 / 低于基准</h3>
+  <p class="doc-note">蓝 ↔ 朱橙，中点为灰色。用于预算节奏偏差、环比变化。</p>
+  <div class="doc-pair"><div class="doc-island sw-root" data-theme="light" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">浅色</span><div class="doc-strip doc-strip--ramp"><div style="background:var(--div-neg)"></div><div style="background:var(--div-neg-weak)"></div><div style="background:var(--div-mid)"></div><div style="background:var(--div-pos-weak)"></div><div style="background:var(--div-pos)"></div></div></div><div class="doc-island sw-root" data-theme="dark" style="padding:var(--sp-4);gap:var(--sp-2)"><span class="doc-island__label">深色</span><div class="doc-strip doc-strip--ramp"><div style="background:var(--div-neg)"></div><div style="background:var(--div-neg-weak)"></div><div style="background:var(--div-mid)"></div><div style="background:var(--div-pos-weak)"></div><div style="background:var(--div-pos)"></div></div></div></div>
+  <h3 class="doc-h3">状态色 · 只表达好坏</h3>
+  <div class="doc-demo"><div class="doc-demo__stage" data-nocode>
+    <span class="doc-chip"><i style="background:var(--chart-good)"></i>正常</span><span class="doc-chip"><i style="background:var(--chart-warning)"></i>注意</span><span class="doc-chip"><i style="background:var(--chart-serious)"></i>严重</span><span class="doc-chip"><i style="background:var(--chart-critical)"></i>紧急</span>
+    <span class="doc-note" style="margin:0">两种主题取值相同。只在“这条数据本身表示好坏”时使用（如投放健康度），必须配图标和文字。</span>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="chart-rules">
+  <h2 class="doc-h2">图表规则</h2>
+  <p class="doc-lead">先选图表形式，最后才选颜色。每个图表都要有图例（两个及以上系列时）、悬停提示和“数据表”视图。</p>
+  <div class="doc-rules">
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul>
+      <li>一个数字就能说清的，用指标卡，不画图。</li>
+      <li>随时间变化用折线；比较大小用柱形或条形；一个整体拆成几部分用分段条（≤ 6 段）。</li>
+      <li>柱宽不超过 24px，数据端 4px 圆角、基线端直角；折线 2px；相邻色块之间留 2px 底色间隙。</li>
+      <li>网格线 1px 实线、颜色很浅；数值标签只标末端、最大值或重点系列。</li>
+      <li>文字一律用文字令牌，不用系列色；系列身份靠旁边的色块。</li>
+      <li>筛选器放在所有图表上方的一行里，切换时所有图表同步刷新，旧图半透明保留。</li>
+    </ul></div>
+    <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul>
+      <li>双 Y 轴。口径或量级不同的两个指标，拆成两个图。</li>
+      <li>用箭头或漏斗把不同口径的指标连起来（如预算 → 消耗 → 询盘 → 订单）。</li>
+      <li>饼图、环形图比较接近的数值；超过 7 个分类；彩虹色表示大小。</li>
+      <li>在每个点上都写数字；用虚线做网格；给色块加描边分隔。</li>
+      <li>把状态色（绿 / 红）当普通系列色用，或把系列色当状态用。</li>
+      <li>把金额的估算值画进图里。未确认的数据不画，写在说明里。</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="chart-kpi">
+  <h2 class="doc-h2">指标卡与筛选</h2>
+  <p class="doc-lead">看板顶部用指标卡：标签、数值、相对上期的变化、近期走势。走势线用灰色，最新一段和圆点用朱橙。花费上涨用中性色，只有好坏明确的指标才用绿 / 红。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col doc-demo__stage--bg">
+    <div class="sw-filterbar"><div class="sw-segmented" role="group" aria-label="时间范围"><button aria-pressed="false">近 7 天</button><button aria-pressed="true">本月</button><button aria-pressed="false">本季度</button></div><select class="sw-select sw-input--sm" aria-label="渠道"><option>全部渠道</option><option>Google</option><option>阿里巴巴</option></select><select class="sw-select sw-input--sm" aria-label="市场"><option>全部市场</option><option>美国</option><option>东南亚</option></select><span class="sw-tag sw-tag--brand" style="margin-left:auto">示例数据</span></div>
+    <div class="doc-grid4"><div class="sw-kpi"><span class="sw-kpi__label">期间预算</span><span class="sw-kpi__value">$4,309</span><div class="sw-kpi__foot"><span>已用 30.3% · 剩余 $3,002</span></div></div><div class="sw-kpi"><span class="sw-kpi__label">媒体消耗</span><span class="sw-kpi__value">$1,307</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--flat"><i data-i="arrow-up-right" class="sw-ic--sm"></i>22%</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [72.4, 88.1, 95.3, 61.2, 54.8, 102.6, 110.3, 97.5, 89.9, 101.2, 93.4, 76.8, 128.6, 134.94], "label": "每日消耗，最近 14 天"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">询盘 <i data-i="help" class="sw-ic--sm sw-muted"></i></span><span class="sw-kpi__value">9</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>3</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [0, 1, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1, 1], "label": "每日询盘，最近 14 天"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">合格需求</span><span class="sw-kpi__value">2</span><div class="sw-kpi__foot"><span>通过人工初筛</span></div></div></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="chart-line">
+  <h2 class="doc-h2">折线图</h2>
+  <p class="doc-lead">表示随时间的变化。主系列朱橙并带 10% 浅色填充，参照线（预算节奏、上期）用灰色。指针悬停时竖线吸附到最近的日期，提示框列出所有系列；聚焦后可用方向键逐日查看。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <figure class="sw-chart" data-sw-chart='{"type": "line", "title": "累计消耗与预算节奏", "subtitle": "2026-10-01 至 10-14 · USD · 预算节奏按天均分", "format": "usd2", "x": ["10/1", "10/2", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11", "10/12", "10/13", "10/14"], "series": [{"name": "实际消耗", "color": "chart-1", "values": [72.4, 160.5, 255.8, 317.0, 371.8, 474.4, 584.7, 682.2, 772.1, 873.3, 966.7, 1043.5, 1172.1, 1307.04], "area": true}, {"name": "预算节奏", "color": "chart-other", "values": [139.0, 278.0, 417.0, 556.0, 695.0, 834.0, 973.0, 1112.0, 1251.0, 1390.0, 1529.0, 1668.0, 1807.0, 1946.0]}]}'></figure>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="chart-bar">
+  <h2 class="doc-h2">柱形图与条形图</h2>
+  <p class="doc-lead">比较大小。类别名较长或数量较多时用横向条形图；本期 / 上期对比用分组柱形图，上期用灰色；相对基准的涨跌用偏差图。</p>
+  <div class="doc-grid2" style="margin-top:var(--sp-4)">
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block"><figure class="sw-chart" data-sw-chart='{"type": "column", "title": "核心指标：本期与上期", "subtitle": "10-01 至 10-14 · USD · 三个指标口径不同，不能相加", "format": "usd", "categories": ["订单金额", "确认收入", "现金到账"], "series": [{"name": "本期", "color": "chart-1", "values": [15500, 4000, 4100]}, {"name": "上期", "color": "chart-prev", "values": [13800, 3700, 3560]}]}'></figure></div></div>
+    <div class="doc-demo" style="margin:0"><div class="doc-demo__stage doc-demo__stage--block"><figure class="sw-chart" data-sw-chart='{"type": "bar", "title": "各计划媒体消耗", "subtitle": "10-01 至 10-14 · USD · 颜色表示渠道", "format": "usd2", "valueLabel": "媒体消耗", "categories": ["工业零部件 Q4", "热销产品-橱窗投放", "北美市场-品牌词", "东南亚市场-搜索"], "values": [389.0, 357.88, 303.42, 256.74], "colors": ["chart-5", "chart-5", "chart-2", "chart-2"], "legend": [{"name": "Google", "color": "chart-2"}, {"name": "阿里巴巴", "color": "chart-5"}]}'></figure></div></div>
+  </div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block"><figure class="sw-chart" data-sw-chart='{"type": "diverging", "title": "询盘变化：近 7 天对比前 7 天", "subtitle": "按目标市场 · 样本较小，仅作观察", "format": "pct", "valueLabel": "变化", "categories": ["美国", "德国", "印度", "巴西", "东南亚"], "values": [40, 15, -5, -25, -50], "negLabel": "减少", "posLabel": "增加", "baselineLabel": "持平"}'></figure></div></div>
+</section>
+
+<section class="doc-sec" id="chart-part">
+  <h2 class="doc-h2">构成与分布</h2>
+  <p class="doc-lead">一个整体拆成几部分用分段条，不用饼图：段内放得下才写占比，放不下的看图例、提示和数据表。两个维度的分布用热力图，颜色深浅只表示数量。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block"><figure class="sw-chart" data-sw-chart='{"type": "segmented", "title": "询盘来源", "subtitle": "10-01 至 10-14 · 共 16 条 · 含非投放渠道", "valueLabel": "询盘", "parts": [{"name": "Google", "value": 4, "color": "chart-2"}, {"name": "阿里巴巴", "value": 5, "color": "chart-5"}, {"name": "官网 / 自然", "value": 4, "color": "chart-6"}, {"name": "展会", "value": 1, "color": "chart-7"}, {"name": "未知归因", "value": 2, "color": "chart-other"}]}'></figure></div></div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block"><figure class="sw-chart" data-sw-chart='{"type": "heatmap", "title": "官网访问时段", "subtitle": "最近 4 周 · 北京时间 · 次数", "valueLabel": "访问", "rows": ["周一", "周二", "周三", "周四", "周五", "周六", "周日"], "cols": ["0–4 时", "4–8 时", "8–12 时", "12–16 时", "16–20 时", "20–24 时"], "values": [[12, 8, 20, 34, 52, 61], [14, 9, 22, 38, 57, 66], [11, 7, 25, 41, 63, 70], [15, 10, 24, 39, 58, 64], [13, 8, 19, 33, 49, 55], [6, 4, 9, 14, 21, 24], [5, 3, 8, 12, 18, 22]]}'></figure></div></div>
+  <h3 class="doc-h3">接入 ECharts / AntV</h3>
+  <p class="doc-note">如果项目使用第三方图表库，用 <code>SW.charts.theme()</code> 读取当前主题的令牌值，切换主题后重新调用即可。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" data-nocode>
+<pre class="doc-demo__code" style="display:block;border-radius:var(--r-md)">const t = SW.charts.theme();
+echarts.init(el).setOption({
+  color: t.color,                                  // 7 个分类色，顺序不可调换
+  textStyle: { color: t.text, fontFamily: t.fontFamily },
+  xAxis: { axisLine: { lineStyle: { color: t.axis } }, splitLine: { lineStyle: { color: t.grid } } },
+  yAxis: { splitLine: { lineStyle: { color: t.grid, type: 'solid' } } },
+  series: [{ type: 'bar', barMaxWidth: 24, itemStyle: { borderRadius: [4, 4, 0, 0] } }]
+});</pre>
+  </div></div>
+</section>
+
 <!-- ============ 页面示例 ============ -->
 <section class="doc-sec" id="page-today">
   <p class="doc-kicker">页面示例</p>
@@ -875,7 +1328,7 @@ Best regards</div>
   <p class="doc-lead">用本规范的组件拼出的首页。AI 准备好的工作和需要人决定的事项放在最前面。</p>
   <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
     <aside class="sw-sidebar">
-      <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+      <div class="sw-sidebar__logo"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><small>外贸工作台</small></div>
       <a class="sw-nav-item" href="#page-today" aria-current="page"><i data-i="home"></i>今日工作</a>
       <a class="sw-nav-item" href="#page-today"><i data-i="box"></i>产品资料</a>
       <a class="sw-nav-item" href="#page-today"><i data-i="doc"></i>内容</a>
@@ -919,7 +1372,7 @@ Best regards</div>
   <p class="doc-lead">三栏布局：会话列表、对话与 AI 建议、提取的需求。AI 建议始终“未发送”，右侧可一键人工接管。</p>
   <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
     <aside class="sw-sidebar">
-      <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+      <div class="sw-sidebar__logo"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><small>外贸工作台</small></div>
       <a class="sw-nav-item" href="#page-inquiry"><i data-i="home"></i>今日工作</a>
       <a class="sw-nav-item" href="#page-inquiry"><i data-i="box"></i>产品资料</a>
       <a class="sw-nav-item" href="#page-inquiry"><i data-i="doc"></i>内容</a>
@@ -962,6 +1415,45 @@ Best regards</div>
   </div></div></div></div>
 </section>
 
+<section class="doc-sec" id="page-ads">
+  <h2 class="doc-h2">投流看板</h2>
+  <p class="doc-lead">筛选一行在最上方；指标卡之间不画箭头；折线看节奏，条形看各计划，分段条看询盘来源。切换顶部主题可以直接看深色效果。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
+    <aside class="sw-sidebar"><div class="sw-sidebar__logo"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><small>外贸工作台</small></div><a class="sw-nav-item" href="#page-ads"><i data-i="home"></i>今日工作</a><a class="sw-nav-item" href="#page-ads"><i data-i="box"></i>产品资料</a><a class="sw-nav-item" href="#page-ads"><i data-i="doc"></i>内容</a><a class="sw-nav-item" href="#page-ads"><i data-i="users"></i>获客</a><a class="sw-nav-item" href="#page-ads"><i data-i="chart"></i>销售</a><a class="sw-nav-item" href="#page-ads" aria-current="page"><i data-i="megaphone"></i>投流</a><a class="sw-nav-item" href="#page-ads"><i data-i="pie"></i>经营</a><div class="sw-sidebar__foot"><span class="sw-avatar">Z</span><div><b>张三</b><small>ShiWork 科技有限公司</small></div></div></aside>
+    <div class="doc-app__main">
+      <div class="sw-topbar"><nav class="sw-breadcrumb" aria-label="面包屑"><a href="#page-ads">投流</a><span class="sep">/</span><span aria-current="page">总览</span></nav><div class="sw-topbar__right"><span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知"><i data-i="bell" class="sw-ic--lg"></i></button></span><span class="sw-avatar">Z</span></div></div>
+      <div class="doc-app__content" style="gap:var(--sp-5)">
+        <div class="sw-page-head"><div class="sw-page-head__main"><h1 class="sw-page-title">把投放，变成有效商机</h1></div><div class="sw-page-head__actions"><span class="sw-tag sw-tag--brand">示例数据</span><button class="sw-btn sw-btn--primary"><i data-i="plus"></i>新建计划</button></div></div>
+        <div class="sw-tabs" role="tablist" aria-label="投流"><button class="sw-tab" role="tab" aria-selected="true">总览</button><button class="sw-tab" role="tab" aria-selected="false">预算</button><button class="sw-tab" role="tab" aria-selected="false">计划</button><button class="sw-tab" role="tab" aria-selected="false">素材</button><button class="sw-tab" role="tab" aria-selected="false">询盘<span class="sw-count">4</span></button><button class="sw-tab" role="tab" aria-selected="false">复盘</button></div>
+        <div class="sw-filterbar"><button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="calendar" class="sw-ic--sm"></i>2026-10-01 ~ 10-14</button><select class="sw-select sw-input--sm" aria-label="渠道"><option>全部渠道</option></select><select class="sw-select sw-input--sm" aria-label="市场"><option>全部市场</option></select></div>
+        <div class="doc-grid4"><div class="sw-kpi"><span class="sw-kpi__label">期间预算</span><span class="sw-kpi__value">$4,309</span><div class="sw-kpi__foot"><span>已用 30.3% · 剩余 $3,002</span></div></div><div class="sw-kpi"><span class="sw-kpi__label">媒体消耗</span><span class="sw-kpi__value">$1,307</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--flat"><i data-i="arrow-up-right" class="sw-ic--sm"></i>22%</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [72.4, 88.1, 95.3, 61.2, 54.8, 102.6, 110.3, 97.5, 89.9, 101.2, 93.4, 76.8, 128.6, 134.94], "label": "每日消耗，最近 14 天"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">询盘 <i data-i="help" class="sw-ic--sm sw-muted"></i></span><span class="sw-kpi__value">9</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>3</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [0, 1, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1, 1], "label": "每日询盘，最近 14 天"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">合格需求</span><span class="sw-kpi__value">2</span><div class="sw-kpi__foot"><span>通过人工初筛</span></div></div></div>
+        <div class="doc-dash"><figure class="sw-chart" data-sw-chart='{"type": "line", "title": "累计消耗与预算节奏", "subtitle": "USD · 预算节奏按天均分", "format": "usd2", "x": ["10/1", "10/2", "10/3", "10/4", "10/5", "10/6", "10/7", "10/8", "10/9", "10/10", "10/11", "10/12", "10/13", "10/14"], "series": [{"name": "实际消耗", "color": "chart-1", "values": [72.4, 160.5, 255.8, 317.0, 371.8, 474.4, 584.7, 682.2, 772.1, 873.3, 966.7, 1043.5, 1172.1, 1307.04], "area": true}, {"name": "预算节奏", "color": "chart-other", "values": [139.0, 278.0, 417.0, 556.0, 695.0, 834.0, 973.0, 1112.0, 1251.0, 1390.0, 1529.0, 1668.0, 1807.0, 1946.0]}]}'></figure><figure class="sw-chart" data-sw-chart='{"type": "segmented", "title": "投放询盘来源", "subtitle": "10-01 至 10-14 · 共 9 条", "valueLabel": "询盘", "parts": [{"name": "Google", "value": 4, "color": "chart-2"}, {"name": "阿里巴巴", "value": 5, "color": "chart-5"}]}'></figure></div>
+        <figure class="sw-chart" data-sw-chart='{"type": "bar", "title": "各计划媒体消耗", "subtitle": "10-01 至 10-14 · USD · 颜色表示渠道", "format": "usd2", "valueLabel": "媒体消耗", "categories": ["工业零部件 Q4", "热销产品-橱窗投放", "北美市场-品牌词", "东南亚市场-搜索"], "values": [389.0, 357.88, 303.42, 256.74], "colors": ["chart-5", "chart-5", "chart-2", "chart-2"], "legend": [{"name": "Google", "color": "chart-2"}, {"name": "阿里巴巴", "color": "chart-5"}]}'></figure>
+      </div>
+    </div>
+  </div></div></div></div>
+</section>
+
+<section class="doc-sec" id="page-biz">
+  <h2 class="doc-h2">生意看板</h2>
+  <p class="doc-lead">订单、确认收入、现金到账是三个独立口径，各自一张指标卡，柱形图只做本期与上期对比，不相加、不画成漏斗。成本数据不全时不计算净利润，并在右侧说明。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
+    <aside class="sw-sidebar"><div class="sw-sidebar__logo"><img class="sw-only-light" src="assets/shiwork-logo-light.png" alt="ShiWork"><img class="sw-only-dark" src="assets/shiwork-logo-dark.png" alt="ShiWork"><small>外贸工作台</small></div><a class="sw-nav-item" href="#page-biz"><i data-i="home"></i>今日工作</a><a class="sw-nav-item" href="#page-biz"><i data-i="box"></i>产品资料</a><a class="sw-nav-item" href="#page-biz"><i data-i="doc"></i>内容</a><a class="sw-nav-item" href="#page-biz"><i data-i="users"></i>获客</a><a class="sw-nav-item" href="#page-biz"><i data-i="chart"></i>销售</a><a class="sw-nav-item" href="#page-biz"><i data-i="megaphone"></i>投流</a><a class="sw-nav-item" href="#page-biz" aria-current="page"><i data-i="pie"></i>经营</a><div class="sw-sidebar__foot"><span class="sw-avatar">Z</span><div><b>张三</b><small>ShiWork 科技有限公司</small></div></div></aside>
+    <div class="doc-app__main">
+      <div class="sw-topbar"><nav class="sw-breadcrumb" aria-label="面包屑"><a href="#page-biz">经营</a><span class="sep">/</span><span aria-current="page">经营总览</span></nav><div class="sw-topbar__right"><span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知"><i data-i="bell" class="sw-ic--lg"></i></button></span><span class="sw-avatar">Z</span></div></div>
+      <div class="doc-app__content" style="gap:var(--sp-5)">
+        <div class="sw-page-head"><div class="sw-page-head__main"><h1 class="sw-page-title">看清投入，也看清回来的钱</h1><p class="sw-page-sub">2026-10-01 至 10-14 · 超声设备业务</p></div><div class="sw-page-head__actions"><div class="sw-segmented" role="group" aria-label="业务"><button aria-pressed="true">超声设备</button><button aria-pressed="false" disabled>游戏代理（待配置）</button></div><span class="sw-tag sw-tag--brand">示例数据</span></div></div>
+        <div class="doc-grid4"><div class="sw-kpi"><span class="sw-kpi__label">订单金额 (USD)</span><span class="sw-kpi__value">$15,500</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>12%</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [9800, 11200, 12600, 13800, 14100, 15500], "label": "订单金额，最近 6 期"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">确认收入 (USD)</span><span class="sw-kpi__value">$4,000</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>8%</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [2600, 3100, 3400, 3700, 3500, 4000], "label": "确认收入，最近 6 期"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">现金到账 (USD)</span><span class="sw-kpi__value">$4,100</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>15%</span> 较上期</span><div class="sw-kpi__spark" data-sw-chart='{"type": "sparkline", "values": [2900, 3000, 3300, 3560, 3800, 4100], "label": "现金到账，最近 6 期"}'></div></div></div><div class="sw-kpi"><span class="sw-kpi__label">媒体消耗 (USD)</span><span class="sw-kpi__value">$1,307.04</span><div class="sw-kpi__foot"><span><span class="sw-trend sw-trend--flat"><i data-i="arrow-up-right" class="sw-ic--sm"></i>22%</span> 较上期</span></div></div></div>
+        <div class="doc-dash">
+          <figure class="sw-chart" data-sw-chart='{"type": "column", "title": "核心指标：本期与上期", "subtitle": "10-01 至 10-14 · USD · 三个指标口径不同，不能相加", "format": "usd", "categories": ["订单金额", "确认收入", "现金到账"], "series": [{"name": "本期", "color": "chart-1", "values": [15500, 4000, 4100]}, {"name": "上期", "color": "chart-prev", "values": [13800, 3700, 3560]}]}'></figure>
+          <div class="sw-decision"><div class="sw-decision__head"><i data-i="alert"></i>需要先核实</div><div class="sw-decision__body"><p>以下数据不完整，结论可能有偏差。</p><ul class="sw-checklist"><li><i data-i="alert" class="is-todo"></i>成本数据未齐，不计算净利润</li><li><i data-i="alert" class="is-todo"></i>收入确认规则待负责人确认</li><li><i data-i="alert" class="is-todo"></i>2 条询盘无法匹配投放渠道</li></ul></div><div class="sw-decision__foot"><button class="sw-btn sw-btn--primary sw-btn--sm">查看经营异常</button></div></div>
+        </div>
+        <figure class="sw-chart" data-sw-chart='{"type": "segmented", "title": "询盘来源", "subtitle": "10-01 至 10-14 · 共 16 条 · 含非投放渠道", "valueLabel": "询盘", "parts": [{"name": "Google", "value": 4, "color": "chart-2"}, {"name": "阿里巴巴", "value": 5, "color": "chart-5"}, {"name": "官网 / 自然", "value": 4, "color": "chart-6"}, {"name": "展会", "value": 1, "color": "chart-7"}, {"name": "未知归因", "value": 2, "color": "chart-other"}]}'></figure>
+      </div>
+    </div>
+  </div></div></div></div>
+</section>
+
 <!-- ============ 规则 ============ -->
 <section class="doc-sec" id="writing">
   <p class="doc-kicker">规则</p>
@@ -997,6 +1489,8 @@ Best regards</div>
     <li><i data-i="check"></i><div>所有图标按钮有 <code>aria-label</code>；所有表单控件有关联的 label；键盘可以操作并能看到焦点。</div></li>
     <li><i data-i="check"></i><div>数字使用等宽数字，金额右对齐，日期格式统一。</div></li>
     <li><i data-i="check"></i><div>加载超过 300ms 有骨架屏或加载状态；空列表有空状态说明。</div></li>
+    <li><i data-i="check"></i><div>在浅色和深色两种主题下都看过一遍；没有写死的白色、黑色背景；图片和 Logo 有两个版本。</div></li>
+    <li><i data-i="check"></i><div>图表颜色只用 <code>--chart-*</code> 令牌，渠道按固定配色；两个以上系列有图例；每个图表有“数据表”视图；没有双 Y 轴。</div></li>
   </ol>
 </section>
 
@@ -1018,7 +1512,220 @@ Best regards</div>
   </div>
 </dialog>
 
+<script id="tokens-data" type="application/json">{"name": "ShiWork", "version": "1.1.0", "source": "src/tokens.src.css", "themes": {"light": "默认", "dark": "<html data-theme=\"dark\">，未设置时跟随系统"}, "tokens": {"color": [{"name": "brand", "light": "#EF4B32", "dark": "#EF4B32", "usage": "主按钮底色、Logo 圆点、选中指示条、进度条、标题句点"}, {"name": "brand-hover", "light": "#DC3F27", "dark": "#F2604A", "usage": "主按钮悬停"}, {"name": "brand-active", "light": "#C8381F", "dark": "#D9401F", "usage": "主按钮按下"}, {"name": "brand-strong", "light": "#C8381F", "dark": "#FF8A5C", "usage": "浅底上的橙色文字：链接、导航选中文字、示例标签（对比度 ≥ 4.5）"}, {"name": "brand-soft", "light": "#FFF0EC", "dark": "#3A1E17", "usage": "选中行、导航选中底、首要任务底"}, {"name": "brand-softer", "light": "#FFF7F5", "dark": "#261612", "usage": "大面积浅橙区域"}, {"name": "brand-line", "light": "#FFD3C8", "dark": "#5E2C20", "usage": "浅橙区域的描边"}, {"name": "on-brand", "light": "#FFFFFF", "dark": "#FFFFFF", "usage": "朱橙底上的文字"}, {"name": "bg", "light": "#FAFAF8", "dark": "#0F0F0E", "usage": "页面底色"}, {"name": "surface", "light": "#FFFFFF", "dark": "#1A1A19", "usage": "卡片、弹窗、输入框、侧边栏"}, {"name": "surface-2", "light": "#F5F5F2", "dark": "#232321", "usage": "悬停、次级底色、AI 内容底"}, {"name": "surface-3", "light": "#EDEDE9", "dark": "#2D2D2A", "usage": "按下、进度槽、骨架屏"}, {"name": "line", "light": "#E9E9E5", "dark": "#2C2C29", "usage": "分隔线、卡片描边"}, {"name": "line-strong", "light": "#D6D6D0", "dark": "#45443F", "usage": "输入框、次要按钮描边"}, {"name": "ink", "light": "#141414", "dark": "#F2F1EE", "usage": "标题、正文、AI 标识色"}, {"name": "text-2", "light": "#555555", "dark": "#C3C2BB", "usage": "次要文字"}, {"name": "text-3", "light": "#737373", "dark": "#9C9B94", "usage": "说明、时间戳（原稿 #777 微调以满足 4.5:1）"}, {"name": "text-4", "light": "#A3A3A0", "dark": "#6E6D68", "usage": "禁用文字、占位符"}, {"name": "on-ink", "light": "#FFFFFF", "dark": "#141414", "usage": "墨黑底上的文字"}, {"name": "success", "light": "#1A7A44", "dark": "#4FC686"}, {"name": "success-soft", "light": "#E8F5EC", "dark": "#142A1E"}, {"name": "success-line", "light": "#BFE3CC", "dark": "#1F4A33"}, {"name": "warning", "light": "#9A6200", "dark": "#E5A93B"}, {"name": "warning-soft", "light": "#FBF1DE", "dark": "#2F2412"}, {"name": "warning-line", "light": "#EED7A6", "dark": "#5A4316"}, {"name": "danger", "light": "#B42318", "dark": "#F87171"}, {"name": "danger-soft", "light": "#FDECEA", "dark": "#3B1715"}, {"name": "danger-line", "light": "#F5C2BC", "dark": "#6A2620"}, {"name": "danger-solid", "light": "#B42318", "dark": "#B42318", "usage": "危险按钮底色（两种主题都配白字）"}, {"name": "ai", "light": "#141414", "dark": "#F2F1EE", "usage": "AI 头像底、AI 标签文字"}, {"name": "ai-soft", "light": "#F5F5F2", "dark": "#232321", "usage": "AI 生成内容的底色"}, {"name": "ai-line", "light": "#DADAD4", "dark": "#3A3A36", "usage": "AI 内容描边"}, {"name": "ai-accent", "light": "#EF4B32", "dark": "#EF4B32", "usage": "AI 头像右下角的品牌圆点，呼应 Logo"}, {"name": "focus", "light": "#EF4B32", "dark": "#EF4B32"}, {"name": "overlay", "light": "rgba(20, 20, 20, .45)", "dark": "rgba(0, 0, 0, .62)"}, {"name": "code-bg", "light": "#141414", "dark": "#0B0B0A"}, {"name": "code-ink", "light": "#E9E9E5", "dark": "#E9E9E5"}], "shadow": [{"name": "focus-ring", "light": "0 0 0 3px rgba(239, 75, 50, .22)", "dark": "0 0 0 3px rgba(239, 75, 50, .38)"}, {"name": "shadow-xs", "light": "0 1px 2px rgba(20, 20, 20, .05)", "dark": "0 1px 2px rgba(0, 0, 0, .45)"}, {"name": "shadow-sm", "light": "0 2px 8px rgba(20, 20, 20, .06)", "dark": "0 2px 8px rgba(0, 0, 0, .45)"}, {"name": "shadow-md", "light": "0 8px 24px rgba(20, 20, 20, .10), 0 2px 6px rgba(20, 20, 20, .05)", "dark": "0 8px 24px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06)"}, {"name": "shadow-lg", "light": "0 20px 48px rgba(20, 20, 20, .16), 0 4px 12px rgba(20, 20, 20, .06)", "dark": "0 20px 48px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .07)"}, {"name": "shadow-brand", "light": "0 6px 16px rgba(239, 75, 50, .28)", "dark": "0 6px 18px rgba(239, 75, 50, .35)"}], "font": [{"name": "font-sans", "light": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", \"Segoe UI\", Roboto, sans-serif"}, {"name": "font-mono", "light": "\"SF Mono\", ui-monospace, Menlo, Consolas, monospace"}], "fontSize": [{"name": "fs-12", "light": "12px", "usage": "说明、标签、时间戳"}, {"name": "fs-13", "light": "13px", "usage": "次要文字、表格辅助行、小按钮"}, {"name": "fs-14", "light": "14px", "usage": "正文、按钮、输入框（默认）"}, {"name": "fs-16", "light": "16px", "usage": "卡片标题、大按钮"}, {"name": "fs-18", "light": "18px", "usage": "区块标题"}, {"name": "fs-22", "light": "22px", "usage": "弹窗大标题、小指标数字"}, {"name": "fs-28", "light": "28px", "usage": "指标数字"}, {"name": "fs-32", "light": "32px", "usage": "页面主标题"}, {"name": "fs-40", "light": "40px", "usage": "大指标数字"}], "fontWeight": [{"name": "fw-regular", "light": "400"}, {"name": "fw-medium", "light": "500"}, {"name": "fw-semibold", "light": "600"}, {"name": "fw-bold", "light": "700"}, {"name": "fw-heavy", "light": "800", "usage": "页面主标题、指标数字"}], "lineHeight": [{"name": "lh-tight", "light": "1.25", "usage": "标题、数字"}, {"name": "lh-normal", "light": "1.6", "usage": "正文"}, {"name": "ls-title", "light": "-0.02em"}], "radius": [{"name": "r-xs", "light": "4px", "usage": "复选框、引用编号"}, {"name": "r-sm", "light": "6px", "usage": "标签、小按钮、提示气泡"}, {"name": "r-md", "light": "10px", "usage": "按钮、输入框、下拉、列表项"}, {"name": "r-lg", "light": "14px", "usage": "卡片、表格容器、建议卡"}, {"name": "r-xl", "light": "20px", "usage": "弹窗、抽屉、浮动助手"}, {"name": "r-full", "light": "999px", "usage": "胶囊按钮、头像、开关、分段控件、计数徽标"}], "spacing": [{"name": "sp-1", "light": "4px"}, {"name": "sp-2", "light": "8px"}, {"name": "sp-3", "light": "12px"}, {"name": "sp-4", "light": "16px"}, {"name": "sp-5", "light": "20px"}, {"name": "sp-6", "light": "24px"}, {"name": "sp-8", "light": "32px"}, {"name": "sp-10", "light": "40px"}, {"name": "sp-12", "light": "48px"}], "size": [{"name": "ctl-sm", "light": "32px", "usage": "表格内、工具栏"}, {"name": "ctl-md", "light": "40px", "usage": "默认"}, {"name": "ctl-lg", "light": "48px", "usage": "页面首要操作"}, {"name": "sidebar-w", "light": "240px"}, {"name": "topbar-h", "light": "64px"}], "motion": [{"name": "dur-fast", "light": "120ms"}, {"name": "dur", "light": "200ms"}, {"name": "dur-slow", "light": "320ms"}, {"name": "ease", "light": "cubic-bezier(.2, .8, .2, 1)"}], "zIndex": [{"name": "z-sticky", "light": "100"}, {"name": "z-dropdown", "light": "200"}, {"name": "z-drawer", "light": "300"}, {"name": "z-modal", "light": "400"}, {"name": "z-toast", "light": "500"}], "display": [{"name": "only-light", "light": "block", "dark": "none", "usage": "只在浅色主题显示的元素：display: var(--only-light)"}, {"name": "only-dark", "light": "none", "dark": "block", "usage": "只在深色主题显示的元素：display: var(--only-dark)"}], "chart": [{"name": "chart-1", "light": "#EF4B32", "dark": "#EF4B32", "usage": "朱橙 · 主系列：本期、实际值、我方（不分配给渠道）"}, {"name": "chart-2", "light": "#2A78D6", "dark": "#3987E5", "usage": "蓝 · 渠道：Google"}, {"name": "chart-3", "light": "#1BAF7A", "dark": "#199E70", "usage": "青 · 渠道：Meta"}, {"name": "chart-4", "light": "#6250D6", "dark": "#9085E9", "usage": "紫 · 渠道：LinkedIn"}, {"name": "chart-5", "light": "#EDA100", "dark": "#C98500", "usage": "琥珀 · 渠道：阿里巴巴"}, {"name": "chart-6", "light": "#E87BA4", "dark": "#D55181", "usage": "品红 · 渠道：官网 / 自然流量"}, {"name": "chart-7", "light": "#008300", "dark": "#008300", "usage": "绿 · 渠道：展会"}, {"name": "chart-other", "light": "#B5B4AE", "dark": "#6E6D68", "usage": "其他 / 未知归因"}, {"name": "chart-prev", "light": "#D3D2CC", "dark": "#4A4945", "usage": "对比期（上期、计划线等弱化系列）"}, {"name": "chart-grid", "light": "#EDEDE9", "dark": "#2C2C29", "usage": "网格线：1px 实线"}, {"name": "chart-axis", "light": "#D6D6D0", "dark": "#45443F", "usage": "基线、坐标轴"}, {"name": "chart-on-fill", "light": "#FFFFFF", "dark": "#FFFFFF", "usage": "色块内文字（黄色块用 --chart-on-fill-dark）"}, {"name": "chart-on-fill-dark", "light": "#141414", "dark": "#141414"}, {"name": "chart-on-5", "light": "#141414", "dark": "#FFFFFF", "usage": "黄色块（chart-5）内的文字"}, {"name": "seq-1", "light": "#CDE2FB", "dark": "#0D366B"}, {"name": "seq-2", "light": "#9EC5F4", "dark": "#184F95"}, {"name": "seq-3", "light": "#6DA7EC", "dark": "#256ABF"}, {"name": "seq-4", "light": "#3987E5", "dark": "#2A78D6"}, {"name": "seq-5", "light": "#256ABF", "dark": "#5598E7"}, {"name": "seq-6", "light": "#184F95", "dark": "#86B6EF"}, {"name": "seq-7", "light": "#0D366B", "dark": "#CDE2FB"}, {"name": "div-neg", "light": "#256ABF", "dark": "#5598E7"}, {"name": "div-neg-weak", "light": "#9EC5F4", "dark": "#184F95"}, {"name": "div-mid", "light": "#EEEEEA", "dark": "#383835"}, {"name": "div-pos-weak", "light": "#F9B3A0", "dark": "#7A2A1B"}, {"name": "div-pos", "light": "#EF4B32", "dark": "#EF4B32"}, {"name": "chart-good", "light": "#0CA30C", "dark": "#0CA30C"}, {"name": "chart-warning", "light": "#FAB219", "dark": "#FAB219"}, {"name": "chart-serious", "light": "#EC835A", "dark": "#EC835A"}, {"name": "chart-critical", "light": "#D03B3B", "dark": "#D03B3B"}]}}</script>
+<script id="icons-data" type="application/json">{
+ "导航与布局": [
+  "home",
+  "menu",
+  "sidebar",
+  "layout",
+  "grid",
+  "columns",
+  "list",
+  "list-checks",
+  "chevron-down",
+  "chevron-up",
+  "chevron-right",
+  "chevron-left",
+  "chevrons-right",
+  "chevrons-left",
+  "chevrons-up-down",
+  "arrow-up",
+  "arrow-down",
+  "arrow-left",
+  "arrow-right",
+  "arrow-up-right",
+  "arrow-down-right",
+  "external",
+  "maximize",
+  "minimize",
+  "log-in",
+  "log-out",
+  "command"
+ ],
+ "操作": [
+  "plus",
+  "minus",
+  "x",
+  "check",
+  "plus-circle",
+  "search",
+  "zoom-in",
+  "filter",
+  "sliders",
+  "sort-desc",
+  "edit",
+  "copy",
+  "clipboard",
+  "clipboard-check",
+  "save",
+  "trash",
+  "archive",
+  "download",
+  "upload",
+  "share",
+  "printer",
+  "link",
+  "unlink",
+  "refresh",
+  "sync",
+  "undo",
+  "redo",
+  "history",
+  "paperclip",
+  "pin",
+  "star",
+  "bookmark",
+  "flag",
+  "eye",
+  "eye-off",
+  "lock",
+  "unlock",
+  "key",
+  "settings",
+  "toggle",
+  "power",
+  "pause",
+  "more",
+  "more-vertical",
+  "grip",
+  "stop",
+  "play"
+ ],
+ "状态与提示": [
+  "info",
+  "help",
+  "alert",
+  "alert-circle",
+  "check-circle",
+  "x-circle",
+  "circle-dashed",
+  "ban",
+  "shield-check",
+  "shield-alert",
+  "bell",
+  "bell-off",
+  "clock",
+  "timer",
+  "hourglass",
+  "calendar",
+  "calendar-check",
+  "loader",
+  "zap",
+  "target",
+  "sun",
+  "moon",
+  "dot"
+ ],
+ "文件与内容": [
+  "doc",
+  "file-plus",
+  "file-check",
+  "folder",
+  "image",
+  "camera",
+  "video",
+  "book-open",
+  "layers",
+  "tag",
+  "quote",
+  "code",
+  "table",
+  "inbox",
+  "translate",
+  "monitor",
+  "smartphone"
+ ],
+ "沟通": [
+  "mail",
+  "mail-open",
+  "send",
+  "reply",
+  "forward",
+  "message",
+  "message-square",
+  "messages",
+  "phone",
+  "at-sign",
+  "mic",
+  "megaphone"
+ ],
+ "人与组织": [
+  "user",
+  "users",
+  "user-plus",
+  "user-check",
+  "user-x",
+  "id-card",
+  "building",
+  "factory",
+  "store",
+  "briefcase",
+  "handshake",
+  "award",
+  "globe",
+  "map",
+  "map-pin"
+ ],
+ "外贸与物流": [
+  "box",
+  "truck",
+  "ship",
+  "plane",
+  "anchor",
+  "warehouse",
+  "route",
+  "stamp",
+  "scale",
+  "ruler",
+  "waves",
+  "droplet",
+  "thermometer",
+  "wrench",
+  "flask",
+  "cpu"
+ ],
+ "金额与交易": [
+  "dollar",
+  "credit-card",
+  "wallet",
+  "receipt",
+  "coins",
+  "percent",
+  "exchange",
+  "calculator"
+ ],
+ "数据与图表": [
+  "chart",
+  "bar-chart",
+  "line-chart",
+  "pie",
+  "trending-up",
+  "trending-down",
+  "activity",
+  "gauge",
+  "mouse-click",
+  "hash",
+  "database",
+  "server",
+  "cloud",
+  "cloud-upload",
+  "plug",
+  "workflow"
+ ],
+ "AI": [
+  "wand",
+  "scan-text",
+  "compare",
+  "lightbulb",
+  "thumb-up",
+  "thumb-down",
+  "sparkle",
+  "sparkles"
+ ]
+}</script>
 <script src="components.js"></script>
+<script src="charts.js"></script>
 <script>
 /* ===== 文档站脚本：图标占位替换、色板、代码查看、导航高亮 ===== */
 (function () {
@@ -1038,22 +1745,55 @@ Best regards</div>
     'ai': 'AI 头像底、AI 标签', 'ai-soft': 'AI 生成内容底色', 'ai-line': 'AI 内容描边', 'ai-accent': 'AI 头像圆点'
   };
   const TEXTY = new Set(['brand', 'brand-strong', 'ink', 'text-2', 'text-3', 'text-4', 'success', 'warning', 'danger', 'ai']);
-  const cs = getComputedStyle(document.documentElement);
+  const TOK = {};
+  try { const data = JSON.parse(document.getElementById('tokens-data').textContent); Object.values(data.tokens).flat().forEach((t) => { TOK[t.name] = t; }); } catch (e) {}
   const lum = (hex) => { const n = hex.replace('#', ''); const c = [0, 2, 4].map((i) => parseInt(n.substr(i, 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
-  document.querySelectorAll('[data-swatches]').forEach((box) => {
-    box.innerHTML = box.dataset.swatches.split(',').map((n) => {
-      const v = cs.getPropertyValue('--' + n).trim().toUpperCase();
-      const r = TEXTY.has(n) && /^#[0-9A-F]{6}$/.test(v) ? ratio(v, '#FFFFFF') : null;
-      const badge = r ? `<span>${r.toFixed(2)} ${r >= 4.5 ? 'AA' : r >= 3 ? '大字' : '仅装饰'}</span>` : '';
-      return `<div class="doc-swatch"><div class="doc-swatch__chip" style="background:var(--${n});${n === 'surface' || n === 'bg' ? 'border-bottom:1px solid var(--line)' : ''}">${badge}</div><div class="doc-swatch__meta"><b>--${n}</b><code>${v}</code><p>${USAGE[n] || ''}</p></div></div>`;
+  const isDark = () => getComputedStyle(document.documentElement).colorScheme.includes('dark');
+  function renderSwatches() {
+    const cs = getComputedStyle(document.documentElement);
+    const surf = cs.getPropertyValue('--surface').trim().toUpperCase();
+    document.querySelectorAll('[data-swatches]').forEach((box) => {
+      box.innerHTML = box.dataset.swatches.split(',').map((n) => {
+        const v = cs.getPropertyValue('--' + n).trim().toUpperCase();
+        const t = TOK[n] || {};
+        const r = TEXTY.has(n) && /^#[0-9A-F]{6}$/.test(v) && /^#[0-9A-F]{6}$/.test(surf) ? ratio(v, surf) : null;
+        const badge = r ? `<span>${r.toFixed(2)} ${r >= 4.5 ? 'AA' : r >= 3 ? '大字' : '仅装饰'}</span>` : '';
+        const vals = `<code>浅 ${(t.light || v).toUpperCase()}</code><br><code>深 ${(t.dark || t.light || v).toUpperCase()}</code>`;
+        return `<div class="doc-swatch"><div class="doc-swatch__chip" style="background:var(--${n});${n === 'surface' || n === 'bg' ? 'border-bottom:1px solid var(--line)' : ''}">${badge}</div><div class="doc-swatch__meta"><b>--${n}</b>${vals}<p>${USAGE[n] || ''}</p></div></div>`;
+      }).join('');
+    });
+  }
+  renderSwatches();
+
+  /* 2b. 深色令牌对照表 */
+  const cmp = document.querySelector('#token-compare tbody');
+  if (cmp) {
+    const colorTokens = Object.values(TOK).filter((t) => /^#|^rgba/.test(t.light) && !/^(chart|seq|div)-/.test(t.name));
+    cmp.innerHTML = colorTokens.map((t) => {
+      const chip = (v) => `<span class="doc-chip"><i style="background:${v}"></i>${v}</span>`;
+      return `<tr><td><code>--${t.name}</code></td><td>${chip(t.light)}</td><td>${t.dark && t.dark !== t.light ? chip(t.dark) : '<span class="sw-muted">同浅色</span>'}</td><td class="sw-muted">${(t.usage || USAGE[t.name] || '').replace(/</g, '&lt;')}</td></tr>`;
     }).join('');
-  });
+  }
+
+  /* 2c. 主题切换：跟随系统 / 浅色 / 深色，记在本机 */
+  const sw = document.getElementById('theme-switch');
+  const applyTheme = (mode) => {
+    if (mode === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', mode);
+    try { localStorage.setItem('sw-theme', mode); } catch (e) {}
+    sw.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === mode)));
+    renderSwatches();
+  };
+  let saved = 'auto'; try { saved = localStorage.getItem('sw-theme') || 'auto'; } catch (e) {}
+  sw.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeSet === saved)));
+  sw.addEventListener('click', (e) => { const b = e.target.closest('[data-theme-set]'); if (b) applyTheme(b.dataset.themeSet); });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderSwatches);
 
   /* 3. 图标表 */
   const grid = document.getElementById('icon-grid');
-  const names = [...document.querySelectorAll('svg symbol[id^="i-"]')].map((s) => s.id.slice(2));
-  grid.innerHTML = names.map((n) => `<button class="doc-icon" data-icon="${n}" title="点击复制"><svg class="sw-ic" aria-hidden="true"><use href="#i-${n}"/></svg>${n}</button>`).join('');
+  let ICONS = {}; try { ICONS = JSON.parse(document.getElementById('icons-data').textContent); } catch (e) {}
+  const cell = (n) => `<button class="doc-icon" data-icon="${n}" title="点击复制"><svg class="sw-ic" aria-hidden="true"><use href="#i-${n}"/></svg>${n}</button>`;
+  grid.innerHTML = Object.entries(ICONS).map(([cat, names]) => `<p class="doc-label" style="grid-column:1/-1;margin:var(--sp-3) 0 0">${cat} · ${names.length}</p>` + names.map(cell).join('')).join('');
 
   /* 4. 每个示例加“查看代码 / 复制”栏 */
   const dedent = (html) => {
@@ -1076,7 +1816,7 @@ Best regards</div>
   document.querySelectorAll('.doc-demo').forEach((demo) => {
     const stage = demo.querySelector('.doc-demo__stage');
     if (!stage || stage.hasAttribute('data-nocode')) return;
-    const code = pretty(stage.innerHTML.replace(/ style="display:block;border-radius:var\(--r-md\)"/g, ''));
+    const code = pretty(stage.innerHTML.replace(/ style="display:block;border-radius:var\(--r-md\)"/g, '')).replace(/data-sw-chart="([^"]*)"/g, (m, v) => "data-sw-chart='" + v.replace(/&quot;/g, '"').replace(/&amp;/g, '&') + "'");
     const bar = document.createElement('div');
     bar.className = 'doc-demo__bar';
     bar.innerHTML = `<span>HTML · 依赖 tokens.css + components.css</span><button class="sw-btn sw-btn--ghost sw-btn--sm" data-act="toggle">${SW.icon('eye', 'sw-ic--sm')}查看代码</button><button class="sw-btn sw-btn--ghost sw-btn--sm" data-act="copy">${SW.icon('copy', 'sw-ic--sm')}复制</button>`;
