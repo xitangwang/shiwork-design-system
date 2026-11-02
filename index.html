@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShiWork 设计规范</title>
+<link rel="icon" href="assets/shiwork-mark.png">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+/* 文档站自身的布局，只用于展示规范，不属于组件库 */
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; }
+.doc { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100vh; }
+.doc-nav { position: sticky; top: 0; height: 100vh; overflow: auto; background: var(--surface); border-right: 1px solid var(--line); padding: var(--sp-6) var(--sp-4) var(--sp-10); }
+.doc-nav__logo { display: block; padding: 0 var(--sp-2) var(--sp-2); }
+.doc-nav__logo img { height: 28px; display: block; }
+.doc-nav__ver { font-size: var(--fs-12); color: var(--text-3); padding: 0 var(--sp-2) var(--sp-4); display: flex; gap: var(--sp-2); align-items: center; }
+.doc-nav__group { font-size: var(--fs-12); font-weight: var(--fw-semibold); color: var(--text-3); padding: var(--sp-4) var(--sp-2) var(--sp-1); letter-spacing: .04em; }
+.doc-nav a { display: flex; align-items: center; height: 32px; padding: 0 var(--sp-2); border-radius: var(--r-sm); font-size: var(--fs-13); color: var(--text-2); text-decoration: none; }
+.doc-nav a:hover { background: var(--surface-2); color: var(--ink); }
+.doc-nav a.is-active { background: var(--brand-soft); color: var(--brand-strong); font-weight: var(--fw-semibold); }
+.doc-nav a .sw-tag { margin-left: auto; }
+.doc-main { padding: var(--sp-10) clamp(20px, 4vw, 56px) 96px; min-width: 0; max-width: 1180px; }
+.doc-hero { padding-bottom: var(--sp-8); }
+.doc-hero .sw-page-title { font-size: var(--fs-40); }
+.doc-hero p { color: var(--text-2); max-width: 68ch; margin: var(--sp-3) 0 0; font-size: var(--fs-16); }
+.doc-hero__meta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-5); }
+.doc-sec { padding: var(--sp-10) 0 var(--sp-6); border-top: 1px solid var(--line); }
+.doc-kicker { font-size: var(--fs-12); font-weight: var(--fw-semibold); color: var(--brand-strong); letter-spacing: .06em; margin: 0 0 var(--sp-1); }
+.doc-h2 { font-size: var(--fs-28); font-weight: var(--fw-heavy); letter-spacing: var(--ls-title); margin: 0; line-height: var(--lh-tight); text-wrap: balance; }
+.doc-h3 { font-size: var(--fs-16); font-weight: var(--fw-bold); margin: var(--sp-8) 0 var(--sp-1); }
+.doc-lead { color: var(--text-2); max-width: 70ch; margin: var(--sp-2) 0 0; }
+.doc-note { color: var(--text-3); font-size: var(--fs-13); margin: var(--sp-1) 0 0; max-width: 72ch; }
+.doc-rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); margin-top: var(--sp-5); }
+.doc-rule { border-radius: var(--r-lg); padding: var(--sp-4) var(--sp-5); background: var(--surface); border: 1px solid var(--line); }
+.doc-rule h4 { margin: 0 0 var(--sp-2); font-size: var(--fs-14); display: flex; align-items: center; gap: 6px; }
+.doc-rule--do h4 { color: var(--success); }
+.doc-rule--dont h4 { color: var(--danger); }
+.doc-rule ul { margin: 0; padding-left: 18px; font-size: var(--fs-13); color: var(--text-2); display: flex; flex-direction: column; gap: 4px; }
+.doc-demo { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); overflow: hidden; margin-top: var(--sp-4); }
+.doc-demo__stage { padding: var(--sp-6); display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+.doc-demo__stage--col { flex-direction: column; align-items: stretch; }
+.doc-demo__stage--bg { background: var(--bg); }
+.doc-demo__stage--block { display: block; }
+.doc-demo__stage--scrim { background: var(--overlay); justify-content: center; padding: var(--sp-10) var(--sp-6); }
+.doc-demo__stage--flush { padding: 0; }
+.doc-demo__bar { display: flex; align-items: center; gap: var(--sp-2); padding: 6px var(--sp-3) 6px var(--sp-4); border-top: 1px solid var(--line); background: var(--surface-2); font-size: var(--fs-12); color: var(--text-3); }
+.doc-demo__bar .sw-btn { margin-left: auto; }
+.doc-demo__bar .sw-btn + .sw-btn { margin-left: 0; }
+.doc-demo__code { display: none; margin: 0; max-height: 420px; overflow: auto; padding: var(--sp-4) var(--sp-5); background: var(--ink); color: #E9E9E5; font: 12px/1.65 var(--font-mono); white-space: pre; tab-size: 2; }
+.doc-demo.is-code .doc-demo__code { display: block; }
+.doc-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
+.doc-grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4); }
+.doc-label { font-size: var(--fs-12); color: var(--text-3); margin: 0 0 var(--sp-2); width: 100%; }
+.doc-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; width: 100%; }
+.doc-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: var(--sp-3); margin-top: var(--sp-3); }
+.doc-swatch { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+.doc-swatch__chip { height: 64px; display: flex; align-items: flex-end; padding: var(--sp-2); }
+.doc-swatch__chip span { font-size: 11px; font-weight: var(--fw-semibold); padding: 2px 6px; border-radius: var(--r-xs); background: rgba(255,255,255,.85); color: var(--ink); }
+.doc-swatch__meta { padding: var(--sp-2) var(--sp-3) var(--sp-3); font-size: var(--fs-12); line-height: 1.5; }
+.doc-swatch__meta b { display: block; font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: 12px; }
+.doc-swatch__meta code { font-family: var(--font-mono); color: var(--text-3); }
+.doc-swatch__meta p { margin: 4px 0 0; color: var(--text-2); }
+.doc-type { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: var(--sp-4); align-items: baseline; padding: var(--sp-3) 0; border-bottom: 1px dashed var(--line); width: 100%; }
+.doc-type:last-child { border-bottom: 0; }
+.doc-type code { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); }
+.doc-shapes { display: flex; flex-wrap: wrap; gap: var(--sp-6); align-items: flex-end; }
+.doc-shape { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); font-size: var(--fs-12); color: var(--text-3); text-align: center; }
+.doc-shape i { display: block; width: 84px; height: 60px; background: var(--surface); border: 1.5px solid var(--ink); }
+.doc-shape code { font-family: var(--font-mono); color: var(--ink); }
+.doc-space { display: flex; align-items: center; gap: var(--sp-3); font-size: var(--fs-12); width: 100%; }
+.doc-space i { display: block; height: 14px; background: var(--brand); border-radius: 3px; opacity: .85; }
+.doc-space code { font-family: var(--font-mono); width: 90px; color: var(--text-2); }
+.doc-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: var(--sp-2); width: 100%; }
+.doc-icon { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); padding: var(--sp-3) var(--sp-2); border-radius: var(--r-md); font-size: 11px; color: var(--text-3); font-family: var(--font-mono); border: 1px solid transparent; cursor: pointer; background: transparent; }
+.doc-icon:hover { border-color: var(--line); background: var(--surface-2); color: var(--ink); }
+.doc-icon .sw-ic { width: 22px; height: 22px; color: var(--ink); }
+.doc-logo-tile { border-radius: var(--r-lg); border: 1px solid var(--line); display: grid; place-items: center; padding: var(--sp-8); min-height: 180px; }
+.doc-logo-tile img { max-width: 100%; height: 56px; }
+.doc-logo-tile--dark { background: var(--ink); }
+.doc-logo-tile--dark img { filter: invert(1); }
+.doc-logo-tile--soft { background: var(--brand-softer); }
+.doc-ref { margin-top: var(--sp-4); }
+.doc-ref code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-2); padding: 1px 6px; border-radius: var(--r-xs); color: var(--ink); white-space: nowrap; }
+.doc-app { display: grid; grid-template-columns: 208px minmax(0, 1fr); min-width: 1040px; background: var(--bg); border-radius: var(--r-lg); overflow: hidden; }
+.doc-app-scroll { overflow-x: auto; }
+.doc-app > .sw-sidebar { width: auto; }
+.doc-app__main { min-width: 0; display: flex; flex-direction: column; }
+.doc-app__content { padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-6); }
+.doc-checklist { list-style: none; margin: var(--sp-4) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.doc-checklist li { display: flex; gap: var(--sp-3); align-items: flex-start; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.doc-checklist li .sw-ic { color: var(--brand); margin-top: 3px; }
+.doc-mobile-nav { display: none; }
+@media (max-width: 960px) {
+  .doc { grid-template-columns: 1fr; }
+  .doc-nav { display: none; }
+  .doc-mobile-nav { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 0; z-index: var(--z-sticky); }
+  .doc-mobile-nav img { height: 26px; }
+  .doc-rules, .doc-grid2, .doc-grid3, .sw-form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body class="sw-root">
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol><symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5 M9 13h6 M9 17h6"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V11 M12 21V4 M19 21v-7"/></symbol><symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z M17 8.5a4.5 4.5 0 0 1 0 7 M7 14l1.5 5H11l-1-4.5"/></symbol><symbol id="i-pie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12A9 9 0 1 1 12 3v9z M15 3.5A9 9 0 0 1 20.5 9H15z"/></symbol><symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z M21 21l-4.3-4.3"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0"/></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18 M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol><symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z M12 9v4 M12 17h.01"/></symbol><symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01"/></symbol><symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01"/></symbol><symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5 M5 12l7-7 7 7"/></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M12 5l7 7-7 7"/></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7 M7 7h10v10"/></symbol><symbol id="i-arrow-down-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10 M17 7v10H7"/></symbol><symbol id="i-paperclip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol><symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2z M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4 M21 3v6h-6"/></symbol><symbol id="i-thumb-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z M7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 9A2 2 0 0 1 18.1 21H7"/></symbol><symbol id="i-thumb-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1z M17 14l-4 8a3 3 0 0 1-3-3v-4H4.5a2 2 0 0 1-2-2.3l1.4-9A2 2 0 0 1 5.9 3H17"/></symbol><symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5v14 M15 5v14"/></symbol><symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0 M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z M3 7l9 6 9-6"/></symbol><symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M2 12h20 M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></symbol><symbol id="i-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v16H3z M3 10h18 M9 10v10"/></symbol><symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z M3 8l9 5 9-5 M12 13v8"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 7v5l3 2"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M16 3v4 M8 3v4 M3 11h18"/></symbol><symbol id="i-translate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8 M8 3v2 M5.5 5c.8 3 2.6 5.5 5.5 7 M10.5 5c-.8 3-2.6 5.5-5.5 7 M13 21l4-9 4 9 M14.5 18h5"/></symbol><symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18 M8 6V4h8v2 M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6 M10 11v6 M14 11v6"/></symbol><symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6 M15 3h6v6 M10 14L21 3"/></symbol><symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol><symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12 M7 10l5 5 5-5 M5 21h14"/></symbol><symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9 M7 14l5-5 5 5 M5 3h14"/></symbol><symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7 M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4"/></symbol><symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5h.5a8.5 8.5 0 0 1 8 8z"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5z M8 11V7a4 4 0 0 1 8 0v4"/></symbol><symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13l3.5 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol><symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16 M16 9h2a2 2 0 0 1 2 2v10 M2 21h20 M8 7h4 M8 11h4 M8 15h4"/></symbol><symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></symbol><symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6 M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/></symbol><symbol id="i-undo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5 M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z"/></symbol><symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13 M22 2l-7 20-4-9-9-4z"/></symbol><symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></symbol><symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12v12H3z M15 10l6-3v10l-6-3"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5l2.1 6.4 6.4 2.1-6.4 2.1L12 19.5l-2.1-6.4L3.5 11l6.4-2.1z M19 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></symbol><symbol id="i-more" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M12 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M19 13.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol><symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 6h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></symbol><symbol id="i-play" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 4.5v15a.8.8 0 0 0 1.2.7l12-7.5a.8.8 0 0 0 0-1.4l-12-7.5A.8.8 0 0 0 7 4.5z"/></symbol></svg>
+
+<div class="doc-mobile-nav"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><span class="sw-muted">设计规范 v1.0</span></div>
+<div class="doc">
+<nav class="doc-nav" aria-label="规范目录">
+  <a class="doc-nav__logo" href="#overview" style="height:auto;padding:0 8px 8px"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"></a>
+  <div class="doc-nav__ver">外贸工作台 · 设计规范 <span class="sw-tag sw-tag--brand sw-tag--sm">v1.0</span></div>
+  <a href="#overview">概览</a>
+  <a href="#usage">接入与文件</a>
+  <div class="doc-nav__group">基础</div>
+  <a href="#logo">Logo</a><a href="#color">色彩</a><a href="#type">字体</a><a href="#radius">圆角与间距</a><a href="#elevation">阴影与层级</a><a href="#icons">图标</a><a href="#motion">动效</a>
+  <div class="doc-nav__group">通用组件</div>
+  <a href="#button">按钮</a><a href="#input">输入框</a><a href="#select">选择控件</a><a href="#tag">标签与状态</a><a href="#avatar">头像与徽标</a><a href="#tabs">标签页</a><a href="#nav">导航</a><a href="#pagehead">页面标题</a><a href="#stat">数据指标</a><a href="#progress">进度与流程</a><a href="#table">表格</a><a href="#list">列表</a><a href="#kanban">看板</a><a href="#timeline">时间线</a><a href="#alert">提示条</a><a href="#empty">空状态与加载</a><a href="#overlay">气泡与菜单</a><a href="#dialog">对话框</a><a href="#drawer">抽屉</a><a href="#toast">通知</a>
+  <div class="doc-nav__group">AI 组件</div>
+  <a href="#ai-id">AI 标识</a><a href="#ai-chat">对话消息</a><a href="#ai-composer">AI 输入框</a><a href="#ai-state">生成状态</a><a href="#ai-suggest">建议卡</a><a href="#ai-evidence">证据卡</a><a href="#ai-extract">字段提取</a><a href="#ai-decision">人工决策</a><a href="#ai-run">任务运行</a><a href="#ai-copilot">浮动助手</a><a href="#ai-select">划词工具条</a>
+  <div class="doc-nav__group">页面示例</div>
+  <a href="#page-today">今日工作</a><a href="#page-inquiry">询盘接待</a>
+  <div class="doc-nav__group">规则</div>
+  <a href="#writing">文案</a><a href="#checklist">开发检查清单</a>
+</nav>
+
+<main class="doc-main">
+
+<!-- ============ 概览 ============ -->
+<header class="doc-hero" id="overview">
+  <p class="doc-kicker">SHIWORK DESIGN SYSTEM</p>
+  <h1 class="sw-page-title">一套规范，让每个人做出同一个界面</h1>
+  <p>ShiWork 外贸工作台的视觉与组件规范。沿用墨黑、朱橙和现有 Logo，在原稿基础上加大圆角、补齐组件，并新增一组 AI 组件。页面里每个示例都是真实代码，点“查看代码”即可复制。</p>
+  <div class="doc-hero__meta">
+    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="grid"></i>40+ 组件</span>
+    <span class="sw-tag sw-tag--ai sw-tag--pill"><i data-i="sparkle"></i>11 个 AI 组件</span>
+    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="shield-check"></i>文字对比度 ≥ 4.5:1</span>
+    <span class="sw-tag sw-tag--neutral sw-tag--pill"><i data-i="calendar"></i>2026-11-01</span>
+  </div>
+  <div class="doc-rules" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="doc-rule"><h4><i data-i="target"></i>证据优先</h4><ul><li>AI 说的每个事实都带来源。</li><li>未核实的内容用警示色标出，不混在正文里。</li></ul></div>
+    <div class="doc-rule"><h4><i data-i="user"></i>人来拍板</h4><ul><li>发送、发布、回传这类对外动作，一律先确认。</li><li>AI 只起草、建议、整理，不替人做决定。</li></ul></div>
+    <div class="doc-rule"><h4><i data-i="eye"></i>状态可见</h4><ul><li>状态分四个维度，各用固定颜色和图形。</li><li>主色朱橙只给主要操作，不表达状态。</li></ul></div>
+  </div>
+</header>
+
+<section class="doc-sec" id="usage">
+  <p class="doc-kicker">开始</p>
+  <h2 class="doc-h2">接入与文件</h2>
+  <p class="doc-lead">规范由下面这些文件组成。开发和 AI 都从这里取值，业务代码里不允许出现任何色值、字号或圆角的字面量。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th>文件</th><th>内容</th><th>谁来用</th></tr></thead>
+    <tbody>
+      <tr><td><code>tokens.css</code></td><td>全部设计令牌（CSS 变量）：颜色、字体、圆角、间距、阴影、动效、层级</td><td>所有人</td></tr>
+      <tr><td><code>tokens.json</code></td><td>同一份令牌的 JSON 版本，供 Tailwind / Ant Design 主题 / 小程序等工具读取</td><td>工程化</td></tr>
+      <tr><td><code>components.css</code></td><td>组件样式，类名前缀 <code>sw-</code>，只引用令牌</td><td>前端</td></tr>
+      <tr><td><code>components.js</code></td><td>交互行为：标签页、开关、下拉、对话框、通知 <code>SW.toast()</code></td><td>前端</td></tr>
+      <tr><td><code>assets/icons.svg</code></td><td>62 个图标的 SVG sprite，用 <code>&lt;use href="#i-名称"&gt;</code> 引用</td><td>前端、设计</td></tr>
+      <tr><td><code>README.md</code></td><td>写给 AI 和新成员的规则摘要：命名、状态、文案、禁止事项</td><td>AI、新成员</td></tr>
+    </tbody>
+  </table></div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" data-nocode>
+<pre class="doc-demo__code" style="display:block;border-radius:var(--r-md)">&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="components.css"&gt;
+&lt;script src="components.js" defer&gt;&lt;/script&gt;
+
+&lt;body class="sw-root"&gt;            &lt;!-- 根节点加 sw-root，启用字体、底色和等宽数字 --&gt;
+  &lt;!-- 把 assets/icons.svg 的内容内联在 body 开头一次 --&gt;
+  &lt;button class="sw-btn sw-btn--primary"&gt;提交报价审核&lt;/button&gt;
+&lt;/body&gt;</pre>
+  </div></div>
+</section>
+
+<!-- ============ 基础 ============ -->
+<section class="doc-sec" id="logo">
+  <p class="doc-kicker">基础</p>
+  <h2 class="doc-h2">Logo</h2>
+  <p class="doc-lead">沿用现有 ShiWork Logo：墨黑图形 + 字标 + 朱橙句点。朱橙句点是品牌签名，页面标题句末的圆点、AI 头像右下角的圆点都从这里来。</p>
+  <div class="doc-grid3" style="margin-top:var(--sp-4)">
+    <div class="doc-logo-tile"><img src="assets/shiwork-logo.png" alt="ShiWork 标准 Logo"></div>
+    <div class="doc-logo-tile doc-logo-tile--soft"><img src="assets/shiwork-logo.png" alt="ShiWork Logo 浅橙底"></div>
+    <div class="doc-logo-tile"><img src="assets/shiwork-mark.png" alt="ShiWork 图形标" style="height:64px"></div>
+  </div>
+  <div class="doc-rules">
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul><li>侧边栏展开时用裁切版完整 Logo（shiwork-logo-trim.png），高 26px；收起时只用图形标，24px。</li><li>四周留白不小于句点直径的 2 倍。</li><li>只放在白色、<code>--bg</code> 或 <code>--brand-softer</code> 上。</li></ul></div>
+    <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>改变句点颜色，或把整个 Logo 染成朱橙。</li><li>放在照片或朱橙底上。</li><li>拉伸、加描边、加阴影。</li></ul></div>
+  </div>
+  <p class="doc-note">深色底版本需要设计提供单独的反白文件，目前的 PNG 仅适用于浅色底。</p>
+</section>
+
+<section class="doc-sec" id="color">
+  <h2 class="doc-h2">色彩</h2>
+  <p class="doc-lead">三种角色，互不混用：<b>朱橙</b>只给主要操作和选中，<b>墨黑</b>负责文字和 AI 标识，<b>语义色</b>只表达状态。卡片里的数字显示该颜色对白底的对比度。</p>
+  <h3 class="doc-h3">品牌 · 朱橙</h3>
+  <div class="doc-swatches" data-swatches="brand,brand-hover,brand-active,brand-strong,brand-soft,brand-softer,brand-line"></div>
+  <h3 class="doc-h3">中性</h3>
+  <div class="doc-swatches" data-swatches="ink,text-2,text-3,text-4,line-strong,line,surface-3,surface-2,bg,surface"></div>
+  <h3 class="doc-h3">语义</h3>
+  <div class="doc-swatches" data-swatches="success,success-soft,warning,warning-soft,danger,danger-soft"></div>
+  <h3 class="doc-h3">AI 标识</h3>
+  <div class="doc-swatches" data-swatches="ai,ai-soft,ai-line,ai-accent"></div>
+  <div class="doc-rules">
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul><li>一屏只有一个朱橙实心按钮。</li><li>浅底上的橙色文字用 <code>--brand-strong</code>，不用 <code>--brand</code>。</li><li>状态颜色总是和文字或图标一起出现。</li></ul></div>
+    <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>用朱橙表示“待审核”“警告”这类状态。</li><li>用红色表示上涨或下跌以外的“重要”。</li><li>自行调亮调暗令牌颜色，或新增令牌外的色值。</li></ul></div>
+  </div>
+  <div class="sw-alert sw-alert--warning" style="margin-top:var(--sp-4)"><i data-i="alert"></i><div class="sw-alert__body"><b>关于主色对比度</b>朱橙 #EF4B32 上的白字对比度为 3.67:1，满足 18px 以上大字和 3:1 的控件标准，但低于正文 4.5:1。按钮文字统一用 14px 半粗体以上；如果后续要做无障碍认证，可将 <code>--brand</code> 调至 #D23D23（4.74:1），视觉差异很小。</div></div>
+</section>
+
+<section class="doc-sec" id="type">
+  <h2 class="doc-h2">字体</h2>
+  <p class="doc-lead">使用系统字体：苹果设备为苹方，Windows 为微软雅黑。所有数字使用等宽数字（tabular-nums），金额右对齐。页面标题使用特粗字重和朱橙句点。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col" data-nocode>
+    <div class="doc-type"><code>--fs-40 / 800</code><span style="font-size:var(--fs-40);font-weight:800;letter-spacing:var(--ls-title);line-height:1.2">$4,309</span></div>
+    <div class="doc-type"><code>--fs-32 / 800 页面标题</code><span class="sw-page-title">把投放，变成有效商机</span></div>
+    <div class="doc-type"><code>--fs-28 / 800 指标</code><span style="font-size:var(--fs-28);font-weight:800">1,307.04</span></div>
+    <div class="doc-type"><code>--fs-22 / 700</code><span style="font-size:var(--fs-22);font-weight:700">把这封开发信提交审核？</span></div>
+    <div class="doc-type"><code>--fs-18 / 700 区块标题</code><span style="font-size:var(--fs-18);font-weight:700">今日推进</span></div>
+    <div class="doc-type"><code>--fs-16 / 600 卡片标题</code><span style="font-size:var(--fs-16);font-weight:600">审核客户企业证据</span></div>
+    <div class="doc-type"><code>--fs-14 / 400 正文</code><span>Apex Components 是一家位于美国的电子元器件分销商，主要面向工业自动化市场。</span></div>
+    <div class="doc-type"><code>--fs-13 / 400 次要</code><span style="font-size:var(--fs-13);color:var(--text-2)">来源：公司官网 · 观察于 2026-10-14</span></div>
+    <div class="doc-type"><code>--fs-12 / 400 说明</code><span style="font-size:var(--fs-12);color:var(--text-3)">本次任务预计消耗 10 积分</span></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="radius">
+  <h2 class="doc-h2">圆角与间距</h2>
+  <p class="doc-lead">比原稿更圆润：越大的容器圆角越大。嵌套时内层圆角 = 外层圆角 − 内边距，避免“外圆内方”。间距以 4px 为基准。</p>
+  <div class="doc-demo"><div class="doc-demo__stage" data-nocode style="gap:var(--sp-10);align-items:flex-start">
+    <div class="doc-shapes">
+      <div class="doc-shape"><i style="border-radius:var(--r-xs)"></i><code>--r-xs 4</code>复选框</div>
+      <div class="doc-shape"><i style="border-radius:var(--r-sm)"></i><code>--r-sm 6</code>标签、小按钮</div>
+      <div class="doc-shape"><i style="border-radius:var(--r-md)"></i><code>--r-md 10</code>按钮、输入框</div>
+      <div class="doc-shape"><i style="border-radius:var(--r-lg)"></i><code>--r-lg 14</code>卡片、表格</div>
+      <div class="doc-shape"><i style="border-radius:var(--r-xl)"></i><code>--r-xl 20</code>弹窗、助手</div>
+      <div class="doc-shape"><i style="border-radius:var(--r-full);width:96px"></i><code>--r-full</code>胶囊、头像</div>
+    </div>
+    <div style="flex:1;min-width:260px;display:flex;flex-direction:column;gap:6px">
+      <div class="doc-space"><code>--sp-1 4</code><i style="width:4px"></i>图标与文字</div>
+      <div class="doc-space"><code>--sp-2 8</code><i style="width:8px"></i>按钮组、标签组</div>
+      <div class="doc-space"><code>--sp-3 12</code><i style="width:12px"></i>表单内元素</div>
+      <div class="doc-space"><code>--sp-4 16</code><i style="width:16px"></i>卡片之间</div>
+      <div class="doc-space"><code>--sp-5 20</code><i style="width:20px"></i>卡片内边距</div>
+      <div class="doc-space"><code>--sp-6 24</code><i style="width:24px"></i>区块之间</div>
+      <div class="doc-space"><code>--sp-8 32</code><i style="width:32px"></i>页面内边距</div>
+      <div class="doc-space"><code>--sp-12 48</code><i style="width:48px"></i>大区块分隔</div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="elevation">
+  <h2 class="doc-h2">阴影与层级</h2>
+  <p class="doc-lead">卡片默认靠描边分隔，不加阴影。阴影只给“浮起来”的东西：下拉、弹窗、通知、浮动助手。主按钮悬停时有一道朱橙投影。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--bg" data-nocode style="gap:var(--sp-6);padding:var(--sp-8)">
+    <div class="doc-shape"><i style="border-radius:var(--r-lg);border-color:var(--line);box-shadow:var(--shadow-xs)"></i><code>shadow-xs</code>分段控件选中</div>
+    <div class="doc-shape"><i style="border-radius:var(--r-lg);border-color:var(--line);box-shadow:var(--shadow-sm)"></i><code>shadow-sm</code>卡片悬停</div>
+    <div class="doc-shape"><i style="border-radius:var(--r-lg);border-color:var(--line);box-shadow:var(--shadow-md)"></i><code>shadow-md</code>下拉、通知</div>
+    <div class="doc-shape"><i style="border-radius:var(--r-lg);border-color:var(--line);box-shadow:var(--shadow-lg)"></i><code>shadow-lg</code>弹窗、抽屉</div>
+    <div class="doc-shape"><i style="border-radius:var(--r-md);border:0;background:var(--brand);box-shadow:var(--shadow-brand)"></i><code>shadow-brand</code>主按钮悬停</div>
+  </div></div>
+  <p class="doc-note">层级：吸顶 100 · 下拉 200 · 抽屉 300 · 弹窗 400 · 通知 500。不要使用这五个之外的 z-index。</p>
+</section>
+
+<section class="doc-sec" id="icons">
+  <h2 class="doc-h2">图标</h2>
+  <p class="doc-lead">24px 网格、1.75 线宽、圆角端点，颜色跟随文字（currentColor）。默认显示 16px，导航 20px。AI 统一使用 ✦（sparkle），不要用机器人、大脑等图形。点击图标复制引用代码。</p>
+  <div class="doc-demo"><div class="doc-demo__stage" data-nocode><div class="doc-icons" id="icon-grid"></div></div></div>
+</section>
+
+<section class="doc-sec" id="motion">
+  <h2 class="doc-h2">动效</h2>
+  <p class="doc-lead">动效只用来说明“发生了什么”：出现、消失、状态切换。统一缓动 <code>--ease</code>，悬停 120ms，展开 200ms，抽屉 320ms。系统开启“减少动态效果”时全部关闭。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th>令牌</th><th>时长</th><th>用于</th></tr></thead>
+    <tbody><tr><td><code>--dur-fast</code></td><td>120ms</td><td>悬停、按下、颜色变化</td></tr><tr><td><code>--dur</code></td><td>200ms</td><td>弹窗出现、开关、下拉、通知</td></tr><tr><td><code>--dur-slow</code></td><td>320ms</td><td>抽屉滑入、进度条变化</td></tr></tbody>
+  </table></div>
+</section>
+
+<!-- ============ 通用组件 ============ -->
+<section class="doc-sec" id="button">
+  <p class="doc-kicker">通用组件</p>
+  <h2 class="doc-h2">按钮</h2>
+  <p class="doc-lead">一屏只有一个朱橙主按钮。“AI 动作”按钮用于让 AI 去做一件事（起草、总结、翻译），必须带 ✦。危险按钮只出现在确认弹窗里。</p>
+  <div class="doc-demo"><div class="doc-demo__stage">
+    <button class="sw-btn sw-btn--primary">提交报价审核</button>
+    <button class="sw-btn sw-btn--dark">处理首要任务<i data-i="arrow-right"></i></button>
+    <button class="sw-btn sw-btn--secondary">预览</button>
+    <button class="sw-btn sw-btn--soft">补查更多信息</button>
+    <button class="sw-btn sw-btn--ghost">取消</button>
+    <button class="sw-btn sw-btn--ai"><i data-i="sparkle"></i>让 AI 起草</button>
+    <button class="sw-btn sw-btn--danger"><i data-i="trash"></i>确认排除</button>
+    <button class="sw-btn sw-btn--danger-ghost">排除该企业</button>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage">
+    <p class="doc-label">尺寸：sm 32 · md 40 · lg 48；胶囊与图标按钮</p>
+    <button class="sw-btn sw-btn--primary sw-btn--sm"><i data-i="plus"></i>新建商机</button>
+    <button class="sw-btn sw-btn--primary">新建找客任务</button>
+    <button class="sw-btn sw-btn--primary sw-btn--lg">处理首要任务<i data-i="arrow-right"></i></button>
+    <button class="sw-btn sw-btn--secondary sw-btn--pill"><i data-i="filter"></i>筛选</button>
+    <button class="sw-btn sw-btn--primary sw-btn--pill"><i data-i="plus"></i>新建计划</button>
+    <button class="sw-btn sw-btn--secondary sw-btn--icon" aria-label="刷新"><i data-i="refresh"></i></button>
+    <button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多"><i data-i="more"></i></button>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage">
+    <p class="doc-label">状态与组合</p>
+    <button class="sw-btn sw-btn--primary" aria-busy="true"><span class="sw-spinner"></span>保存中…</button>
+    <button class="sw-btn sw-btn--ai" aria-busy="true"><span class="sw-spinner"></span>AI 起草中…</button>
+    <button class="sw-btn sw-btn--primary" disabled>发送准备</button>
+    <div class="sw-btn-group"><button class="sw-btn sw-btn--primary">保存回复草稿</button><button class="sw-btn sw-btn--primary" aria-label="更多保存方式"><i data-i="chevron-down"></i></button></div>
+    <div class="sw-btn-group"><button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="chevron-left"></i>上一条</button><button class="sw-btn sw-btn--secondary sw-btn--sm">下一条<i data-i="chevron-right"></i></button></div>
+  </div></div>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table sw-table--compact">
+    <thead><tr><th>类名</th><th>何时用</th></tr></thead>
+    <tbody>
+      <tr><td><code>sw-btn--primary</code></td><td>页面或弹窗里最重要的一个动作；一屏最多一个</td></tr>
+      <tr><td><code>sw-btn--dark</code></td><td>与主按钮同屏但同样重要的入口，如首页“处理首要任务”</td></tr>
+      <tr><td><code>sw-btn--secondary</code></td><td>次要动作：预览、导出、返回修改</td></tr>
+      <tr><td><code>sw-btn--soft</code></td><td>卡片内的推荐动作，比次要按钮更醒目</td></tr>
+      <tr><td><code>sw-btn--ai</code></td><td>触发 AI 去做事，必须带 ✦ 图标</td></tr>
+      <tr><td><code>sw-btn--danger</code></td><td>仅用于确认弹窗中的不可逆动作</td></tr>
+      <tr><td><code>aria-busy="true"</code></td><td>加载中：保留宽度，文字改为进行时“保存中…”</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="doc-sec" id="input">
+  <h2 class="doc-h2">输入框</h2>
+  <p class="doc-lead">标签在上，帮助文字在下。错误信息写清楚错在哪、怎么改。聚焦时显示朱橙描边和光晕。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-form-grid">
+      <div class="sw-field"><label class="sw-label" for="f-name">计划名称<span class="sw-req">*</span></label><input class="sw-input" id="f-name" value="北美市场-品牌词"><span class="sw-help">只在内部使用，客户看不到</span></div>
+      <div class="sw-field"><label class="sw-label" for="f-budget">日预算</label><div class="sw-input-group"><span class="sw-input-group__addon">USD $</span><input id="f-budget" value="50.00"><span class="sw-input-group__addon">/ 天</span></div><span class="sw-help">当前 $40，提交后需负责人审批</span></div>
+      <div class="sw-field"><label class="sw-label" for="f-mail">联系人邮箱</label><input class="sw-input" id="f-mail" value="alex.chen@apex" aria-invalid="true" aria-describedby="f-mail-err"><span class="sw-help sw-help--error" id="f-mail-err"><i data-i="alert" class="sw-ic--sm"></i>邮箱缺少域名后缀，例如 apex.com</span></div>
+      <div class="sw-field"><label class="sw-label" for="f-market">目标市场</label><select class="sw-select" id="f-market"><option>美国</option><option>巴西</option><option>印度</option></select></div>
+      <div class="sw-field"><label class="sw-label" for="f-dis">报价单号</label><input class="sw-input" id="f-dis" value="Q-20261015-01" disabled><span class="sw-help">系统生成，不可修改</span></div>
+      <div class="sw-field"><label class="sw-label" for="f-search">搜索</label><div class="sw-input-group sw-input-group--pill"><i data-i="search"></i><input id="f-search" placeholder="搜索客户、计划、素材…"><span class="sw-kbd">⌘K</span></div></div>
+      <div class="sw-field" style="grid-column:1/-1"><label class="sw-label" for="f-note">分析师备注</label><textarea class="sw-textarea" id="f-note" placeholder="结合以上证据，填写你的判断依据、疑点或需要进一步核实的内容…"></textarea><span class="sw-help" style="text-align:right">0 / 500</span></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="select">
+  <h2 class="doc-h2">选择控件</h2>
+  <p class="doc-lead">复选框用于多选和批量操作，单选用于互斥选项，开关用于立即生效的设置，分段控件用于切换同一数据的不同视图。</p>
+  <div class="doc-grid2">
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+      <label class="sw-check"><input type="checkbox" checked>已核目录 3 项</label>
+      <label class="sw-check"><input type="checkbox">待补参数 4 项</label>
+      <label class="sw-check"><input type="checkbox" disabled>已归档（不可选）</label>
+      <label class="sw-radio"><input type="radio" name="attr" checked>人工确认</label>
+      <label class="sw-radio"><input type="radio" name="attr">首次触达</label>
+      <label class="sw-radio"><input type="radio" name="attr">末次触达</label>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+      <div class="sw-switch-row"><div class="sw-switch-row__text"><b>报价发送前必须人工审核</b><span>适用于超声设备业务的报价单、报价邮件</span></div><button class="sw-switch" role="switch" aria-checked="true" aria-label="报价发送前必须人工审核"></button></div>
+      <div class="sw-switch-row"><div class="sw-switch-row__text"><b>人工接管</b><span>开启后 AI 不再生成回复建议</span></div><button class="sw-switch" role="switch" aria-checked="false" aria-label="人工接管"></button></div>
+      <div class="sw-segmented" role="group" aria-label="归因维度"><button aria-pressed="true">按订单</button><button aria-pressed="false">按询盘批次</button></div>
+      <div class="sw-segmented sw-segmented--brand" role="group" aria-label="时间范围"><button aria-pressed="false">7 天</button><button aria-pressed="true">本月</button><button aria-pressed="false">本季度</button></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="tag">
+  <h2 class="doc-h2">标签与状态</h2>
+  <p class="doc-lead">状态按四个维度分开，每个维度的颜色和图形固定，不能混用。颜色必须配文字或图标出现，不能只靠颜色。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <table class="sw-table sw-table--compact" style="border:0">
+      <tbody>
+        <tr><td style="width:130px"><b>数据连接</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--neutral"><i data-i="x"></i>未连接</span><span class="sw-tag sw-tag--warning"><i data-i="upload"></i>待导入</span><span class="sw-tag sw-tag--success"><i data-i="check"></i>已同步</span><span class="sw-tag sw-tag--danger"><i data-i="alert"></i>同步失败</span></div></td></tr>
+        <tr><td><b>事实可信度</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--outline">未核</span><span class="sw-tag sw-tag--warning">待核</span><span class="sw-tag sw-tag--success"><i data-i="check"></i>已核</span><span class="sw-tag sw-tag--danger"><i data-i="alert"></i>冲突</span></div></td></tr>
+        <tr><td><b>审核流程</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--neutral">草稿</span><span class="sw-tag sw-tag--warning"><i data-i="clock"></i>待审核</span><span class="sw-tag sw-tag--success"><i data-i="check"></i>已批准</span><span class="sw-tag sw-tag--danger"><i data-i="undo"></i>已退回</span></div></td></tr>
+        <tr><td><b>对外执行</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--outline">未发送</span><span class="sw-tag sw-tag--success"><i data-i="send"></i>已发送</span><span class="sw-tag sw-tag--danger"><i data-i="x"></i>发送失败</span></div></td></tr>
+        <tr><td><b>AI 来源</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--ai"><i data-i="sparkle"></i>AI 生成</span><span class="sw-tag sw-tag--ai-soft"><i data-i="sparkle"></i>AI 生成 · 已人工修改</span></div></td></tr>
+        <tr><td><b>演示标记</b></td><td><div class="doc-row" style="gap:8px"><span class="sw-tag sw-tag--brand">示例数据</span><span class="doc-note" style="margin:0">只在演示环境出现，不属于产品状态</span></div></td></tr>
+      </tbody>
+    </table>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage">
+    <p class="doc-label">运行状态点、胶囊标签、可删除标签</p>
+    <span class="sw-status sw-status--live">投放中</span><span class="sw-status sw-status--warning">待审核</span><span class="sw-status">已暂停</span><span class="sw-status sw-status--danger">已拒登</span>
+    <span class="sw-tag sw-tag--neutral sw-tag--pill">美国</span><span class="sw-tag sw-tag--neutral sw-tag--pill">渠道商</span>
+    <span class="sw-tag sw-tag--neutral">industrial cleaner<button class="sw-tag__close" aria-label="移除关键词"><i data-i="x"></i></button></span>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="avatar">
+  <h2 class="doc-h2">头像与徽标</h2>
+  <p class="doc-lead">人用圆形头像，公司用圆角方形，AI 用带朱橙圆点的墨色方形（见 AI 标识）。计数徽标用朱橙，未读红点放在图标右上角。</p>
+  <div class="doc-demo"><div class="doc-demo__stage">
+    <span class="sw-avatar sw-avatar--sm">Z</span><span class="sw-avatar">Z</span><span class="sw-avatar sw-avatar--lg sw-avatar--soft">李</span><span class="sw-avatar sw-avatar--xl sw-avatar--brand">W</span>
+    <span class="sw-avatar sw-avatar--lg sw-avatar--company">A</span>
+    <span class="sw-avatar-group"><span class="sw-avatar">Z</span><span class="sw-avatar sw-avatar--soft">L</span><span class="sw-avatar sw-avatar--brand">W</span><span class="sw-avatar sw-avatar--soft">+2</span></span>
+    <span class="sw-count">2</span><span class="sw-count">12</span><span class="sw-count sw-count--neutral">4</span>
+    <span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知，有未读"><i data-i="bell" class="sw-ic--lg"></i></button></span>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="tabs">
+  <h2 class="doc-h2">标签页</h2>
+  <p class="doc-lead">页面内一级切换用下划线标签页（朱橙下划线）；卡片内或筛选型切换用胶囊标签页（墨黑底）。方向键可切换。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+    <div class="sw-tabs" role="tablist" aria-label="投流"><button class="sw-tab" role="tab" aria-selected="true">总览</button><button class="sw-tab" role="tab" aria-selected="false">预算</button><button class="sw-tab" role="tab" aria-selected="false">计划</button><button class="sw-tab" role="tab" aria-selected="false">素材</button><button class="sw-tab" role="tab" aria-selected="false">询盘<span class="sw-count">4</span></button><button class="sw-tab" role="tab" aria-selected="false">复盘</button></div>
+    <div class="sw-tabs sw-tabs--pill" role="tablist" aria-label="找客路径"><button class="sw-tab" role="tab" aria-selected="true">A 同行反查</button><button class="sw-tab" role="tab" aria-selected="false">B 种子扩展</button><button class="sw-tab" role="tab" aria-selected="false">C 画像搜客</button></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="nav">
+  <h2 class="doc-h2">导航</h2>
+  <p class="doc-lead">左侧导航 240px，选中项为浅橙底 + 朱橙文字 + 左侧圆角指示条。二级菜单用细竖线缩进。顶栏 64px：面包屑、全局搜索、通知、用户。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block">
+    <div style="display:grid;grid-template-columns:240px minmax(0,1fr);height:560px;background:var(--bg)">
+      <aside class="sw-sidebar">
+        <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+        <a class="sw-nav-item" href="#nav"><i data-i="home"></i>今日工作</a>
+        <a class="sw-nav-item" href="#nav"><i data-i="box"></i>产品资料</a>
+        <a class="sw-nav-item" href="#nav"><i data-i="doc"></i>内容</a>
+        <a class="sw-nav-item" href="#nav"><i data-i="users"></i>获客</a>
+        <a class="sw-nav-item" href="#nav" aria-current="page"><i data-i="chart"></i>销售<span class="sw-count">3</span></a>
+        <div class="sw-nav-sub"><a href="#nav" aria-current="page">询盘接待</a><a href="#nav">客户商机</a><a href="#nav">方案报价</a><a href="#nav">订单回款</a></div>
+        <a class="sw-nav-item" href="#nav"><i data-i="megaphone"></i>投流</a>
+        <a class="sw-nav-item" href="#nav"><i data-i="pie"></i>经营</a>
+        <div class="sw-sidebar__foot"><span class="sw-avatar">Z</span><div><b>张三</b><small>ShiWork 科技有限公司</small></div></div>
+      </aside>
+      <div>
+        <div class="sw-topbar">
+          <nav class="sw-breadcrumb" aria-label="面包屑"><a href="#nav">销售</a><span class="sep">/</span><span aria-current="page">询盘接待</span></nav>
+          <div class="sw-topbar__right">
+            <div class="sw-input-group sw-input-group--pill" style="width:280px;height:38px"><i data-i="search"></i><input placeholder="搜索客户、询盘、产品…" aria-label="全局搜索"><span class="sw-kbd">⌘K</span></div>
+            <span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知"><i data-i="bell" class="sw-ic--lg"></i></button></span>
+            <span class="sw-avatar">Z</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="pagehead">
+  <h2 class="doc-h2">页面标题</h2>
+  <p class="doc-lead">一级页面用 32px 特粗标题，句末自动加朱橙圆点（<code>sw-page-title</code> 自带，不要手写句号）。标题写成一句话，说清这个页面帮用户做成什么。右侧最多放一个主按钮和一个次要控件。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <nav class="sw-breadcrumb" aria-label="面包屑" style="margin-bottom:var(--sp-3)"><a href="#pagehead">投流工作台</a><span class="sep">/</span><span aria-current="page">2026 年 10 月</span></nav>
+    <div class="sw-page-head">
+      <div class="sw-page-head__main"><h1 class="sw-page-title">把投放，变成有效商机</h1><p class="sw-page-sub">期间 2026-10-01 至 2026-10-15 · 数据截至 10 月 15 日 09:00</p></div>
+      <div class="sw-page-head__actions"><button class="sw-btn sw-btn--secondary"><i data-i="calendar"></i>10-01 ~ 10-15</button><button class="sw-btn sw-btn--primary"><i data-i="plus"></i>新建计划</button><span class="sw-tag sw-tag--brand">示例数据</span></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="stat">
+  <h2 class="doc-h2">数据指标</h2>
+  <p class="doc-lead">指标数字用特粗等宽数字。口径不同的指标之间用竖线分隔，不要用箭头连起来暗示漏斗。上升不一定是好事：花费上涨用中性色，只有明确好坏的指标才用绿 / 红。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-stat-row">
+      <div class="sw-stat"><span class="sw-stat__label">期间预算</span><span class="sw-stat__value">$4,309</span><span class="sw-stat__meta">本期投放预算</span></div>
+      <div class="sw-stat"><span class="sw-stat__label">媒体消耗</span><span class="sw-stat__value">$1,307</span><span class="sw-stat__meta"><span class="sw-trend sw-trend--flat"><i data-i="arrow-up-right" class="sw-ic--sm"></i>22%</span>较上期</span></div>
+      <div class="sw-stat"><span class="sw-stat__label">询盘</span><span class="sw-stat__value">9</span><span class="sw-stat__meta"><span class="sw-trend sw-trend--up"><i data-i="arrow-up-right" class="sw-ic--sm"></i>3</span>较上期</span></div>
+      <div class="sw-stat"><span class="sw-stat__label">合格需求 <i data-i="help" class="sw-ic--sm sw-muted"></i></span><span class="sw-stat__value">2</span><span class="sw-stat__meta">通过人工初筛</span></div>
+    </div>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="doc-grid3">
+      <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="doc"></i></span><div class="sw-stat"><span class="sw-stat__label">待处理</span><span class="sw-stat__value sw-stat__value--md">8<small>个任务</small></span></div></div>
+      <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="clock"></i></span><div class="sw-stat"><span class="sw-stat__label">待审核</span><span class="sw-stat__value sw-stat__value--md">3<small>个事项</small></span></div></div>
+      <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="users"></i></span><div class="sw-stat"><span class="sw-stat__label">今日跟进</span><span class="sw-stat__value sw-stat__value--md">5<small>个客户</small></span></div></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="progress">
+  <h2 class="doc-h2">进度与流程</h2>
+  <p class="doc-lead">进度条表达“用了多少”；步骤条表达“走到哪一步”，需要人工的步骤用警示色；里程碑表达交付计划，未完成的节点用虚线圈，不能画成已完成。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+    <div><div class="sw-progress" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" aria-label="预算使用"><div class="sw-progress__bar" style="width:30.3%"></div></div><div class="sw-progress-meta"><span>预算使用 30.3%</span><span>剩余预算 $3,002</span></div></div>
+    <div class="doc-row"><div class="sw-ring" style="--p:30"><span>30%</span></div><div class="sw-ring" style="--p:72"><span>72%</span></div><div style="flex:1;min-width:200px"><div class="sw-progress sw-progress--sm sw-progress--ink"><div class="sw-progress__bar" style="width:55%"></div></div><div class="sw-progress-meta"><span>去重 21 / 38</span><span>约 2 分钟</span></div></div></div>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <ol class="sw-steps">
+      <li class="sw-step is-done"><span class="sw-step__dot"><i data-i="check" class="sw-ic--sm"></i></span><span class="sw-step__title">输入供方</span><span class="sw-step__desc">已知的同行或供应商</span></li>
+      <li class="sw-step is-done"><span class="sw-step__dot"><i data-i="check" class="sw-ic--sm"></i></span><span class="sw-step__title">找历史买家</span><span class="sw-step__desc">基于贸易数据</span></li>
+      <li class="sw-step is-current"><span class="sw-step__dot">3</span><span class="sw-step__title">去重</span><span class="sw-step__desc">合并重复企业</span></li>
+      <li class="sw-step is-human"><span class="sw-step__dot"><i data-i="user" class="sw-ic--sm"></i></span><span class="sw-step__title">企业审核</span><span class="sw-step__desc">需要人工审核</span></li>
+    </ol>
+  </div></div>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <ol class="sw-milestones">
+      <li class="sw-milestone is-done"><span class="sw-milestone__dot"></span><b>订单确认</b><span>10/08 已完成</span></li>
+      <li class="sw-milestone is-done"><span class="sw-milestone__dot"></span><b>生产准备</b><span>10/12 已完成</span></li>
+      <li class="sw-milestone is-alert"><span class="sw-milestone__dot"></span><b>出厂检验</b><span>计划 10/20 · 资料待补齐</span></li>
+      <li class="sw-milestone"><span class="sw-milestone__dot"></span><b>发货</b><span>计划 10/23</span></li>
+      <li class="sw-milestone"><span class="sw-milestone__dot"></span><b>签收</b><span>待定</span></li>
+    </ol>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="table">
+  <h2 class="doc-h2">表格</h2>
+  <p class="doc-lead">表头浅灰小字，行高 48px（紧凑模式 40px）。金额和数量右对齐。选中行用浅橙底 + 左侧朱橙细条，不整行变色。合计行放在表尾，加浅灰底。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block">
+    <div class="sw-table-wrap" style="border:0;border-radius:0"><table class="sw-table">
+      <thead><tr><th style="width:40px"><label class="sw-check"><input type="checkbox" aria-label="全选"></label></th><th>渠道</th><th>计划名称</th><th><span class="sw-th-sort">投放周期<i data-i="chevron-down" class="sw-ic--sm"></i></span></th><th class="is-num">媒体消耗 (USD)</th><th class="is-num">询盘</th><th>状态</th><th></th></tr></thead>
+      <tbody>
+        <tr aria-selected="true"><td><label class="sw-check"><input type="checkbox" checked aria-label="选择"></label></td><td>Alibaba</td><td><b>工业零部件 Q4</b><small>机械配件 · 全球</small></td><td>10/01 – 10/15<small>剩余 0 天</small></td><td class="is-num"><b>$389.00</b><small>预算 $1,000</small></td><td class="is-num">3</td><td><span class="sw-status sw-status--live">投放中</span></td><td><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多操作"><i data-i="more"></i></button></td></tr>
+        <tr><td><label class="sw-check"><input type="checkbox" aria-label="选择"></label></td><td>Google</td><td><b>北美市场-品牌词</b><small>工业设备 · 美国</small></td><td>10/01 – 10/15<small>剩余 0 天</small></td><td class="is-num"><b>$303.42</b><small>预算 $1,000</small></td><td class="is-num">2</td><td><span class="sw-status sw-status--live">投放中</span></td><td><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多操作"><i data-i="more"></i></button></td></tr>
+        <tr><td><label class="sw-check"><input type="checkbox" aria-label="选择"></label></td><td>Alibaba</td><td><b>热销产品-橱窗投放</b><small>金属加工 · 全球</small></td><td>10/01 – 10/15<small>剩余 0 天</small></td><td class="is-num"><b>$357.88</b><small>预算 $1,000</small></td><td class="is-num">2</td><td><span class="sw-status sw-status--warning">待审核</span></td><td><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多操作"><i data-i="more"></i></button></td></tr>
+        <tr><td><label class="sw-check"><input type="checkbox" aria-label="选择"></label></td><td>Google</td><td><b>东南亚市场-搜索</b><small>工业设备 · 东南亚</small></td><td>10/01 – 10/15<small>剩余 0 天</small></td><td class="is-num"><b>$256.74</b><small>预算 $1,309</small></td><td class="is-num">2</td><td><span class="sw-status">已暂停</span></td><td><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多操作"><i data-i="more"></i></button></td></tr>
+      </tbody>
+      <tfoot><tr><td></td><td colspan="3">合计 4 个计划</td><td class="is-num">$1,307.04</td><td class="is-num">9</td><td colspan="2"></td></tr></tfoot>
+    </table></div>
+    <div style="display:flex;padding:var(--sp-3) var(--sp-4);border-top:1px solid var(--line)"><div class="sw-pagination" style="width:100%"><span class="sw-muted">共 4 条，已选 1 条</span><button disabled aria-label="上一页"><i data-i="chevron-left"></i></button><button aria-current="page">1</button><button>2</button><button>3</button><button aria-label="下一页"><i data-i="chevron-right"></i></button></div></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="list">
+  <h2 class="doc-h2">列表</h2>
+  <p class="doc-lead">任务行：勾选框、对象与关联方、负责人、时间、状态、更多操作。今天到期的时间用朱橙文字；选中项整行浅橙底。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-list">
+      <div class="sw-list-item is-active"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>审核客户企业证据</b><span>Apex Components · 客户资质审核</span></div><span class="sw-vsep"></span><span class="sw-list-item__meta"><span class="sw-avatar sw-avatar--sm">Z</span>张三</span><span class="sw-vsep"></span><span class="sw-list-item__time is-urgent">今天 11:00</span><span class="sw-tag sw-tag--warning">待审核</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多"><i data-i="more"></i></button></div>
+      <div class="sw-list-item"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>补齐产品交付资料</b><span>台式超声波清洗设备 · 交付资料</span></div><span class="sw-vsep"></span><span class="sw-list-item__meta"><span class="sw-avatar sw-avatar--sm sw-avatar--soft">L</span>李四</span><span class="sw-vsep"></span><span class="sw-list-item__time">今天 15:00</span><span class="sw-tag sw-tag--neutral">草稿</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多"><i data-i="more"></i></button></div>
+      <div class="sw-list-item"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>跟进已报价商机</b><span>BrightParts Ltd · 商机跟进</span></div><span class="sw-vsep"></span><span class="sw-list-item__meta"><span class="sw-avatar sw-avatar--sm sw-avatar--brand">W</span>王五</span><span class="sw-vsep"></span><span class="sw-list-item__time">今天 18:00</span><span class="sw-tag sw-tag--success"><i data-i="check"></i>已批准</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="更多"><i data-i="more"></i></button></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="kanban">
+  <h2 class="doc-h2">看板</h2>
+  <p class="doc-lead">每列浅灰底、圆角 14px，卡片白底、圆角 10px。早期阶段金额写“未确认”，不要填估算值。选中卡片用朱橙描边和光晕。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-kanban">
+      <div class="sw-kanban__col"><div class="sw-kanban__head">需求澄清<span class="sw-count sw-count--neutral">2</span></div>
+        <div class="sw-kanban__card is-active"><b>Apex · 零件除油</b><p>需求待补 2 项 · 下一步安排试洗</p><footer><span>金额未确认</span><span class="sw-avatar sw-avatar--sm">Z</span></footer></div>
+        <div class="sw-kanban__card"><b>BrightParts · 油污金属件</b><p>等待客户提供工件尺寸</p><footer><span>金额未确认</span><span class="sw-avatar sw-avatar--sm sw-avatar--soft">L</span></footer></div></div>
+      <div class="sw-kanban__col"><div class="sw-kanban__head">方案评估<span class="sw-count sw-count--neutral">1</span></div>
+        <div class="sw-kanban__card"><b>MetalWorks · 多槽设备</b><p>技术方案评审 10/15 14:00</p><footer><span>约 $20,000</span><span class="sw-avatar sw-avatar--sm sw-avatar--brand">W</span></footer></div></div>
+      <div class="sw-kanban__col"><div class="sw-kanban__head">报价协商<span class="sw-count sw-count--neutral">1</span></div>
+        <div class="sw-kanban__card"><b>Northstar · 台式设备</b><p>报价 V03 待商务审核</p><footer><span class="sw-num">$8,200</span><span class="sw-avatar sw-avatar--sm">Z</span></footer></div></div>
+      <div class="sw-kanban__col"><div class="sw-kanban__head">待确认订单<span class="sw-count sw-count--neutral">0</span></div>
+        <div class="sw-empty" style="padding:var(--sp-6) var(--sp-2)"><p style="margin:0">把商机拖到这里</p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="timeline">
+  <h2 class="doc-h2">时间线</h2>
+  <p class="doc-lead">用于审核动态和操作记录。每条写清楚谁、做了什么、对象是什么。AI 的动作用墨色 ✦ 图标，和人的动作区分。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:560px">
+    <ol class="sw-timeline">
+      <li><span class="sw-timeline__icon sw-timeline__icon--ai"><i data-i="sparkle" class="sw-ic--sm"></i></span><div><b>AI 创建报价草稿</b><p>依据产品资料 V03 生成「美国客户 – 便携超声设备」报价单</p></div><time>10/15 14:28</time></li>
+      <li><span class="sw-timeline__icon sw-timeline__icon--brand"><i data-i="undo" class="sw-ic--sm"></i></span><div><b>王五 退回审核</b><p>原因：请补充技术参数说明</p></div><time>10/15 11:06</time></li>
+      <li><span class="sw-timeline__icon"><i data-i="user" class="sw-ic--sm"></i></span><div><b>张三 人工接管</b><p>接管了该报价单的审核流程</p></div><time>10/15 09:42</time></li>
+    </ol>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="alert">
+  <h2 class="doc-h2">提示条</h2>
+  <p class="doc-lead">页面内的持续提示。说明问题并给出下一步入口。信息类用灰色，不要所有提示都用警示色。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+    <div class="sw-alert sw-alert--info"><i data-i="info"></i><div class="sw-alert__body"><b>渠道尚未连接</b>请先在设置中连接邮箱、WhatsApp 等渠道，以便自动同步新的客户咨询。</div><a class="sw-link sw-alert__action" href="#alert">前往设置<i data-i="arrow-right" class="sw-ic--sm"></i></a></div>
+    <div class="sw-alert sw-alert--warning"><i data-i="alert"></i><div class="sw-alert__body"><b>成本数据未齐</b>部分渠道的成本未同步，本期不计算净利润。</div></div>
+    <div class="sw-alert sw-alert--danger"><i data-i="x"></i><div class="sw-alert__body"><b>导入失败：2 处错误待修正</b>第 3 列缺少币种（currency）；第 12 行计划 ID 无法匹配。</div><button class="sw-btn sw-btn--secondary sw-btn--sm sw-alert__action">查看修复清单</button></div>
+    <div class="sw-alert sw-alert--success"><i data-i="check"></i><div class="sw-alert__body"><b>企业审核已通过</b>可以开始为 Apex Components 准备联系人。</div></div>
+    <div class="sw-alert sw-alert--brand"><i data-i="sparkle"></i><div class="sw-alert__body">通过企业审核后再准备找人：确保企业真实、业务匹配，再进入联系人挖掘环节。</div></div>
+    <div class="sw-banner"><i data-i="eye"></i>当前为演示环境，页面中的公司、金额均为示例数据。<a class="sw-link" href="#alert">了解更多</a></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="empty">
+  <h2 class="doc-h2">空状态与加载</h2>
+  <p class="doc-lead">空状态说清“为什么空”和“下一步做什么”，图标框右下角同样有朱橙圆点。加载超过 300ms 显示骨架屏，骨架形状与真实内容一致。</p>
+  <div class="doc-grid2">
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-empty"><span class="sw-empty__icon"><i data-i="inbox"></i></span><h4>还没有询盘</h4><p>连接邮箱或导入 WhatsApp 记录后，新的客户咨询会出现在这里。</p><button class="sw-btn sw-btn--primary sw-btn--sm"><i data-i="link"></i>连接渠道</button></div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col" aria-busy="true" aria-label="加载中">
+      <div style="display:flex;gap:12px;align-items:center"><span class="sw-skeleton sw-skeleton--circle" style="width:40px;height:40px"></span><div style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sw-skeleton sw-skeleton--title"></span><span class="sw-skeleton sw-skeleton--text" style="width:70%"></span></div></div>
+      <span class="sw-skeleton sw-skeleton--text"></span><span class="sw-skeleton sw-skeleton--text" style="width:92%"></span><span class="sw-skeleton sw-skeleton--text" style="width:60%"></span>
+      <span class="sw-skeleton" style="height:120px;border-radius:var(--r-lg)"></span>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="overlay">
+  <h2 class="doc-h2">气泡与菜单</h2>
+  <p class="doc-lead">气泡提示只放一句解释，墨黑底；弹出层可以放标题和段落；下拉菜单项高 36px，危险项放最后并用分隔线隔开。</p>
+  <div class="doc-demo"><div class="doc-demo__stage" style="align-items:flex-start;gap:var(--sp-8);min-height:280px">
+    <div style="padding:48px 0 0 96px"><span class="sw-tooltip is-open"><button class="sw-btn sw-btn--secondary sw-btn--sm">期间订单</button><span class="sw-tooltip__bubble" role="tooltip">按订单日统计，不是同期转化率</span></span></div>
+    <div class="sw-popover"><h5>合格需求怎么算？</h5><p>询盘经人工审核后，业务匹配为“相关”且具体需求已确认，才计为合格需求。</p><div style="margin-top:var(--sp-3)"><a class="sw-link" href="#overlay">查看口径说明<i data-i="arrow-right" class="sw-ic--sm"></i></a></div></div>
+    <div class="sw-dropdown"><button class="sw-btn sw-btn--secondary" data-sw-dropdown aria-haspopup="menu" aria-expanded="false">点我展开<i data-i="chevron-down"></i></button>
+      <div class="sw-menu" role="menu"><button class="sw-menu__item" role="menuitem"><i data-i="edit"></i>重命名</button><button class="sw-menu__item" role="menuitem"><i data-i="copy"></i>复制链接</button><div class="sw-menu__sep"></div><button class="sw-menu__item sw-menu__item--danger" role="menuitem"><i data-i="trash"></i>删除</button></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px"><button class="sw-btn sw-btn--secondary" aria-haspopup="menu" aria-expanded="true">更多操作<i data-i="chevron-up"></i></button>
+      <div class="sw-menu" role="menu">
+        <div class="sw-menu__label">排序</div>
+        <button class="sw-menu__item" role="menuitemradio" aria-checked="true">最新优先</button>
+        <button class="sw-menu__item" role="menuitemradio" aria-checked="false">未读优先</button>
+        <div class="sw-menu__sep"></div>
+        <button class="sw-menu__item" role="menuitem"><i data-i="edit"></i>重命名<span class="sw-kbd">R</span></button>
+        <button class="sw-menu__item" role="menuitem"><i data-i="download"></i>导出结果</button>
+        <div class="sw-menu__sep"></div>
+        <button class="sw-menu__item sw-menu__item--danger" role="menuitem"><i data-i="trash"></i>删除任务</button>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="dialog">
+  <h2 class="doc-h2">对话框</h2>
+  <p class="doc-lead">圆角 20px。标题写成问题，按钮写成动作（“提交审核”而不是“确定”）。对外动作前必须列出检查项；不可逆操作要求填写原因。下面是静态展示，点按钮可打开真实弹窗。</p>
+  <div class="doc-grid2">
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--scrim">
+      <div class="sw-modal" role="dialog" aria-modal="true" aria-labelledby="m1-t">
+        <div class="sw-modal__head"><div style="flex:1"><h3 id="m1-t">把这封开发信提交审核？</h3><p>收件人 Alex Chen · 采购角色待确认</p></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭" data-sw-close><i data-i="x"></i></button></div>
+        <div class="sw-modal__body">
+          <span>审核通过后才会进入发送准备，不会直接发出。</span>
+          <ul class="sw-checklist"><li><i data-i="check" class="is-ok"></i>事实依据 2 条，均已核</li><li><i data-i="check" class="is-ok"></i>退订与停联规则已附加</li><li><i data-i="alert" class="is-todo"></i>联系邮箱尚未核实</li></ul>
+        </div>
+        <div class="sw-modal__foot"><span class="sw-muted">审核人：王五</span><button class="sw-btn sw-btn--secondary" data-sw-close>返回修改</button><button class="sw-btn sw-btn--primary" data-sw-close>提交审核</button></div>
+      </div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--scrim">
+      <div class="sw-modal sw-modal--sm" role="dialog" aria-modal="true" aria-labelledby="m2-t">
+        <div class="sw-modal__head"><span class="sw-modal__icon sw-modal__icon--danger"><i data-i="alert"></i></span><div style="flex:1"><h3 id="m2-t">排除 Apex Components？</h3><p>排除后不再进入找人和触达流程，可在“已排除”中恢复。</p></div></div>
+        <div class="sw-modal__body"><div class="sw-field"><label class="sw-label" for="m2-r">排除原因<span class="sw-req">*</span></label><select class="sw-select" id="m2-r"><option>主体关系无法核实</option><option>业务不匹配</option><option>重复企业</option></select></div></div>
+        <div class="sw-modal__foot"><button class="sw-btn sw-btn--secondary" data-sw-close>取消</button><button class="sw-btn sw-btn--danger" data-sw-close>确认排除</button></div>
+      </div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--scrim">
+      <div class="sw-modal sw-modal--sm sw-modal--center" role="dialog" aria-modal="true" aria-labelledby="m3-t">
+        <div class="sw-modal__head"><span class="sw-modal__icon sw-modal__icon--brand" style="width:56px;height:56px"><i data-i="check" class="sw-ic--lg"></i></span><div><h3 id="m3-t">数据导入完成</h3><p>已导入 128 行，跳过 2 行重复记录。</p></div></div>
+        <div class="sw-modal__foot"><button class="sw-btn sw-btn--secondary" data-sw-close>查看记录</button><button class="sw-btn sw-btn--primary" data-sw-close>完成</button></div>
+      </div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--scrim">
+      <div class="sw-modal" role="dialog" aria-modal="true" aria-labelledby="m4-t">
+        <div class="sw-modal__head"><span class="sw-modal__icon sw-modal__icon--ai"><i data-i="sparkle"></i></span><div style="flex:1"><h3 id="m4-t">新建内容简报</h3><p>AI 会根据产品资料起草初稿，提交前需要人工审核。</p></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭" data-sw-close><i data-i="x"></i></button></div>
+        <div class="sw-modal__body">
+          <div class="sw-field"><label class="sw-label" for="m4-a">主题</label><input class="sw-input" id="m4-a" value="工业零件清洗：选型前先确认这 3 件事"></div>
+          <div class="sw-form-grid"><div class="sw-field"><label class="sw-label" for="m4-b">语言</label><select class="sw-select" id="m4-b"><option>中文</option><option>English</option></select></div><div class="sw-field"><label class="sw-label" for="m4-c">渠道</label><select class="sw-select" id="m4-c"><option>官网产品页</option><option>LinkedIn 图文</option></select></div></div>
+        </div>
+        <div class="sw-modal__foot"><button class="sw-btn sw-btn--secondary" data-sw-close>取消</button><button class="sw-btn sw-btn--ai" data-sw-close><i data-i="sparkle"></i>生成初稿</button></div>
+      </div>
+    </div></div>
+  </div>
+  <div class="doc-row" style="margin-top:var(--sp-4)"><span class="sw-muted" style="font-size:var(--fs-13)">打开真实弹窗：</span><button class="sw-btn sw-btn--secondary sw-btn--sm" data-demo-open="0">发送前确认</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-demo-open="1">危险确认</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-demo-open="2">结果反馈</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-demo-open="3">表单弹窗</button></div>
+</section>
+
+<section class="doc-sec" id="drawer">
+  <h2 class="doc-h2">抽屉</h2>
+  <p class="doc-lead">从右侧滑入，宽 440px，左侧圆角 20px。用于查看详情、编辑单条记录，不打断当前列表。</p>
+  <div class="doc-demo"><div class="doc-demo__stage" data-nocode><button class="sw-btn sw-btn--secondary" data-sw-open="demo-drawer"><i data-i="eye"></i>打开“北美计划预算 V02”抽屉</button></div></div>
+</section>
+
+<section class="doc-sec" id="toast">
+  <h2 class="doc-h2">通知</h2>
+  <p class="doc-lead">右下角弹出，成功和 AI 完成类 4 秒后自动消失；失败类不自动消失，必须给修复入口。调用方式：<code>SW.toast({ type, title, desc, action })</code>。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col" style="max-width:420px">
+    <div class="sw-toast" role="status"><span class="sw-toast__icon sw-toast__icon--success"><i data-i="check"></i></span><div><b>回复草稿已保存</b><span>BrightParts Ltd · 10:24</span></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭"><i data-i="x" class="sw-ic--sm"></i></button></div>
+    <div class="sw-toast" role="status"><span class="sw-toast__icon sw-toast__icon--ai"><i data-i="sparkle"></i></span><div><b>AI 已完成 4 家企业的背调摘要</b><span>其中 1 家有冲突证据，需要人工判断。</span><div class="sw-toast__actions"><a class="sw-link" href="#toast">查看</a></div></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭"><i data-i="x" class="sw-ic--sm"></i></button></div>
+    <div class="sw-toast" role="alert"><span class="sw-toast__icon sw-toast__icon--danger"><i data-i="x"></i></span><div><b>Google Ads 报表导入失败</b><span>第 3 列缺少币种（currency），已导入 0 行。</span><div class="sw-toast__actions"><a class="sw-link" href="#toast">查看修复清单</a></div></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭"><i data-i="x" class="sw-ic--sm"></i></button></div>
+  </div></div>
+  <div class="doc-row" style="margin-top:var(--sp-4)"><span class="sw-muted" style="font-size:var(--fs-13)">触发真实通知：</span><button class="sw-btn sw-btn--secondary sw-btn--sm" data-toast="success">成功</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-toast="ai">AI 完成</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-toast="warning">警示</button><button class="sw-btn sw-btn--secondary sw-btn--sm" data-toast="danger">失败</button></div>
+</section>
+
+<!-- ============ AI 组件 ============ -->
+<section class="doc-sec" id="ai-id">
+  <p class="doc-kicker">AI 组件</p>
+  <h2 class="doc-h2">AI 标识</h2>
+  <p class="doc-lead">AI 不引入新颜色：墨色方块 + 白色 ✦ + 右下角朱橙圆点，与 Logo 的句点呼应。所有 AI 产出必须能被一眼认出来：头像、“AI 生成”标签或浅灰底建议卡，三者至少有一个。</p>
+  <div class="doc-demo"><div class="doc-demo__stage" style="gap:var(--sp-6)">
+    <span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span>
+    <span class="sw-ai-avatar"><i data-i="sparkle"></i></span>
+    <span class="sw-ai-avatar sw-ai-avatar--lg"><i data-i="sparkle"></i></span>
+    <span class="sw-ai-avatar sw-ai-avatar--lg is-working" aria-label="AI 工作中"><i data-i="sparkle"></i></span>
+    <span class="sw-tag sw-tag--ai"><i data-i="sparkle"></i>AI 生成</span>
+    <span class="sw-tag sw-tag--ai-soft"><i data-i="sparkle"></i>AI 生成 · 已人工修改</span>
+    <button class="sw-launcher" aria-label="打开 ShiWork 助手"><i data-i="sparkle"></i></button>
+  </div></div>
+  <div class="doc-rules">
+    <div class="doc-rule doc-rule--do"><h4><i data-i="check"></i>推荐</h4><ul><li>AI 生成后被人改过，标签改为“AI 生成 · 已人工修改”。</li><li>AI 正在工作时，头像圆点呼吸闪烁（<code>is-working</code>）。</li></ul></div>
+    <div class="doc-rule doc-rule--dont"><h4><i data-i="x"></i>避免</h4><ul><li>使用紫蓝渐变、机器人、大脑图标表示 AI。</li><li>把 AI 内容和人写的内容混排，不加任何标识。</li></ul></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="ai-chat">
+  <h2 class="doc-h2">对话消息</h2>
+  <p class="doc-lead">三种消息：用户（墨黑气泡、右侧）、客户（白底描边、左侧，可附译文）、AI（无气泡、左侧头像）。AI 回答先展示检索了什么，正文里的事实带引用编号，没有已核来源的说法用警示底标出。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block doc-demo__stage--bg">
+    <div class="sw-chat">
+      <div class="sw-msg sw-msg--customer"><span class="sw-avatar sw-avatar--company">B</span><div><div class="sw-msg__bubble">Can this cleaner handle oily metal parts?<div class="sw-translation"><i data-i="translate" class="sw-ic--sm"></i>这款清洗设备能处理带油污的金属零件吗？</div></div><div class="sw-msg__time">BrightParts Ltd · 邮件 · 10:20</div></div></div>
+      <div class="sw-msg sw-msg--user"><span class="sw-avatar">Z</span><div class="sw-msg__bubble">帮我起草一个回复，先别承诺具体清洗效果。</div></div>
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar"><i data-i="sparkle"></i></span><div class="sw-msg__content">
+        <div class="sw-msg__name">ShiWork 助手<span class="sw-tag sw-tag--ai sw-tag--sm"><i data-i="sparkle"></i>AI 生成</span><small>10:21</small></div>
+        <div class="sw-trace"><button class="sw-trace__toggle" aria-expanded="true"><i data-i="check" class="sw-ic--sm"></i>已检索 3 个来源<i data-i="chevron-down" class="sw-ic--sm"></i></button>
+          <ul class="sw-trace__list"><li><i data-i="check" class="sw-ic--sm is-done"></i>产品资料 · 台式超声波清洗设备 V03</li><li><i data-i="check" class="sw-ic--sm is-done"></i>FAQ · 适用工件与污染物</li><li><i data-i="check" class="sw-ic--sm is-done"></i>历史询盘 · MetalWorks Inc（10 月 13 日）</li></ul></div>
+        <div class="sw-msg__text">
+          <p>建议先确认工件信息再给结论。产品资料写明设备适用于金属零件清洗<button class="sw-cite" aria-label="来源 1">1</button>，FAQ 将切削油、轻度油脂列为常见污染物<button class="sw-cite" aria-label="来源 2">2</button>。</p>
+          <p>但<span class="sw-claim" title="缺少已核实的数据">重油污的去除效果</span>目前没有已核数据，回复里不要承诺。</p>
+          <p class="sw-claim-note"><i data-i="alert" class="sw-ic--sm"></i>待技术确认：重油污清洗参数（产品资料第 4 项）</p>
+        </div>
+        <div class="sw-sources"><a class="sw-source" href="#ai-chat"><span class="sw-source__n">1</span>台式设备产品资料 V03</a><a class="sw-source" href="#ai-chat"><span class="sw-source__n">2</span>FAQ · 适用污染物</a></div>
+        <div class="sw-msg__actions">
+          <button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="plus" class="sw-ic--sm"></i>插入回复框</button>
+          <button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="复制"><i data-i="copy" class="sw-ic--sm"></i></button>
+          <button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="重新生成"><i data-i="refresh" class="sw-ic--sm"></i></button>
+          <span class="sw-feedback"><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="有帮助" aria-pressed="false"><i data-i="thumb-up" class="sw-ic--sm"></i></button><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="没帮助" aria-pressed="false"><i data-i="thumb-down" class="sw-ic--sm"></i></button></span>
+        </div>
+      </div></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-composer">
+  <h2 class="doc-h2">AI 输入框</h2>
+  <p class="doc-lead">圆角 20px，聚焦时描边变墨黑。上方显示当前上下文（可移除），下方是附件、模式、快捷键提示和圆形发送按钮。生成中发送按钮变成墨色“停止”。空对话时给出 3–4 个推荐指令。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col doc-demo__stage--bg">
+    <div class="sw-composer">
+      <div class="sw-composer__ctx"><span class="sw-chip"><i data-i="mail" class="sw-ic--sm"></i>BrightParts Ltd · 询盘<button aria-label="移除上下文"><i data-i="x" class="sw-ic--sm"></i></button></span><span class="sw-chip"><i data-i="box" class="sw-ic--sm"></i>台式设备产品资料<button aria-label="移除上下文"><i data-i="x" class="sw-ic--sm"></i></button></span></div>
+      <label class="sw-sr" for="cmp1">向助手提问</label>
+      <textarea id="cmp1" rows="2" placeholder="让助手起草、总结、翻译或核对事实…"></textarea>
+      <div class="sw-composer__bar">
+        <button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="添加附件"><i data-i="paperclip"></i></button>
+        <button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="引用资料"><i data-i="database"></i></button>
+        <button class="sw-composer__mode">回复草稿<i data-i="chevron-down" class="sw-ic--sm"></i></button>
+        <span class="sw-composer__hint">Enter 发送 · Shift + Enter 换行</span>
+        <button class="sw-composer__send" aria-label="发送"><i data-i="arrow-up"></i></button>
+      </div>
+    </div>
+    <div class="sw-composer">
+      <label class="sw-sr" for="cmp2">向助手提问</label>
+      <textarea id="cmp2" rows="1" placeholder="正在生成…" disabled></textarea>
+      <div class="sw-composer__bar"><span class="sw-thinking"><span class="sw-thinking__dots"><i></i><i></i><i></i></span>正在起草英文版本</span><button class="sw-composer__send sw-composer__send--stop" aria-label="停止生成" style="margin-left:auto"><i data-i="stop" class="sw-ic--sm"></i></button></div>
+    </div>
+    <div class="sw-prompt-chips"><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>起草首次回复</button><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>提取客户需求</button><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>翻译成英文</button><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>核对产品事实</button></div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-state">
+  <h2 class="doc-h2">生成状态</h2>
+  <p class="doc-lead">AI 的五种状态都要有对应界面：思考中（三点跳动，最后一点朱橙）、流式输出（朱橙光标）、完成、失败（说明原因并给重试）、欢迎（空对话）。</p>
+  <div class="doc-grid2">
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--col">
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar is-working"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-msg__name">ShiWork 助手</div><span class="sw-thinking"><span class="sw-thinking__dots"><i></i><i></i><i></i></span>正在检索产品资料…</span></div></div>
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar is-working"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-msg__name">ShiWork 助手<small>正在生成</small></div><div class="sw-msg__text"><p>Thanks for your inquiry. To recommend the right model, could you share the size of your workpieces<span class="sw-caret"></span></p></div><button class="sw-btn sw-btn--ghost sw-btn--sm"><i data-i="stop" class="sw-ic--sm"></i>停止生成</button></div></div>
+      <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-alert sw-alert--danger"><i data-i="alert"></i><div class="sw-alert__body"><b>生成失败</b>产品资料库暂时无法访问，已保留你的问题。</div><button class="sw-btn sw-btn--secondary sw-btn--sm sw-alert__action"><i data-i="refresh" class="sw-ic--sm"></i>重试</button></div></div></div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-ai-welcome"><span class="sw-ai-avatar sw-ai-avatar--lg"><i data-i="sparkle"></i></span><h4>今天想先推进哪件事？</h4><p>我可以根据产品资料和客户记录起草回复、整理需求、核对事实。所有对外内容都会先交给你审核。</p>
+        <div class="sw-prompt-chips" style="justify-content:center"><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>总结今天的新询盘</button><button class="sw-prompt-chip"><i data-i="sparkle" class="sw-ic--sm"></i>哪些报价待审核？</button></div></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="ai-suggest">
+  <h2 class="doc-h2">建议卡</h2>
+  <p class="doc-lead">嵌在页面或表单里的 AI 内容一律用建议卡：标明“未发送”，给出“采纳 / 编辑后采纳 / 忽略”三个动作，底部写依据数量和风险说法数量。改写类建议用删除线 + 新增高亮展示差异。</p>
+  <div class="doc-grid2">
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-suggest">
+        <div class="sw-suggest__head"><i data-i="sparkle"></i>AI 建议回复<span class="sw-tag sw-tag--outline">未发送</span></div>
+        <div class="sw-suggest__body">Hi there,
+Thanks for your inquiry. To recommend the most suitable model, could you share:
+1. The size of your workpieces
+2. The type of contamination (e.g. cutting oil, grease)
+
+Best regards</div>
+        <div class="sw-suggest__foot"><button class="sw-btn sw-btn--primary sw-btn--sm">采纳到回复框</button><button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="edit" class="sw-ic--sm"></i>编辑后采纳</button><button class="sw-btn sw-btn--ghost sw-btn--sm">忽略</button><span class="sw-muted">依据 2 条 · 风险说法 0 条</span></div>
+      </div>
+    </div></div>
+    <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+      <div class="sw-suggest sw-suggest--inline">
+        <div class="sw-suggest__head"><i data-i="sparkle"></i>AI 改写建议<span class="sw-suggest__extra sw-segmented" role="group" aria-label="语气" style="padding:2px"><button aria-pressed="true" style="height:24px;padding:0 10px">更正式</button><button aria-pressed="false" style="height:24px;padding:0 10px">更简短</button></span></div>
+        <div class="sw-suggest__body">Our industrial cleaner <span class="sw-diff-del">is designed to handle oily metal parts</span> <span class="sw-diff-add">is used for cleaning metal parts. To confirm it suits your application, could you share the workpiece size and oil type?</span></div>
+        <div class="sw-suggest__foot"><button class="sw-btn sw-btn--primary sw-btn--sm"><i data-i="check" class="sw-ic--sm"></i>接受修改</button><button class="sw-btn sw-btn--ghost sw-btn--sm">保留原文</button><span class="sw-muted">删去 1 处未核实的承诺</span></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section class="doc-sec" id="ai-evidence">
+  <h2 class="doc-h2">证据卡</h2>
+  <p class="doc-lead">固定字段：缩略图、标题、来源、观察时间、可信度状态、一句摘要。冲突证据要写出冲突点。历史数据必须注明“不代表当前需求”这类边界。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-card">
+      <div class="sw-card__head"><h3>证据资料</h3><span class="sw-count sw-count--neutral">3</span><button class="sw-btn sw-btn--ghost sw-btn--sm sw-card__extra"><i data-i="plus" class="sw-ic--sm"></i>补充资料</button></div>
+      <div class="sw-evidence"><div class="sw-evidence__thumb"><i data-i="globe"></i></div><div><h5>官网产品目录</h5><div class="sw-evidence__meta"><span>来源：公司官网</span><span>观察于 2026-10-14</span></div><p>官网展示连接器、传感器等产品目录，与我方产品类别有重合。</p></div><div class="sw-evidence__side"><span class="sw-tag sw-tag--success"><i data-i="check"></i>已核</span><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="打开来源"><i data-i="external" class="sw-ic--sm"></i></button></div></div>
+      <div class="sw-evidence"><div class="sw-evidence__thumb"><i data-i="table"></i></div><div><h5>历史贸易记录</h5><div class="sw-evidence__meta"><span>来源：ImportGenius</span><span>观察于 2026-10-14</span><span>记录截至 2025-08</span></div><p>近 12 个月有 12 条自中国采购记录。<b>冲突：</b>记录主体名与官网公司名不一致。历史记录不代表当前需求。</p></div><div class="sw-evidence__side"><span class="sw-tag sw-tag--danger"><i data-i="alert"></i>冲突</span><button class="sw-btn sw-btn--soft sw-btn--sm">去核实</button></div></div>
+      <div class="sw-evidence"><div class="sw-evidence__thumb"><i data-i="building"></i></div><div><h5>应用场景</h5><div class="sw-evidence__meta"><span>来源：公司官网</span><span>观察于 2026-10-14</span></div><p>官网展示在工业自动化设备中的应用案例。</p></div><div class="sw-evidence__side"><span class="sw-tag sw-tag--outline">未核</span></div></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-extract">
+  <h2 class="doc-h2">字段提取</h2>
+  <p class="doc-lead">AI 从对话、文件中提取的字段，每一项都带可信度标签。没提取到就写“待补充”，不要猜。不要输出“高意向”“90 分”这类没有依据的评分。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:440px">
+    <div class="sw-card">
+      <div class="sw-card__head"><i data-i="sparkle" style="color:var(--brand)"></i><h3>提取的客户需求</h3><span class="sw-tag sw-tag--ai sw-tag--sm sw-card__extra"><i data-i="sparkle"></i>AI 生成</span></div>
+      <div class="sw-card__body" style="padding-top:var(--sp-2);padding-bottom:var(--sp-2)">
+        <dl class="sw-extract">
+          <div class="sw-extract__row"><dt>污染物</dt><dd>油污（切削油）</dd><span class="sw-tag sw-tag--success sw-tag--sm"><i data-i="check"></i>原文</span></div>
+          <div class="sw-extract__row"><dt>工件材质</dt><dd>金属零件</dd><span class="sw-tag sw-tag--warning sw-tag--sm">推断</span></div>
+          <div class="sw-extract__row"><dt>工件尺寸</dt><dd class="is-empty">待补充</dd><button class="sw-btn sw-btn--ghost sw-btn--sm">追问</button></div>
+          <div class="sw-extract__row"><dt>预计数量</dt><dd class="is-empty">待补充</dd><button class="sw-btn sw-btn--ghost sw-btn--sm">追问</button></div>
+          <div class="sw-extract__row"><dt>采购时间</dt><dd class="is-empty">待补充</dd><button class="sw-btn sw-btn--ghost sw-btn--sm">追问</button></div>
+        </dl>
+      </div>
+      <div class="sw-card__foot"><span class="sw-muted" style="font-size:var(--fs-12)">来自 1 封邮件 · 10:20</span><button class="sw-btn sw-btn--soft sw-btn--sm" style="margin-left:auto"><i data-i="sparkle" class="sw-ic--sm"></i>生成追问邮件</button></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-decision">
+  <h2 class="doc-h2">人工决策</h2>
+  <p class="doc-lead">AI 走到需要人判断的节点时，用决策卡停下来：说明为什么需要人、AI 的倾向和依据，以及可选动作。决策卡用警示色头部，在列表里也能一眼找到。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:520px">
+    <div class="sw-decision">
+      <div class="sw-decision__head"><i data-i="user"></i>需要你决定 · 企业审核</div>
+      <div class="sw-decision__body">
+        <h4>Apex Components 是否通过企业审核？</h4>
+        <p>3 条证据中 2 条已核，1 条存在主体关系冲突。AI 倾向“补查后再决定”，因为冲突证据影响采购角色判断<button class="sw-cite" aria-label="来源 2">2</button>。</p>
+        <ul class="sw-checklist"><li><i data-i="check" class="is-ok"></i>企业真实存在（官网、注册信息）</li><li><i data-i="check" class="is-ok"></i>产品用途与我方匹配</li><li><i data-i="alert" class="is-todo"></i>贸易记录主体待核</li></ul>
+      </div>
+      <div class="sw-decision__foot"><button class="sw-btn sw-btn--primary sw-btn--sm">通过企业审核</button><button class="sw-btn sw-btn--soft sw-btn--sm"><i data-i="search" class="sw-ic--sm"></i>补查更多信息</button><button class="sw-btn sw-btn--danger-ghost sw-btn--sm">排除</button></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-run">
+  <h2 class="doc-h2">任务运行</h2>
+  <p class="doc-lead">长时间运行的 AI 任务必须显示：当前步骤、进度、已用额度、可暂停。等待人工的步骤用警示色并直接给出处理按钮；失败的步骤写明原因和重试入口。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block" style="max-width:640px">
+    <div class="sw-run">
+      <div class="sw-run__head"><span class="sw-ai-avatar is-working"><i data-i="sparkle"></i></span><h4>北美设备渠道商研究<small>找客任务 · A 同行反查 · 10:02 开始</small></h4><span class="sw-status sw-status--live">运行中</span></div>
+      <ol class="sw-run__steps">
+        <li class="sw-run__step is-done"><span class="sw-run__dot"><i data-i="check"></i></span><div><b>输入供方</b><span>种子公司 Northstar Cleaning · 市场：美国</span></div><time>10:02</time></li>
+        <li class="sw-run__step is-done"><span class="sw-run__dot"><i data-i="check"></i></span><div><b>查找历史买家</b><span>找到 38 家，记录截至 2025-08（历史记录，不代表当前需求）</span></div><time>10:06</time></li>
+        <li class="sw-run__step is-running"><span class="sw-run__dot"><span class="sw-spinner" style="width:10px;height:10px;border-width:1.5px"></span></span><div><b>去重与合并</b><span>正在比对 21 / 38</span><div class="sw-progress sw-progress--sm"><div class="sw-progress__bar" style="width:55%"></div></div></div><time>进行中</time></li>
+        <li class="sw-run__step is-human"><span class="sw-run__dot"><i data-i="user"></i></span><div><b>企业审核</b><span>需要人工逐家审核，通过后才会进入找联系人</span></div><span class="sw-tag sw-tag--warning sw-tag--sm">等待人工</span></li>
+      </ol>
+      <div class="sw-run__foot"><span class="sw-meter" style="--v:60%"><i></i>已用 6 / 预计 10 积分</span><button class="sw-btn sw-btn--secondary sw-btn--sm"><i data-i="pause" class="sw-ic--sm"></i>暂停任务</button><button class="sw-btn sw-btn--ghost sw-btn--sm">查看日志</button></div>
+    </div>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-copilot">
+  <h2 class="doc-h2">浮动助手</h2>
+  <p class="doc-lead">右下角圆形启动按钮（墨黑 + 朱橙圆点），点开为 380 × 540 的面板，圆角 20px。头部显示当前页面上下文，助手只读当前页面，改动需要用户在页面上确认。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--bg" style="justify-content:flex-end;align-items:flex-end;flex-direction:column;gap:var(--sp-4);padding:var(--sp-8)">
+    <div class="sw-copilot" id="demo-copilot">
+      <div class="sw-copilot__head"><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span><div><b>ShiWork 助手</b><small>当前页面：报价 Q-20261015-01 · V03</small></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="新对话"><i data-i="plus" class="sw-ic--sm"></i></button><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="收起助手" data-sw-toggle="demo-copilot"><i data-i="x" class="sw-ic--sm"></i></button></div>
+      <div class="sw-copilot__body">
+        <div class="sw-msg sw-msg--user"><div class="sw-msg__bubble">这份报价还缺什么才能提交审核？</div></div>
+        <div class="sw-msg sw-msg--ai"><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span><div class="sw-msg__content"><div class="sw-msg__text"><p>还缺 3 项才能提交：</p><ol><li>包装运输费用</li><li>交期（待技术确认）</li><li>贸易条款</li></ol><p>已确认部分小计 $8,200<button class="sw-cite" aria-label="来源 1">1</button>，最终总额待确认。</p></div>
+          <div class="sw-msg__actions"><button class="sw-btn sw-btn--soft sw-btn--sm">定位到缺失项</button></div></div></div>
+      </div>
+      <div class="sw-copilot__foot"><div class="sw-composer"><label class="sw-sr" for="cp1">问问这一页</label><textarea id="cp1" rows="1" placeholder="问问这一页的内容…"></textarea><div class="sw-composer__bar"><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="添加附件"><i data-i="paperclip" class="sw-ic--sm"></i></button><span class="sw-composer__hint">Enter 发送</span><button class="sw-composer__send" aria-label="发送"><i data-i="arrow-up"></i></button></div></div></div>
+    </div>
+    <button class="sw-launcher" aria-label="打开 ShiWork 助手" aria-expanded="true" data-sw-toggle="demo-copilot"><i data-i="sparkle"></i></button>
+  </div></div>
+</section>
+
+<section class="doc-sec" id="ai-select">
+  <h2 class="doc-h2">划词工具条</h2>
+  <p class="doc-lead">在编辑器里选中文字后出现在选区上方，墨黑底，第一个动作带朱橙 ✦。只做建议：点击后以建议卡形式给出结果，不直接替换原文。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--block">
+    <div class="sw-selbar" role="toolbar" aria-label="AI 划词操作" style="margin-left:40px;margin-bottom:12px"><button><i data-i="sparkle" class="sw-ic--sm"></i>改写</button><button>更正式</button><button>更简短</button><button><i data-i="translate" class="sw-ic--sm"></i>译为英文</button><span class="sw-selbar__sep"></span><button><i data-i="shield-check" class="sw-ic--sm"></i>核对事实</button></div>
+    <p style="margin:0;font-size:var(--fs-16);line-height:1.8;max-width:64ch">工业零件清洗：选型前先确认这 3 件事。<span class="sw-selected">第一，工件的尺寸和材质决定了清洗槽容量与超声频率的选择</span>；第二，污染物类型决定是否需要加热与专用清洗剂；第三，日处理量决定单槽还是多槽方案。</p>
+  </div></div>
+</section>
+
+<!-- ============ 页面示例 ============ -->
+<section class="doc-sec" id="page-today">
+  <p class="doc-kicker">页面示例</p>
+  <h2 class="doc-h2">今日工作</h2>
+  <p class="doc-lead">用本规范的组件拼出的首页。AI 准备好的工作和需要人决定的事项放在最前面。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
+    <aside class="sw-sidebar">
+      <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+      <a class="sw-nav-item" href="#page-today" aria-current="page"><i data-i="home"></i>今日工作</a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="box"></i>产品资料</a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="doc"></i>内容</a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="users"></i>获客</a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="chart"></i>销售<span class="sw-count">3</span></a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="megaphone"></i>投流</a>
+      <a class="sw-nav-item" href="#page-today"><i data-i="pie"></i>经营</a>
+      <a class="sw-nav-item" href="#page-today" style="margin-top:auto"><i data-i="settings"></i>设置</a>
+      <div class="sw-sidebar__foot"><span class="sw-avatar">Z</span><div><b>张三</b><small>ShiWork 科技有限公司</small></div></div>
+    </aside>
+    <div class="doc-app__main">
+      <div class="sw-topbar"><nav class="sw-breadcrumb" aria-label="面包屑"><span aria-current="page">今日工作</span></nav><div class="sw-topbar__right"><div class="sw-input-group sw-input-group--pill" style="width:280px;height:38px"><i data-i="search"></i><input placeholder="搜索客户、计划、素材…" aria-label="全局搜索"><span class="sw-kbd">⌘K</span></div><span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知"><i data-i="bell" class="sw-ic--lg"></i></button></span><span class="sw-avatar">Z</span></div></div>
+      <div class="doc-app__content">
+        <div class="sw-page-head"><div class="sw-page-head__main"><h1 class="sw-page-title">今天，把重要的事往前推</h1><p class="sw-page-sub">10 月 15 日 星期四</p></div><div class="sw-page-head__actions"><span class="sw-tag sw-tag--brand">示例数据</span><button class="sw-btn sw-btn--primary sw-btn--lg">处理首要任务<i data-i="arrow-right"></i></button></div></div>
+        <div class="sw-card" style="padding:var(--sp-6)"><div class="sw-stat-row">
+          <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="doc"></i></span><div class="sw-stat"><span class="sw-stat__label">待处理</span><span class="sw-stat__value sw-stat__value--md">8<small>个任务</small></span></div></div>
+          <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="clock"></i></span><div class="sw-stat"><span class="sw-stat__label">待审核</span><span class="sw-stat__value sw-stat__value--md">3<small>个事项</small></span></div></div>
+          <div class="sw-stat-card"><span class="sw-stat-card__icon"><i data-i="users"></i></span><div class="sw-stat"><span class="sw-stat__label">今日跟进</span><span class="sw-stat__value sw-stat__value--md">5<small>个客户</small></span></div></div>
+        </div></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:var(--sp-5);align-items:start">
+          <div class="sw-card">
+            <div class="sw-card__head"><h3>今日推进</h3><a class="sw-link" href="#page-today">查看全部任务<i data-i="arrow-right" class="sw-ic--sm"></i></a></div>
+            <div class="sw-list" style="padding:var(--sp-2)">
+              <div class="sw-list-item is-active"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>审核客户企业证据</b><span>Apex Components · 客户资质审核</span></div><span class="sw-list-item__meta"><span class="sw-avatar sw-avatar--sm">Z</span>张三</span><span class="sw-list-item__time is-urgent">今天 11:00</span><span class="sw-tag sw-tag--warning">待审核</span></div>
+              <div class="sw-list-item"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>补齐产品交付资料</b><span>台式超声波清洗设备 · 交付资料</span></div><span class="sw-list-item__meta"><span class="sw-avatar sw-avatar--sm sw-avatar--soft">L</span>李四</span><span class="sw-list-item__time">今天 15:00</span><span class="sw-tag sw-tag--neutral">草稿</span></div>
+              <div class="sw-list-item"><label class="sw-check"><input type="checkbox" aria-label="完成"></label><div class="sw-list-item__main"><b>回复 BrightParts 询盘</b><span>AI 已起草回复 · 依据 2 条</span></div><span class="sw-list-item__meta"><span class="sw-ai-avatar sw-ai-avatar--sm"><i data-i="sparkle"></i></span>AI 起草</span><span class="sw-list-item__time">今天 17:00</span><span class="sw-tag sw-tag--outline">未发送</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-4)">
+            <div class="sw-decision"><div class="sw-decision__head"><i data-i="user"></i>需要你决定</div><div class="sw-decision__body"><h4>北美计划日预算 $40 → $50</h4><p>近 7 天合格需求 2 条，样本仍偏少。</p></div><div class="sw-decision__foot"><button class="sw-btn sw-btn--primary sw-btn--sm">批准</button><button class="sw-btn sw-btn--secondary sw-btn--sm">退回</button></div></div>
+            <div class="sw-card"><div class="sw-card__head"><h3>我的日程</h3></div><div class="sw-card__body"><ol class="sw-timeline"><li><span class="sw-timeline__icon sw-timeline__icon--brand"><i data-i="calendar" class="sw-ic--sm"></i></span><div><b>技术方案评审</b><p>会议室 A</p></div><time>14:00</time></li><li style="padding-bottom:0"><span class="sw-timeline__icon"><i data-i="video" class="sw-ic--sm"></i></span><div><b>客户跟进</b><p>线上会议 · 与欧洲客户沟通报价细节</p></div><time>16:30</time></li></ol></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div></div></div>
+</section>
+
+<section class="doc-sec" id="page-inquiry">
+  <h2 class="doc-h2">询盘接待</h2>
+  <p class="doc-lead">三栏布局：会话列表、对话与 AI 建议、提取的需求。AI 建议始终“未发送”，右侧可一键人工接管。</p>
+  <div class="doc-demo"><div class="doc-demo__stage doc-demo__stage--flush doc-demo__stage--block" data-nocode><div class="doc-app-scroll"><div class="doc-app">
+    <aside class="sw-sidebar">
+      <div class="sw-sidebar__logo"><img src="assets/shiwork-logo-trim.png" alt="ShiWork"><small>外贸工作台</small></div>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="home"></i>今日工作</a>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="box"></i>产品资料</a>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="doc"></i>内容</a>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="users"></i>获客</a>
+      <a class="sw-nav-item" href="#page-inquiry" aria-current="page"><i data-i="chart"></i>销售</a>
+      <div class="sw-nav-sub"><a href="#page-inquiry" aria-current="page">询盘接待</a><a href="#page-inquiry">客户商机</a><a href="#page-inquiry">方案报价</a><a href="#page-inquiry">订单回款</a></div>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="megaphone"></i>投流</a>
+      <a class="sw-nav-item" href="#page-inquiry"><i data-i="pie"></i>经营</a>
+      <div class="sw-sidebar__foot"><span class="sw-avatar">Z</span><div><b>张三</b><small>ShiWork 科技有限公司</small></div></div>
+    </aside>
+    <div class="doc-app__main">
+      <div class="sw-topbar"><nav class="sw-breadcrumb" aria-label="面包屑"><a href="#page-inquiry">销售</a><span class="sep">/</span><span aria-current="page">询盘接待</span></nav><div class="sw-topbar__right"><span class="sw-dot-wrap"><button class="sw-btn sw-btn--ghost sw-btn--icon" aria-label="通知"><i data-i="bell" class="sw-ic--lg"></i></button></span><span class="sw-avatar">Z</span></div></div>
+      <div class="doc-app__content" style="gap:var(--sp-5)">
+        <div class="sw-page-head"><div class="sw-page-head__main"><h1 class="sw-page-title">把每一次咨询，接得更准确</h1></div><div class="sw-page-head__actions"><span class="sw-tag sw-tag--brand">示例数据</span></div></div>
+        <div style="display:grid;grid-template-columns:232px minmax(0,1fr) 232px;gap:var(--sp-4);align-items:start">
+          <div class="sw-card">
+            <div class="sw-card__head"><h3>全部会话</h3><span class="sw-count sw-count--neutral">3</span></div>
+            <div class="sw-list" style="padding:var(--sp-2)">
+              <div class="sw-list-item is-active" style="align-items:flex-start;gap:var(--sp-3)"><span class="sw-avatar sw-avatar--company">B</span><div class="sw-list-item__main"><b style="font-size:var(--fs-14)">BrightParts Ltd</b><span>Can this cleaner handle oily…</span><span style="margin-top:6px"><span class="sw-tag sw-tag--neutral sw-tag--sm"><i data-i="mail"></i>邮件</span></span></div><span class="sw-count">2</span></div>
+              <div class="sw-list-item" style="align-items:flex-start;gap:var(--sp-3)"><span class="sw-avatar sw-avatar--company">G</span><div class="sw-list-item__main"><b style="font-size:var(--fs-14)">GlobalTech Solutions</b><span>Do you have a distributor in…</span><span style="margin-top:6px"><span class="sw-tag sw-tag--neutral sw-tag--sm"><i data-i="message"></i>WhatsApp 导入</span></span></div><span class="sw-count">1</span></div>
+              <div class="sw-list-item" style="align-items:flex-start;gap:var(--sp-3)"><span class="sw-avatar sw-avatar--company">M</span><div class="sw-list-item__main"><b style="font-size:var(--fs-14)">MetalWorks Inc</b><span>Could you share the price for…</span><span style="margin-top:6px"><span class="sw-tag sw-tag--neutral sw-tag--sm"><i data-i="message"></i>WhatsApp 导入</span></span></div></div>
+            </div>
+          </div>
+          <div class="sw-card">
+            <div class="sw-card__head"><span class="sw-avatar sw-avatar--company">B</span><div><h3>BrightParts Ltd</h3><span class="sw-muted" style="font-size:var(--fs-12)">英国 · 工业金属零部件经销商</span></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm sw-card__extra" aria-label="更多"><i data-i="more"></i></button></div>
+            <div class="sw-card__body" style="background:var(--bg);display:flex;flex-direction:column;gap:var(--sp-4)">
+              <div class="sw-msg sw-msg--customer"><div><div class="sw-msg__bubble">Can this cleaner handle oily metal parts?<div class="sw-translation"><i data-i="translate" class="sw-ic--sm"></i>这款清洗设备能处理带油污的金属零件吗？</div></div><div class="sw-msg__time">10:20</div></div></div>
+              <div class="sw-suggest"><div class="sw-suggest__head"><i data-i="sparkle"></i>AI 建议回复<span class="sw-tag sw-tag--outline">未发送</span></div><div class="sw-suggest__body">Thanks for your inquiry. To recommend the most suitable model, could you share the size of your workpieces and the type of oil?</div><div class="sw-suggest__foot"><button class="sw-btn sw-btn--secondary sw-btn--sm">采纳到回复框</button><button class="sw-btn sw-btn--ghost sw-btn--sm">换个语气</button><span class="sw-muted">依据 2 条</span></div></div>
+            </div>
+            <div class="sw-card__foot" style="padding:var(--sp-4)"><div class="sw-composer" style="flex:1"><label class="sw-sr" for="rep1">回复内容</label><textarea id="rep1" rows="2" placeholder="输入回复，或采纳上方 AI 建议…"></textarea><div class="sw-composer__bar"><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="添加附件"><i data-i="paperclip"></i></button><button class="sw-btn sw-btn--ai sw-btn--sm"><i data-i="sparkle" class="sw-ic--sm"></i>AI 润色</button><span class="sw-composer__hint"></span><div class="sw-btn-group"><button class="sw-btn sw-btn--primary sw-btn--sm">保存回复草稿</button><button class="sw-btn sw-btn--primary sw-btn--sm" aria-label="更多保存方式" style="width:32px"><i data-i="chevron-down" class="sw-ic--sm"></i></button></div></div></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-4)">
+            <div class="sw-card"><div class="sw-card__head"><h3>提取的需求</h3><span class="sw-tag sw-tag--ai sw-tag--sm sw-card__extra"><i data-i="sparkle"></i>AI</span></div><div class="sw-card__body" style="padding-top:var(--sp-1);padding-bottom:var(--sp-1)"><dl class="sw-extract"><div class="sw-extract__row"><dt>污染物</dt><dd>油污</dd><span class="sw-tag sw-tag--success sw-tag--sm">原文</span></div><div class="sw-extract__row"><dt>工件尺寸</dt><dd class="is-empty">待补充</dd><span></span></div><div class="sw-extract__row"><dt>预计数量</dt><dd class="is-empty">待补充</dd><span></span></div><div class="sw-extract__row"><dt>采购时间</dt><dd class="is-empty">待补充</dd><span></span></div></dl></div></div>
+            <div class="sw-card sw-card__body"><div class="sw-switch-row"><div class="sw-switch-row__text"><b>人工接管</b><span>开启后 AI 不再生成建议</span></div><button class="sw-switch" role="switch" aria-checked="false" aria-label="人工接管"></button></div></div>
+            <div class="sw-alert sw-alert--info"><i data-i="info"></i><div class="sw-alert__body">渠道尚未连接，新咨询需手动导入。</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div></div></div>
+</section>
+
+<!-- ============ 规则 ============ -->
+<section class="doc-sec" id="writing">
+  <p class="doc-kicker">规则</p>
+  <h2 class="doc-h2">文案</h2>
+  <p class="doc-lead">界面文字站在用户这边说话，短、具体、可执行。</p>
+  <div class="sw-table-wrap doc-ref"><table class="sw-table">
+    <thead><tr><th style="width:160px">场景</th><th>这样写</th><th>不要这样写</th></tr></thead>
+    <tbody>
+      <tr><td>按钮</td><td>提交报价审核、保存回复草稿</td><td>确定、提交、OK</td></tr>
+      <tr><td>确认弹窗标题</td><td>把这封开发信提交审核？</td><td>提示、确认操作</td></tr>
+      <tr><td>错误</td><td>邮箱缺少域名后缀，例如 apex.com</td><td>输入错误、格式不正确</td></tr>
+      <tr><td>空状态</td><td>还没有询盘。连接邮箱后，新的咨询会出现在这里。</td><td>暂无数据</td></tr>
+      <tr><td>AI 结论</td><td>3 条证据中 2 条已核，1 条存在冲突</td><td>该企业意向很高、匹配度 92 分</td></tr>
+      <tr><td>未确认的数据</td><td>金额未确认、交期待技术确认</td><td>空着不写，或填一个估算值</td></tr>
+      <tr><td>加载中</td><td>保存中…、AI 起草中…</td><td>请稍候、Loading</td></tr>
+      <tr><td>时间</td><td>今天 11:00、10 月 13 日、2026-10-14</td><td>混用 10/13、13 Oct、2026.10.14</td></tr>
+      <tr><td>金额</td><td>$8,500 · USD（千分位，两位小数仅在明细中）</td><td>8500 美金、$8.5k</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="doc-sec" id="checklist">
+  <h2 class="doc-h2">开发检查清单</h2>
+  <p class="doc-lead">提交代码或让 AI 生成页面前，逐条对照。</p>
+  <ol class="doc-checklist">
+    <li><i data-i="check"></i><div>只引用 <code>tokens.css</code> 中的变量，没有写死任何色值、字号、圆角、阴影。</div></li>
+    <li><i data-i="check"></i><div>只使用 <code>sw-</code> 组件类；需要新组件时先补进规范，再在业务里使用。</div></li>
+    <li><i data-i="check"></i><div>每屏最多一个 <code>sw-btn--primary</code>；危险按钮只出现在确认弹窗里。</div></li>
+    <li><i data-i="check"></i><div>状态标签按四个维度选色：数据连接、事实可信度、审核流程、对外执行；没有用朱橙表示状态。</div></li>
+    <li><i data-i="check"></i><div>所有 AI 产出都有 AI 标识；正文事实带引用；未核实的说法用 <code>sw-claim</code> 标出。</div></li>
+    <li><i data-i="check"></i><div>发送、发布、回传等对外动作前有确认弹窗，并列出检查项。</div></li>
+    <li><i data-i="check"></i><div>未确认的金额、日期写“未确认 / 待定”，没有填估算值。</div></li>
+    <li><i data-i="check"></i><div>所有图标按钮有 <code>aria-label</code>；所有表单控件有关联的 label；键盘可以操作并能看到焦点。</div></li>
+    <li><i data-i="check"></i><div>数字使用等宽数字，金额右对齐，日期格式统一。</div></li>
+    <li><i data-i="check"></i><div>加载超过 300ms 有骨架屏或加载状态；空列表有空状态说明。</div></li>
+  </ol>
+</section>
+
+</main>
+</div>
+
+<!-- 真实弹窗：内容在运行时从上方静态示例复制 -->
+<dialog class="sw-dialog" id="demo-dialog" aria-label="示例弹窗"></dialog>
+<dialog class="sw-drawer" id="demo-drawer" aria-labelledby="dr-t">
+  <div class="sw-drawer__panel">
+    <div class="sw-modal__head"><div style="flex:1"><h3 id="dr-t">北美计划预算 V02</h3><p>预算草案 · 创建于 10/15 · 张三</p></div><button class="sw-btn sw-btn--ghost sw-btn--icon sw-btn--sm" aria-label="关闭" data-sw-close><i data-i="x"></i></button></div>
+    <div class="sw-modal__body">
+      <ol class="sw-steps"><li class="sw-step is-current"><span class="sw-step__dot">1</span><span class="sw-step__title">草案</span></li><li class="sw-step"><span class="sw-step__dot">2</span><span class="sw-step__title">批准</span></li><li class="sw-step"><span class="sw-step__dot">3</span><span class="sw-step__title">执行登记</span></li><li class="sw-step"><span class="sw-step__dot">4</span><span class="sw-step__title">复盘</span></li></ol>
+      <div class="sw-form-grid"><div class="sw-field"><label class="sw-label" for="dr-a">原日预算</label><div class="sw-input-group"><span class="sw-input-group__addon">$</span><input id="dr-a" value="40" disabled></div></div><div class="sw-field"><label class="sw-label" for="dr-b">拟日预算</label><div class="sw-input-group"><span class="sw-input-group__addon">$</span><input id="dr-b" value="50"></div></div></div>
+      <div class="sw-field"><label class="sw-label" for="dr-c">调整理由<span class="sw-req">*</span></label><textarea class="sw-textarea" id="dr-c">北美计划近 7 天合格需求 2 条，希望扩大样本继续验证。</textarea></div>
+      <div class="sw-alert sw-alert--info"><i data-i="info"></i><div class="sw-alert__body">批准后需在 Google Ads 中人工修改，系统不会自动改动线上预算。</div></div>
+    </div>
+    <div class="sw-modal__foot"><button class="sw-btn sw-btn--secondary" data-sw-close>取消</button><button class="sw-btn sw-btn--primary" data-sw-close>提交预算审核</button></div>
+  </div>
+</dialog>
+
+<script src="components.js"></script>
+<script>
+/* ===== 文档站脚本：图标占位替换、色板、代码查看、导航高亮 ===== */
+(function () {
+  /* 1. <i data-i="name" class="..."> → <svg class="sw-ic ..."><use href="#i-name"/></svg> */
+  document.querySelectorAll('i[data-i]').forEach((el) => {
+    const extra = el.className ? ' ' + el.className : '';
+    el.outerHTML = `<svg class="sw-ic${extra}" aria-hidden="true"><use href="#i-${el.dataset.i}"/></svg>`;
+  });
+
+  /* 2. 色板：读取 tokens.css 里的实际值并计算对白底对比度 */
+  const USAGE = {
+    'brand': '主按钮、Logo 句点、选中指示条、进度条', 'brand-hover': '主按钮悬停', 'brand-active': '主按钮按下', 'brand-strong': '浅底上的橙色文字、链接',
+    'brand-soft': '选中行、导航选中底', 'brand-softer': '大面积浅橙区域', 'brand-line': '浅橙区域描边',
+    'ink': '标题、正文、AI 标识', 'text-2': '次要文字', 'text-3': '说明、时间戳', 'text-4': '禁用、占位符', 'line-strong': '输入框、次要按钮描边', 'line': '分隔线、卡片描边',
+    'surface-3': '按下、进度槽、骨架屏', 'surface-2': '悬停、AI 内容底', 'bg': '页面底色', 'surface': '卡片、弹窗、侧边栏',
+    'success': '已核、已同步、已批准', 'success-soft': '成功底色', 'warning': '待核、待审核、等待人工', 'warning-soft': '警示底色', 'danger': '冲突、失败、不可逆操作', 'danger-soft': '危险底色',
+    'ai': 'AI 头像底、AI 标签', 'ai-soft': 'AI 生成内容底色', 'ai-line': 'AI 内容描边', 'ai-accent': 'AI 头像圆点'
+  };
+  const TEXTY = new Set(['brand', 'brand-strong', 'ink', 'text-2', 'text-3', 'text-4', 'success', 'warning', 'danger', 'ai']);
+  const cs = getComputedStyle(document.documentElement);
+  const lum = (hex) => { const n = hex.replace('#', ''); const c = [0, 2, 4].map((i) => parseInt(n.substr(i, 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  document.querySelectorAll('[data-swatches]').forEach((box) => {
+    box.innerHTML = box.dataset.swatches.split(',').map((n) => {
+      const v = cs.getPropertyValue('--' + n).trim().toUpperCase();
+      const r = TEXTY.has(n) && /^#[0-9A-F]{6}$/.test(v) ? ratio(v, '#FFFFFF') : null;
+      const badge = r ? `<span>${r.toFixed(2)} ${r >= 4.5 ? 'AA' : r >= 3 ? '大字' : '仅装饰'}</span>` : '';
+      return `<div class="doc-swatch"><div class="doc-swatch__chip" style="background:var(--${n});${n === 'surface' || n === 'bg' ? 'border-bottom:1px solid var(--line)' : ''}">${badge}</div><div class="doc-swatch__meta"><b>--${n}</b><code>${v}</code><p>${USAGE[n] || ''}</p></div></div>`;
+    }).join('');
+  });
+
+  /* 3. 图标表 */
+  const grid = document.getElementById('icon-grid');
+  const names = [...document.querySelectorAll('svg symbol[id^="i-"]')].map((s) => s.id.slice(2));
+  grid.innerHTML = names.map((n) => `<button class="doc-icon" data-icon="${n}" title="点击复制"><svg class="sw-ic" aria-hidden="true"><use href="#i-${n}"/></svg>${n}</button>`).join('');
+
+  /* 4. 每个示例加“查看代码 / 复制”栏 */
+  const dedent = (html) => {
+    const lines = html.replace(/^\n+|\s+$/g, '').split('\n');
+    const pad = Math.min(...lines.filter((l) => l.trim()).map((l) => l.match(/^\s*/)[0].length));
+    return lines.map((l) => l.slice(pad)).join('\n');
+  };
+  const pretty = (html) => dedent(html).replace(/></g, '>\n<').split('\n').reduce((acc, line) => {
+    const t = line.trim(); if (!t) return acc;
+    if (/^<\//.test(t)) acc.depth = Math.max(0, acc.depth - 1);
+    acc.out.push('  '.repeat(acc.depth) + t);
+    if (/^<[a-z][^>]*[^/]>$/i.test(t) && !/^<(input|img|br|hr|use|path)\b/i.test(t) && !/<\/[a-z0-9]+>$/i.test(t)) acc.depth++;
+    return acc;
+  }, { out: [], depth: 0 }).out.join('\n');
+  const copy = async (text, btn) => {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    const old = btn.innerHTML; btn.textContent = '已复制'; setTimeout(() => { btn.innerHTML = old; }, 1400);
+  };
+  document.querySelectorAll('.doc-demo').forEach((demo) => {
+    const stage = demo.querySelector('.doc-demo__stage');
+    if (!stage || stage.hasAttribute('data-nocode')) return;
+    const code = pretty(stage.innerHTML.replace(/ style="display:block;border-radius:var\(--r-md\)"/g, ''));
+    const bar = document.createElement('div');
+    bar.className = 'doc-demo__bar';
+    bar.innerHTML = `<span>HTML · 依赖 tokens.css + components.css</span><button class="sw-btn sw-btn--ghost sw-btn--sm" data-act="toggle">${SW.icon('eye', 'sw-ic--sm')}查看代码</button><button class="sw-btn sw-btn--ghost sw-btn--sm" data-act="copy">${SW.icon('copy', 'sw-ic--sm')}复制</button>`;
+    const pre = document.createElement('pre'); pre.className = 'doc-demo__code'; pre.textContent = code;
+    demo.append(bar, pre);
+    bar.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.act === 'toggle') { demo.classList.toggle('is-code'); b.lastChild.textContent = demo.classList.contains('is-code') ? '收起代码' : '查看代码'; }
+      else copy(code, b);
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const ic = e.target.closest('[data-icon]');
+    if (ic) copy(`<svg class="sw-ic" aria-hidden="true"><use href="#i-${ic.dataset.icon}"/></svg>`, ic);
+    const t = e.target.closest('[data-toast]');
+    if (t) {
+      const M = {
+        success: { title: '回复草稿已保存', desc: 'BrightParts Ltd · 刚刚' },
+        ai: { title: 'AI 已完成 4 家企业的背调摘要', desc: '其中 1 家有冲突证据，需要人工判断。', action: { label: '查看' } },
+        warning: { title: '联系邮箱尚未核实', desc: '提交审核后，审核人可能退回。' },
+        danger: { title: 'Google Ads 报表导入失败', desc: '第 3 列缺少币种（currency），已导入 0 行。', action: { label: '查看修复清单' } }
+      };
+      SW.toast({ type: t.dataset.toast, ...M[t.dataset.toast] });
+    }
+    const o = e.target.closest('[data-demo-open]');
+    if (o) {
+      const src = document.querySelectorAll('#dialog .sw-modal')[+o.dataset.demoOpen];
+      const dlg = document.getElementById('demo-dialog');
+      dlg.innerHTML = src.outerHTML.replace(/id="(m\d-[a-z])"/g, 'id="live-$1"').replace(/aria-labelledby="(m\d-[a-z])"/g, 'aria-labelledby="live-$1"').replace(/for="(m\d-[a-z])"/g, 'for="live-$1"');
+      dlg.showModal();
+    }
+    const a = e.target.closest('.doc-demo a[href^="#"]');
+    if (a && !a.closest('.doc-nav')) e.preventDefault();
+  });
+
+  /* 5. 目录高亮 */
+  const links = [...document.querySelectorAll('.doc-nav a[href^="#"]')];
+  const map = new Map(links.map((l) => [l.getAttribute('href').slice(1), l]));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) { links.forEach((l) => l.classList.remove('is-active')); const l = map.get(en.target.id); l && l.classList.add('is-active'); } });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('.doc-main > [id]').forEach((s) => io.observe(s));
+})();
+</script>
+</body>
+</html>
